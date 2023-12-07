@@ -1,0 +1,47 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:vm="clr-namespace:Azure.ScannerEUI.ViewModel"
+             xmlns:local="clr-namespace:Azure.ScannerEUI.View" xmlns:ScannerEUI="clr-namespace:Azure.ScannerEUI" x:Class="Azure.ScannerEUI.View.TransportLockControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="200"
+             d:DesignWidth="200"
+             DataContext="{Binding TransportLockVM}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Label x:Name="label" Content="Transport Protection"
+               HorizontalAlignment="Center" Margin="0,0,0,80" VerticalAlignment="Center"
+               Style="{StaticResource MyLabelHeaderStyle}"/>
+        <Button x:Name="button"
+                Content="Lock Scan Head"
+                Style="{DynamicResource BlueButton}"
+                Width="120" Height="30" FontSize="14" 
+                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"                
+                IsEnabled="{Binding DataContext.MotorVM.IsMotorXEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScannerEUI:MainWindow}}}"
+                Command="{Binding TransportLockCommand}" />
+        <CheckBox x:Name="checkBox" Content="Locked"
+                  HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Center"
+                  IsEnabled="False" 
+                  IsChecked="{Binding DataContext.MotorVM.IsXLimited, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScannerEUI:MainWindow}}}"
+                  Foreground="DarkBlue" FontSize="16" FontFamily="Segoe UI" FontWeight="Bold"/>
+
+    </Grid>
+</UserControl>

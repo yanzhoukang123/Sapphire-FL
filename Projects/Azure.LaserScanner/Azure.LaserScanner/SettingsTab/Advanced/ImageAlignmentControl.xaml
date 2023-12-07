@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="Azure.LaserScanner.ImageAlignmentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:Azure.LaserScanner"
+             xmlns:vm="clr-namespace:Azure.LaserScanner.ViewModel"
+             mc:Ignorable="d" 
+             Background="#4A525F"
+             d:DesignHeight="300"
+             d:DesignWidth="510"
+             BorderThickness="1"
+             BorderBrush="Gray">
+    
+    <UserControl.DataContext>
+        <local:ImageAlignmentViewModel />
+    </UserControl.DataContext>
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="4,10">
+            <TextBlock Style="{StaticResource TextBlockBodyTextStyle}"
+                       Text="IMAGE ALIGNMENT SETTINGS"
+                       Foreground="White"
+                       FontWeight="SemiBold"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0" Grid.Column="0"
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Text="Pixel 10 L DX: "
+                Foreground="White"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="8,1,4,1"/>
+            <TextBox Grid.Column="1"
+                Width="100"
+                Background="Black"
+                Foreground="White"
+                Style="{StaticResource BorderTextBoxStyle}"
+                Text="{Binding Path=Pixel_10_L_DX}"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                PreviewTextInput="TextBox_PreviewTextInput"
+                Margin="4,1"/>
+            <TextBlock
+                Grid.Row="1" Grid.Column="0"
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Text="Pixel 10 L DY: "
+                Foreground="White"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="8,1,4,1"/>
+            <TextBox
+                Grid.Row="1" Grid.Column="1"
+                Width="100"
+                Background="Black"
+                Foreground="White"
+                Style="{StaticResource BorderTextBoxStyle}"
+                Text="{Binding Path=Pixel_10_L_DY}"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                PreviewTextInput="TextBox_PreviewTextInput"
+                Margin="4,1"/>
+            <TextBlock
+                Grid.Row="2" Grid.Column="0"
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Text="Pixel 10 R1 DX: "
+                Foreground="White"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="8,1,4,1"/>
+            <TextBox
+                Grid.Row="2" Grid.Column="1"
+                Width="100"
+                Background="Black"
+                Foreground="White"
+                Style="{StaticResource BorderTextBoxStyle}"
+                Text="{Binding Path=Pixel_10_R2_DX}"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                PreviewTextInput="TextBox_PreviewTextInput"
+                Margin="4,1"/>
+            <TextBlock
+                Grid.Row="3" Grid.Column="0"
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Text="Pixel 10 R1 DY: "
+                Foreground="White"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="8,1,4,1"/>
+            <TextBox
+                Grid.Row="3" Grid.Column="1"
+                Width="100"
+                Background="Black"
+                Foreground="White"
+                Style="{StaticResource BorderTextBoxStyle}"
+                Text="{Binding Path=Pixel_10_R2_DY}"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Bottom"
+                VerticalContentAlignment="Center"
+                PreviewTextInput="TextBox_PreviewTextInput"
+                Margin="4,1"/>
+            <Button
+                Grid.Row="4" Grid.Column="1"
+                    Style="{StaticResource RaisedImageButtonStyle}"
+                    Width="100"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding Path=ClearAlignmentParamCommand}"
+                    Margin="4,4">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="CLEAR" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Style="{StaticResource RaisedImageButtonStyle}"
+                    Width="200"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding Path=GetAlignmentParamCommand}"
+                    ToolTip="Automatic get the laser modules alignment parameters from the active image in Gallery"
+                    Margin="10,15,4,1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="GET ALIGNMENT PARAM" />
+                    </StackPanel>
+                </Button>
+                <Button
+                    Style="{StaticResource RaisedImageButtonStyle}"
+                    Width="200"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding Path=AlignmentParamWriteCommand}"
+                    Margin="4,15,4,1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="SAVE ALIGNMENT PARAM" />
+                </StackPanel>
+            </Button>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</UserControl>

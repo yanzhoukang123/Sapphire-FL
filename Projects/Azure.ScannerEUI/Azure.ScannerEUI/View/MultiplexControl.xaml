@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="Azure.LaserScanner.View.MultiplexControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Azure.LaserScanner.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="230"
+    Width="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="White" Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="8">
+            <TextBlock Grid.Column="0"
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    Margin="1"
+                    FontWeight="SemiBold"
+                    Text="Merge Channels"
+                     />
+            <Button x:Name="btnClose"
+                    Style="{DynamicResource IconButtonStyle}"
+                    Margin="1,1,4,1"
+                    Grid.Column="1"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Command="{Binding Path=CloseCommand}"
+                    Content="&#xEF2C;" />
+        </Grid>
+        <Border Grid.Row="1" Margin="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Image channel Label  -->
+                <TextBlock
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="C1 (Red)" />
+                <TextBlock
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="C2 (Green)" />
+                <TextBlock
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="C3 (Blue)" />
+
+                <!-- Opened files list -->
+                <ComboBox
+                    Name="cbxCh1Image"
+                    Style="{StaticResource BorderComboBoxStyle}"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Width="280"
+                    Margin="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    DisplayMemberPath="Title"
+                    ItemContainerStyle="{StaticResource BorderComboBoxItemStyle}"
+                    ItemsSource="{Binding Path=Files}"
+                    SelectedItem="{Binding Path=SelectedImageC1}" />
+                <ComboBox
+                    Name="cbxCh2Image"
+                    Style="{StaticResource BorderComboBoxStyle}"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Width="280"
+                    Margin="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    DisplayMemberPath="Title"
+                    ItemContainerStyle="{StaticResource BorderComboBoxItemStyle}"
+                    ItemsSource="{Binding Path=Files}"
+                    SelectedItem="{Binding Path=SelectedImageC2}" />
+                <ComboBox
+                    Name="cbxCh3Image"
+                    Style="{StaticResource BorderComboBoxStyle}"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Width="280"
+                    Margin="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    DisplayMemberPath="Title"
+                    ItemContainerStyle="{StaticResource BorderComboBoxItemStyle}"
+                    ItemsSource="{Binding Path=Files}"
+                    SelectedItem="{Binding Path=SelectedImageC3}" />
+                <!--<ComboBox
+                    Name="cbxCh4Image"
+                    Style="{StaticResource BorderComboBoxStyle}"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Width="280"
+                    Margin="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    DisplayMemberPath="DisplayName"
+                    ItemContainerStyle="{StaticResource BorderComboBoxItemStyle}"
+                    ItemsSource="{Binding Path=Files}"
+                    SelectedItem="{Binding Path=SelectedImageC3}" />-->
+
+            </Grid>
+        </Border>
+        
+        <Separator Grid.Row="2" Margin="8,4" />
+
+        <Button Grid.Row="4" HorizontalAlignment="Right"
+                Style="{StaticResource RaisedButtonStyle}"
+                Width="100"
+                Margin="1,1,8,1"
+                Content="Apply"
+                Command="{Binding Path=MergeChannelsCommand}"/>
+    </Grid>
+    
+    
+</UserControl>

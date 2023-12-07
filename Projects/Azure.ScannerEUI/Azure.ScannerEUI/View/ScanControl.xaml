@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.ScanControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Azure.ScannerEUI.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="40"
+             DataContext="{Binding Path=ScannerVM}" xmlns:my="clr-namespace:System;assembly=mscorlib" Width="112">
+
+    <!--<UserControl.DataContext>
+        <local:ScannerViewModel/>
+    </UserControl.DataContext>-->
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="0,0,10,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!--<Button Grid.Column="0" x:Name="_ScanButton"
+                Content="Scan"
+                Style="{DynamicResource BlueButton}"
+                Width="100"
+                Height="30"
+                FontSize="14"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="1"
+                Command="{Binding Path=ScanCommand}" />-->
+
+        <!--<ToggleButton x:Name="_CaptureBtn"
+            Content="Scan"
+            Style="{DynamicResource BlueToggleButton}"
+            Width="100"
+            Height="30"
+            FontSize="14"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="1"
+            Command="{Binding Path=ScanCommand}">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Content" Value="Scan"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Content" Value="Stop"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>-->
+
+
+        <Button x:Name="_ScanButton"
+            Grid.Column="4"
+            Content="SCAN"
+            Width="100"
+            Height="30"
+            FontSize="14"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Margin="0,6,12,4"
+            Command="{Binding Path=ScanCommand}">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger
+                            Value="True"
+                            Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScanning}">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="_StopScanButton"
+            Grid.Column="5"
+            Content="STOP"
+            Width="100"
+            Height="30"
+            FontSize="14"
+            Foreground="Red"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Margin="0,4,12,6"
+            Command="{Binding Path=StopScanCommand}">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger
+                            Value="False"
+                            Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScanning}">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <Button x:Name="_preparingButton"
+            Grid.Column="0"
+            Content="Preparing"
+            Width="100"
+            Height="30"
+            FontSize="14"
+            Foreground="Red"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Margin="0,4,12,6" IsEnabled="False">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger
+                            Value="False"
+                            Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsPreparing}">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <TextBox Grid.Column="2" Visibility="Hidden" FontSize="14" FontWeight="SemiBold" Height="25" Text="{Binding Path=FPGAVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static my:String.Empty}}" Width="100" VerticalContentAlignment="Center" IsReadOnly="True" />
+        <Label Grid.Column="0" Visibility="Hidden" Content="FPGAVersion" HorizontalAlignment="Left" Width="86" VerticalContentAlignment="Center" />
+    </Grid>
+</UserControl>

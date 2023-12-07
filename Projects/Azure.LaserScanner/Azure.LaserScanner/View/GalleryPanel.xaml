@@ -1,0 +1,159 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.GalleryPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Azure.LaserScanner.View"
+    xmlns:viewModels="clr-namespace:Azure.LaserScanner.ViewModel"
+    d:DesignHeight="800"
+    d:DesignWidth="520"
+    mc:Ignorable="d">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BitmapImage x:Key="imgGalleryAdjustments" UriSource="/Resources/Images/Gallery/btn_gallery-adjustments-default.png" />
+            <BitmapImage x:Key="imgGalleryCrop" UriSource="/Resources/Images/Gallery/btn_gallery-crop-default.png" />
+            <BitmapImage x:Key="imgGalleryResize" UriSource="/Resources/Images/Gallery/btn_gallery-resize-default.png" />
+            <BitmapImage x:Key="imgGalleryTransform" UriSource="/Resources/Images/Gallery/btn_gallery-transform-default.png" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Left" 
+              Width="72"
+              Background="#2E3440">
+            <StackPanel>
+                <RadioButton
+                    x:Name="AdjustmentRadioButton"
+                    Width="64"
+                    Height="64"
+                    GroupName="EditMenuBar"
+                    IsChecked="{Binding Path=SelectedGalleryPanel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static viewModels:GalleryPanelType.ContrastPanel}, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ContrastRadioButtonStyle}" />
+                <RadioButton
+                    x:Name="ROIRadioButton"
+                    Width="64"
+                    Height="64"
+                    GroupName="EditMenuBar"
+                    IsChecked="{Binding Path=SelectedGalleryPanel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static viewModels:GalleryPanelType.RoiPanel}, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource CropRadioButtonStyle}" />
+                <RadioButton
+                    x:Name="TransfromRadioButton"
+                    Width="64"
+                    Height="64"
+                    GroupName="EditMenuBar"
+                    IsChecked="{Binding Path=SelectedGalleryPanel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static viewModels:GalleryPanelType.TransformPanel}, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource TransformRadioButtonStyle}" />
+                <RadioButton
+                    x:Name="ResizeRadioButton"
+                    Width="64"
+                    Height="64"
+                    GroupName="EditMenuBar"
+                    IsChecked="{Binding Path=SelectedGalleryPanel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static viewModels:GalleryPanelType.ResizePanel}, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ResizeRadioButtonStyle}" />
+                <!-- Hide annotation until implemented-->
+                <!--<RadioButton
+                    x:Name="AnnotationRadioButton"
+                    Width="64"
+                    Height="64"
+                    GroupName="EditMenuBar"
+                    IsChecked="{Binding Path=SelectedGalleryPanel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static viewModels:GalleryPanelType.AnnotationPanel}, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource AnnotationRadioButtonStyle}"
+                    Visibility="Collapsed"/>-->
+                <RadioButton
+                    x:Name="InfoRadioButton"
+                    Width="64"
+                    Height="64"
+                    GroupName="EditMenuBar"
+                    IsChecked="{Binding Path=SelectedGalleryPanel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static viewModels:GalleryPanelType.ImageInfoPanel}, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource InfoRadioButtonStyle}" />
+            </StackPanel>
+        </Grid>
+        <Grid Width="400"
+              DockPanel.Dock="Right"
+              Background="#232832">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Panel.ZIndex="1000">
+                <!--Image contrast controls : should probably be in its own panel -->
+                <StackPanel Visibility="{Binding IsChecked, ConverterParameter=True, Converter={StaticResource boolToVisibilityConverter}, ElementName=AdjustmentRadioButton}" >
+                    <views:ManualContrastControl x:Name="_ContrastControl"
+                                                 Margin="16,10,8,10" />
+                    <views:AutoContrastControl x:Name="_AutoContrastControl" 
+                                               Margin="16,0,8,10" />
+                    <views:RGBChannelControl x:Name="_RgbChanControl" 
+                                             Margin="16,5,8,10"
+                                             Visibility="{Binding Path=IsRgbImage, Converter={StaticResource boolToVisibilityConverter}}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="16,10,8,10">
+                <views:GalleryROIControl Visibility="{Binding IsChecked, ConverterParameter=true, Converter={StaticResource boolToVisibilityConverter}, ElementName=ROIRadioButton}" />
+            </Grid>
+
+            <Grid Margin="16,10,8,10">
+                <!--EL: 20220711: not sure what this is, and why it's here. comment out for now -->
+                <!--<ToggleButton x:Name="RotationToggleButton"
+                        Style="{StaticResource FlatIconToggleButtonStyle}"
+                        Height="48"
+                        Content="Rotate"
+                        Tag="&#xE7AD;"
+                        IsChecked="{Binding Path=IsRotateChecked}"/>-->
+
+                <!--  Rotate Control Panel  -->
+                <views:RotateControlPanel x:Name="RotateControlPanel" 
+                                          IsEnabled="{Binding IsActiveDocument}"
+                                          Visibility="{Binding IsChecked, ConverterParameter=true, Converter={StaticResource boolToVisibilityConverter}, ElementName=TransfromRadioButton}" />
+            </Grid>
+
+            <Grid Margin="16,10,8,10">
+                <views:ResizeControlPanel
+                    DataContext="{Binding ResizeVM}"
+                    Visibility="{Binding IsChecked, ConverterParameter=true, Converter={StaticResource boolToVisibilityConverter}, ElementName=ResizeRadioButton}" />
+            </Grid>
+
+            <Grid Margin="16,10,8,10">
+                <views:ImageInfoControl 
+                    DataContext="{Binding}"
+                    Visibility="{Binding IsChecked, ConverterParameter=true, Converter={StaticResource boolToVisibilityConverter}, ElementName=InfoRadioButton}" />
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <!-- Merge with marker -->
+                <Button
+                    Style="{StaticResource FlatIconButtonStyle}"
+                    Width="200"
+                    Content="&#xF5ED;"
+                    Tag="Merge with Marker" 
+                    Command="{Binding Path=MergeWithMarkerCommand}"
+                    Visibility="{Binding Path=IsChemiMarkerSet, Converter={StaticResource boolToVisibilityConverter}, FallbackValue=Visible}"
+                />
+            </Grid>
+            <!--
+            TODO: The save and undo buttons should be enabled when the user makes edits.
+            These buttons are only for when the user edits the image
+        -->
+            <!--  Undo and Save edits button  -->
+            <!-- Remove until button functionality is defined -->
+            <!--<Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource FlatIconButtonStyle}" Content="&#xE7A7;" Tag="Undo" Visibility="Collapsed"/>
+            <Button
+                Style="{StaticResource FlatIconButtonStyle}"
+                Grid.Column="1"
+                Content="&#xE74E;"
+                Tag="Save" />
+        </Grid>-->
+        </Grid>
+    </DockPanel>
+</UserControl>

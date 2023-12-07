@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <!--PixelSize, ScanSpeed, ScanQuality, SignalIntensity: (see: config.xml)-->
+  <!--Custom dyes: (see: CustSettings.xml)-->
+  <!--SampleType: (see: SysSettings.xml)-->
+  <Protocols>
+    <Protocol DisplayName="NIR Fluorescence">
+      <ScanRegion SampleType="3" PixelSize="9" ScanSpeed="4" ScanQuality="1" ScanRegionRect="0,0,10,10">
+        <Laser LaserType="784" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Red" />
+      </ScanRegion>
+    </Protocol>
+    <Protocol DisplayName="RGB Fluorescence">
+      <ScanRegion SampleType="3" PixelSize="9" ScanSpeed="4" ScanQuality="1" ScanRegionRect="0,0,10,10">
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="488" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+    </Protocol>
+    <Protocol DisplayName="Densitometry Plate">
+      <ScanRegion SampleType="3" PixelSize="9" ScanSpeed="4" ScanQuality="1" ScanRegionRect="0,0,10,10">
+        <Laser LaserType="532" SignalIntensity="1" ColorChannel="Green" />
+      </ScanRegion>
+    </Protocol>
+    <Protocol DisplayName="Plate Holder" IsAlwaysVisible="True">
+      <ScanRegion SampleType="2" PixelSize="7" ScanSpeed="4" ScanQuality="1" ScanRegionRect="0.19,2.4,11.12,7.54">
+        <Laser LaserType="375" SignalIntensity="9" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="9" ColorChannel="Green" />
+        <Laser LaserType="488" SignalIntensity="9" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="2" PixelSize="7" ScanSpeed="4" ScanQuality="1" ScanRegionRect="13.59,2.4,11.12,7.54">
+        <Laser LaserType="375" SignalIntensity="9" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="9" ColorChannel="Green" />
+        <Laser LaserType="488" SignalIntensity="9" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="2" PixelSize="7" ScanSpeed="4" ScanQuality="1" ScanRegionRect="0.19,15.2,11.12,7.54">
+        <Laser LaserType="375" SignalIntensity="9" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="9" ColorChannel="Green" />
+        <Laser LaserType="488" SignalIntensity="9" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="2" PixelSize="7" ScanSpeed="4" ScanQuality="1" ScanRegionRect="13.59,15.2,11.12,7.54">
+        <Laser LaserType="375" SignalIntensity="9" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="9" ColorChannel="Green" />
+        <Laser LaserType="488" SignalIntensity="9" ColorChannel="Blue" />
+      </ScanRegion>
+    </Protocol>
+    <Protocol DisplayName="Slide Holder" IsAlwaysVisible="True">
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="1.31,1.37,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="9.81,1.37,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="18.31,1.37,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="1.31,6.17,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="9.81,6.17,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="18.31,6.17,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="1.31,10.97,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="9.81,10.97,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="18.31,10.97,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+        <AutoSave Path="C:\Users\User\Desktop\Jade" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="1.31,15.77,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="9.81,15.77,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="18.31,15.77,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="1.31,20.57,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="9.81,20.57,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+      <ScanRegion SampleType="4" PixelSize="3" ScanSpeed="4" ScanQuality="1" ScanRegionRect="18.31,20.57,6,2.5">
+        <Laser LaserType="658" SignalIntensity="7" ColorChannel="Red" />
+        <Laser LaserType="532" SignalIntensity="7" ColorChannel="Green" />
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Blue" />
+      </ScanRegion>
+    </Protocol>
+    <Protocol DisplayName="New Protocol" IsAlwaysVisible="True">
+      <ScanRegion SampleType="3" PixelSize="7" ScanSpeed="4" ScanQuality="1" ScanRegionRect="0,0,10,10">
+        <Laser LaserType="685" SignalIntensity="7" ColorChannel="Red" />
+      </ScanRegion>
+    </Protocol>
+  </Protocols>
+  <PhosphorProtocols>
+    <PhosphorProtocol DisplayName="Phosphor Imaging">
+      <ScanRegion SampleType="3" PixelSize="9" ScanSpeed="4" IntensityLevel="3" ScanRegionRect="0,0,10,10" />
+    </PhosphorProtocol>
+  </PhosphorProtocols>
+</Config>

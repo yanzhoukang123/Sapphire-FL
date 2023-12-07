@@ -1,0 +1,79 @@
+﻿<Window
+    x:Class="Azure.LaserScanner.View.ContrastSettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Azure.LaserScanner.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="clr-namespace:Azure.LaserScanner.ViewModel"
+    d:DataContext="{d:DesignInstance Type=viewmodel:ImagingViewModel}"
+    Title="Contrast Settings"
+    WindowStyle="None"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner"
+    Height="410"
+    Width="460"
+    mc:Ignorable="d"
+    AllowsTransparency="True"
+    Background="Transparent">
+
+    <Border CornerRadius="28" 
+            Background="White">
+        <Border Margin="15">
+        <Grid>
+        <StackPanel Margin="16,8,10,30">
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    Margin="1"
+                    Foreground="#0097FC"
+                    FontWeight="Bold"
+                    Text="Channels" />
+                <Button
+                    x:Name="btnClose"
+                    Style="{DynamicResource IconButtonStyle}"
+                    Margin="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Top"
+                    Command="{Binding Path=ClosePreviewWinCommand}"
+                    Content="&#xEF2C;" />
+            </Grid>
+
+            <!--  TODO: Update the DataContext for this control  -->
+            <!-- <local:PreviewChannels Margin="0,0,0,24" VerticalAlignment="Center" DataContext="{Binding DataContext.ImagingVm, ElementName=_ImagingControl}" /> -->
+            <local:PreviewChannels
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                IsContrastChannelAllowed="{Binding IsContrastChannelAllowed}"
+                ButtonsOrientation="Horizontal"
+                ButtonsMargin="0,0,6,10"
+                DataContext="{Binding ImagingVm}"/>
+            <TextBlock
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Margin="0,0,0,8"
+                Foreground="#0097FC"
+                FontWeight="Bold"
+                Text="Contrast" />
+
+            <!--  TODO: Update the DataContext for this control  -->
+            <!-- <local:ContrastControl VerticalAlignment="Center" DataContext="{Binding DataContext.ContrastVm, ElementName=_ImagingControl}" /> -->
+            <local:ContrastControl VerticalAlignment="Center" DataContext="{Binding ImagingVm}" />
+            <Button
+                x:Name="_AutoContrastButton"
+                Width="144"
+                Style="{StaticResource RaisedImageButtonStyle}"
+                DataContext="{Binding ImagingVm}"
+                Command="{Binding Path=AutoContrastCommand}"
+                Content="AUTO"
+                Tag="&#xE793;"
+                HorizontalAlignment="Right"
+                Margin="0,10,0,0"/>
+        </StackPanel>
+    </Grid>
+        </Border>
+    </Border>
+</Window>

@@ -1,0 +1,132 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.ResolutionControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Azure.LaserScanner.ViewModel"
+    d:DesignHeight="100"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="GroupBox">
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" Text="{Binding}" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Style="{StaticResource TextBlockBodyTextStyle}" VerticalAlignment="Center" Text="Pixel Size" />
+        <ComboBox
+            Style="{StaticResource BorderComboBoxStyle}"
+            Width="90"
+            Margin="8,0,0,0"
+            DisplayMemberPath="DisplayName"
+            ItemContainerStyle="{StaticResource BorderComboBoxItemStyle}"
+            ItemsSource="{Binding Path=SelectedScanResolution}" />
+    </StackPanel>
+    <!--<Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <RepeatButton x:Name="LineLeftButton"
+                              Grid.Column="0"
+                              Grid.Row="1"
+                              Height="32"
+                              BorderBrush="Transparent"
+                              Background="Transparent"
+                              Command="{x:Static ScrollBar.LineLeftCommand}"
+                              CommandTarget="{Binding ElementName=scrollViewerActive}"
+                              Margin="1,1,4,1">
+                    <Polygon Points="8,0 0,5, 8,10" Stroke="Black" Fill="Black" />
+                </RepeatButton>
+                <RepeatButton x:Name="LineRightButton"
+                              Grid.Column="2"
+                              Grid.Row="1"
+                              Height="32"
+                              BorderBrush="Transparent"
+                              Background="Transparent"
+                              Command="{x:Static ScrollBar.LineRightCommand}"
+                              CommandTarget="{Binding ElementName=scrollViewerActive}"
+                              Margin="4,1,1,1">
+                    <Polygon Points="0,0 8,5, 0,10" Stroke="Black" Fill="Black" />
+                </RepeatButton>
+
+        <ScrollViewer Grid.Column="1" x:Name="scrollViewerActive"
+                              VerticalScrollBarVisibility="Hidden"
+                              HorizontalScrollBarVisibility="Hidden"
+                              VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,1">
+                    <ListBox x:Name="resolutionListBox"
+                        SelectionMode="Single"
+                        Margin="1"
+                        HorizontalContentAlignment="Stretch"
+                        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                        BorderBrush="Transparent"
+                        Background="Transparent"
+                        SelectionChanged="resolutionListBox_SelectionChanged">
+                        <ListBoxItem Margin="1">
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton Content=" 10 µM"
+                                              Width="60"
+                                              Height="32"
+                                              IsChecked="{Binding Path=SelectedScanResolution, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static vm:ScanResolution.SR10M}}"
+                                              Margin="1" />
+                                <ToggleButton Content="20 µM"
+                                              Width="60"
+                                              Height="32"
+                                              IsChecked="{Binding Path=SelectedScanResolution, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static vm:ScanResolution.SR20M}}"
+                                              Margin="1" />
+                                <ToggleButton Content="50 µM"
+                                              Width="60"
+                                              Height="32"
+                                              IsChecked="{Binding Path=SelectedScanResolution, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static vm:ScanResolution.SR50M}}"
+                                              Margin="1" />
+                                <ToggleButton Content="100 µM"
+                                              Width="60"
+                                              Height="32"
+                                              IsChecked="{Binding Path=SelectedScanResolution, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static vm:ScanResolution.SR100M}}"
+                                              Margin="1" />
+                                <ToggleButton Content="150 µM"
+                                              Width="60"
+                                              Height="32"
+                                              IsChecked="{Binding Path=SelectedScanResolution, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static vm:ScanResolution.SR150M}}"
+                                              Margin="1" />
+                                <ToggleButton Content="200 µM"
+                                              Width="60"
+                                              Height="32"
+                                              IsChecked="{Binding Path=SelectedScanResolution, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static vm:ScanResolution.SR200M}}"
+                                              Margin="1" />
+                                <ToggleButton Content="500 µM"
+                                              Width="60"
+                                              Height="32"
+                                              IsChecked="{Binding Path=SelectedScanResolution, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static vm:ScanResolution.SR500M}}"
+                                              Margin="1" />
+                                <ToggleButton Content="1000 µM"
+                                              Width="60"
+                                              Height="32"
+                                              IsChecked="{Binding Path=SelectedScanResolution, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static vm:ScanResolution.SR1000M}}"
+                                              Margin="1" />
+                            </StackPanel>
+                        </ListBoxItem>
+                    </ListBox>
+                </ScrollViewer>
+            </Grid>-->
+
+</UserControl>

@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+  <IsSimulationMode Value="false" />
+  <IsApplyImageSmoothing Value="false" />
+  <IsChannelALightShadeFix Value="false" />
+  <IsChannelBLightShadeFix Value="false" />
+  <IsChannelCLightShadeFix Value="false" />
+  <IsChannelDLightShadeFix Value="false" />
+  <EdrScaleFactor Value="10" />
+  <SaveDebuggingImages Value="false" />
+  <KeepRawImages Value="false" />
+  <!--HighQuality or NearestNeighbor-->
+  <BitmapScalingMode Value="HighQuality" />
+  
+  <!--Scanner mode settings-->
+  <Resolutions>
+    <Resolution Position="1" Value="5" DisplayName="5 µm" />
+    <Resolution Position="2" Value="10" DisplayName="10 µm" />
+    <Resolution Position="3" Value="20" DisplayName="20 µm" />
+    <Resolution Position="4" Value="25" DisplayName="25 µm" />
+    <Resolution Position="5" Value="50" DisplayName="50 µm" />
+    <Resolution Position="6" Value="75" DisplayName="75 µm" />
+    <Resolution Position="7" Value="100" DisplayName="100 µm" />
+    <Resolution Position="8" Value="150" DisplayName="150 µm" />
+    <Resolution Position="9" Value="200" DisplayName="200 µm" />
+    <Resolution Position="10" Value="500" DisplayName="500 µm" />
+    <Resolution Position="11" Value="1000" DisplayName="1000 µm" />
+  </Resolutions>
+
+  <!-- Use by EUI -->
+  <Qualities>
+    <Quality Position="1" Value="1" DisplayName="1" />
+    <Quality Position="2" Value="2" DisplayName="2" />
+    <Quality Position="3" Value="4" DisplayName="4" />
+    <Quality Position="4" Value="8" DisplayName="8" />
+  </Qualities>
+  
+  <!-- Use by standard/user's UI -->
+  <ScanSpeeds>
+    <ScanSpeed Position="1" Value="8" DisplayName="Low" />
+    <ScanSpeed Position="2" Value="4" DisplayName="Medium" />
+    <ScanSpeed Position="3" Value="2" DisplayName="High" />
+    <ScanSpeed Position="4" Value="1" DisplayName="Highest" />
+  </ScanSpeeds>
+
+  <MotorParameters>
+    <MotorParameter Name="XMaxValue" Value="45833"/>
+    <MotorParameter Name="YMaxValue" Value="432000"/>
+    <MotorParameter Name="ZMaxValue" Value="8819"/>
+    <MotorParameter Name="WMaxValue" Value="28000"/>
+    <MotorParameter Name="XMotorSubdivision" Value="138.88888889"/>
+    <MotorParameter Name="YMotorSubdivision" Value="1600"/>
+    <MotorParameter Name="ZMotorSubdivision" Value="1259.84252"/>
+    <MotorParameter Name="WMotorSubdivision" Value="1000"/>
+    <MotorParameter Name="WMinValue" Value="-2000"/>
+    <MotorParameter Name="WMediumValue" Value="14000"/>
+    <MotorParameter Name="XEncoderSubdivision" Value="1000"/>
+  </MotorParameters>
+
+  <MotorPolarities>
+    <Polarities Name="DirX" Value="False"/>
+    <Polarities Name="EnableX" Value="True"/>
+    <Polarities Name="ClockX" Value="True"/>
+    <Polarities Name="HomeX" Value="False"/>
+    <Polarities Name="FwdLimitX" Value="False"/>
+    <Polarities Name="BwdLimitX" Value="False"/>
+    <Polarities Name="DirY" Value="False"/>
+    <Polarities Name="EnableY" Value="False"/>
+    <Polarities Name="ClockY" Value="False"/>
+    <Polarities Name="HomeY" Value="False"/>
+    <Polarities Name="FwdLimitY" Value="False"/>
+    <Polarities Name="BwdLimitY" Value="False"/>
+    <Polarities Name="DirZ" Value="False"/>
+    <Polarities Name="EnableZ" Value="False"/>
+    <Polarities Name="ClockZ" Value="False"/>
+    <Polarities Name="HomeZ" Value="False"/>
+    <Polarities Name="FwdLimitZ" Value="False"/>
+    <Polarities Name="BwdLimitZ" Value="False"/>
+    <Polarities Name="DirW" Value="False"/>
+    <Polarities Name="EnableW" Value="False"/>
+    <Polarities Name="ClockW" Value="False"/>
+    <Polarities Name="HomeW" Value="False"/>
+    <Polarities Name="FwdLimitW" Value="False"/>
+    <Polarities Name="BwdLimitW" Value="False"/>
+  </MotorPolarities>
+  
+  <!-- Use by EUI -->
+  <APDGains>
+    <!--<APDGain Position="1" Value="5" DisplayName="5" />
+    <APDGain Position="2" Value="10" DisplayName="10" />
+    <APDGain Position="3" Value="15" DisplayName="15" />
+    <APDGain Position="4" Value="25" DisplayName="25" />-->
+    <APDGain Position="5" Value="50" DisplayName="50" />
+    <APDGain Position="6" Value="100" DisplayName="100" />
+    <APDGain Position="7" Value="150" DisplayName="150" />
+    <APDGain Position="8" Value="200" DisplayName="200" />
+    <APDGain Position="9" Value="250" DisplayName="250" />
+    <APDGain Position="10" Value="300" DisplayName="300" />
+    <APDGain Position="11" Value="400" DisplayName="400" />
+    <APDGain Position="12" Value="500" DisplayName="500" />
+  </APDGains>
+
+  <!-- Use by EUI -->
+  <APDPgas>
+    <APDPga Position="1" Value="0" DisplayName="1" />
+    <APDPga Position="2" Value="1" DisplayName="2" />
+    <APDPga Position="3" Value="2" DisplayName="4" />
+    <APDPga Position="4" Value="3" DisplayName="8" />
+    <APDPga Position="5" Value="4" DisplayName="16" />
+    <APDPga Position="6" Value="5" DisplayName="32" />
+    <APDPga Position="7" Value="6" DisplayName="64" />
+    <APDPga Position="8" Value="7" DisplayName="128" />
+  </APDPgas>
+
+  <!--Default position and speed (Z position is the default focus position)-->
+  <MotorSettings>
+    <MotorSetting Motor="X" Position="50" Speed="20" Accel="50000" Dccel="50000"/>
+    <MotorSetting Motor="Y" Position="50" Speed="6" Accel="5000" Dccel="5000"/>
+    <MotorSetting Motor="Z" Position="2.0" Speed="0.3" Accel="812.8" Dccel="50.8"/>
+    <MotorSetting Motor="W" Position="0" Speed="2.0" Accel="10" Dccel="10"/>
+    <ScanningSetting Name="XMotorTurnDelay" Value="100"/>
+    <ScanningSetting Name="XMotionExtraMoveLength" Value="10"/>
+    <LaunchSetting Name="HomeMotionsAtLaunchTime" Value="True"/>
+  </MotorSettings>
+
+  <!-- Default lasers' intensity (Use by Engineering UI) -->
+  <LaserPowers>
+    <LaserPower Laser="A" Intensity="6800" MaxIntensity="14980" />
+    <LaserPower Laser="B" Intensity="8500" MaxIntensity="14900" />
+    <LaserPower Laser="C" Intensity="7500" MaxIntensity="14900" />
+    <LaserPower Laser="D" Intensity="5000" MaxIntensity="11000" />
+  </LaserPowers>
+
+  <ScanSettings>
+    <!--去掉图像前几行，避免图片前几行造成的倾斜-->
+    <!--Remove the first few lines of the image to avoid the tilt caused by the first few lines of the image-->
+    <ScannSetting Name="YCompenOffset" Value="0.1"/>
+    <ScannSetting Name="YCompenSationBitAt" Value="False"/>
+    <!--动态范围-->
+    <ScannSetting Name="ScanDynamicBitAt" Value="False"/>
+    <!--图像L和R1通道向R2通道图像对齐，LDX LDY  R1DX R1DY-->
+    <ScannSetting Name="ImageOffsetProcessing" Value="True"/>
+    <!--处理高分辨率图片锯齿,并且分辨率大于>50-->
+    <ScannSetting Name="PixelOffsetProcessing" Value="True"/>
+    <!-- Apply PixelOffsetProcessing when the scan resolution (pixel size) is below the specified value -->
+    <ScannSetting Name="PixelOffsetProcessingRes" Value="50"/>
+    <!--X  Positive Numbers go to the right and negative Numbers to the left-->
+    <ScannSetting Name="XOddNumberedLine" Value="-1"/>
+    <ScannSetting Name="XEvenNumberedLine" Value="0"/>
+    <!--Y  Positive Numbers go down, negative Numbers go up-->
+    <!-- <ScannSetting Name="YOddNumberedLine" Value="0"/>-->
+    <!--<ScannSetting Name="YEvenNumberedLine" Value="0"/>-->
+    <!--If you average the two lines, let's say 100um becomes 50um  两行取平均-->
+    <!--Phosphor Laser Module switch-->
+    <ScannSetting Name="PhosphorModuleProcessing" Value="True"/>
+    <!--All Laser Module switch-->
+    <ScannSetting Name="AllModuleProcessing" Value="False"/>
+  </ScanSettings>
+  <!--<OldTestPower" />-->
+  <OldPowersSetting>
+    <PowersSetting Name="OldPower" Value="20" />
+  </OldPowersSetting>
+
+  <RadiatorTemperatures>
+    <RadiatorTemperature Name="RadiatorL" Value="25"/>
+    <RadiatorTemperature Name="RadiatorR1" Value="25"/>
+    <RadiatorTemperature Name="RadiatorR2" Value="25"/>
+  </RadiatorTemperatures>
+
+  <PhosphorLaserModules>
+    <LaserModule LaserNumber="638" />
+    <LaserModule LaserNumber="658" />
+    <LaserModule LaserNumber="685" />
+  </PhosphorLaserModules>
+
+  <!--Default lasers (A, B, C, D) intensity-->
+  <!--<LasersIntensities Value="21248 4328 2700 2500" />-->
+  <!--LaserA = IR800 (784nm), LaserB = Green (520nm), LaserC = IR700 (658nm), LaserD = Blue (488nm)-->
+  <LasersIntensities>
+    <LaserIntensity Laser="LaserA" Intensities="6700 6700 6700 6700 6700" MaxIntensity="14980" />
+    <LaserIntensity Laser="LaserB" Intensities="8600 8600 8600 8600 8600" MaxIntensity="14900" />
+    <LaserIntensity Laser="LaserC" Intensities="8000 8000 8000 8000 8000" MaxIntensity="14900" />
+    <LaserIntensity Laser="LaserD" Intensities="5000 5000 5000 5000 5000" MaxIntensity="11000" />
+  </LasersIntensities>
+
+  <!-- Lasers and its default bandpass filter -->
+  <Lasers>
+    <Laser LaserType="488" Bandpass="518BP22" />
+    <Laser LaserType="532" Bandpass="565BP24" />
+    <Laser LaserType="638" Bandpass="710BP40" />
+    <Laser LaserType="685" Bandpass="710BP40" />
+    <Laser LaserType="780" Bandpass="832BP37" />
+  </Lasers>
+
+  <!--Fluorescence Signals-->
+  <Signals>
+    <!--780-->
+    <Signal LaserType="780">
+      <Level Position="1" DisplayName="L1"  LaserIntensity="5" ApdGain="100" ApdPga="1" />
+      <Level Position="2" DisplayName="L2" LaserIntensity="10" ApdGain="100" ApdPga="1" />
+      <Level Position="3" DisplayName="L3" LaserIntensity="15" ApdGain="100" ApdPga="1" />
+      <Level Position="4" DisplayName="L4" LaserIntensity="20" ApdGain="100" ApdPga="1" />
+      <Level Position="5" DisplayName="1" LaserIntensity="20" ApdGain="200" ApdPga="1" />
+      <Level Position="6" DisplayName="2" LaserIntensity="20" ApdGain="300" ApdPga="1" />
+      <Level Position="7" DisplayName="3" LaserIntensity="20" ApdGain="400" ApdPga="1" />
+      <Level Position="8" DisplayName="4" LaserIntensity="20" ApdGain="500" ApdPga="1" />
+      <Level Position="9" DisplayName="5" LaserIntensity="20" ApdGain="500" ApdPga="2" />
+      <Level Position="10" DisplayName="6" LaserIntensity="20" ApdGain="500" ApdPga="3" />
+      <Level Position="11" DisplayName="7" LaserIntensity="20" ApdGain="500" ApdPga="4" />
+      <Level Position="12" DisplayName="8" LaserIntensity="20" ApdGain="500" ApdPga="5" />
+      <Level Position="13" DisplayName="9" LaserIntensity="20" ApdGain="500" ApdPga="6" />
+      <Level Position="14" DisplayName="10" LaserIntensity="20" ApdGain="500" ApdPga="7" />
+    </Signal>
+    <!--532-->
+    <Signal LaserType="532">
+      <Level Position="1" DisplayName="L1"  LaserIntensity="5" ApdGain="100" ApdPga="1" />
+      <Level Position="2" DisplayName="L2" LaserIntensity="10" ApdGain="100" ApdPga="1" />
+      <Level Position="3" DisplayName="L3" LaserIntensity="15" ApdGain="100" ApdPga="1" />
+      <Level Position="4" DisplayName="L4" LaserIntensity="20" ApdGain="100" ApdPga="1" />
+      <Level Position="5" DisplayName="1" LaserIntensity="20" ApdGain="200" ApdPga="1" />
+      <Level Position="6" DisplayName="2" LaserIntensity="20" ApdGain="300" ApdPga="1" />
+      <Level Position="7" DisplayName="3" LaserIntensity="20" ApdGain="400" ApdPga="1" />
+      <Level Position="8" DisplayName="4" LaserIntensity="20" ApdGain="500" ApdPga="1" />
+      <Level Position="9" DisplayName="5" LaserIntensity="20" ApdGain="500" ApdPga="2" />
+      <Level Position="10" DisplayName="6" LaserIntensity="20" ApdGain="500" ApdPga="3" />
+      <Level Position="11" DisplayName="7" LaserIntensity="20" ApdGain="500" ApdPga="4" />
+      <Level Position="12" DisplayName="8" LaserIntensity="20" ApdGain="500" ApdPga="5" />
+      <Level Position="13" DisplayName="9" LaserIntensity="20" ApdGain="500" ApdPga="6" />
+      <Level Position="14" DisplayName="10" LaserIntensity="20" ApdGain="500" ApdPga="7" />
+    </Signal>
+    <!--685-->
+    <Signal LaserType="685">
+      <Level Position="1" DisplayName="L1"  LaserIntensity="5" ApdGain="100" ApdPga="1" />
+      <Level Position="2" DisplayName="L2" LaserIntensity="10" ApdGain="100" ApdPga="1" />
+      <Level Position="3" DisplayName="L3" LaserIntensity="15" ApdGain="100" ApdPga="1" />
+      <Level Position="4" DisplayName="L4" LaserIntensity="20" ApdGain="100" ApdPga="1" />
+      <Level Position="5" DisplayName="1" LaserIntensity="20" ApdGain="200" ApdPga="1" />
+      <Level Position="6" DisplayName="2" LaserIntensity="20" ApdGain="300" ApdPga="1" />
+      <Level Position="7" DisplayName="3" LaserIntensity="20" ApdGain="400" ApdPga="1" />
+      <Level Position="8" DisplayName="4" LaserIntensity="20" ApdGain="500" ApdPga="1" />
+      <Level Position="9" DisplayName="5" LaserIntensity="20" ApdGain="500" ApdPga="2" />
+      <Level Position="10" DisplayName="6" LaserIntensity="20" ApdGain="500" ApdPga="3" />
+      <Level Position="11" DisplayName="7" LaserIntensity="20" ApdGain="500" ApdPga="4" />
+      <Level Position="12" DisplayName="8" LaserIntensity="20" ApdGain="500" ApdPga="5" />
+      <Level Position="13" DisplayName="9" LaserIntensity="20" ApdGain="500" ApdPga="6" />
+      <Level Position="14" DisplayName="10" LaserIntensity="20" ApdGain="500" ApdPga="7" />
+    </Signal>
+    <!--638-->
+    <Signal LaserType="638">
+      <Level Position="1" DisplayName="L1"  LaserIntensity="5" ApdGain="100" ApdPga="1" />
+      <Level Position="2" DisplayName="L2" LaserIntensity="10" ApdGain="100" ApdPga="1" />
+      <Level Position="3" DisplayName="L3" LaserIntensity="15" ApdGain="100" ApdPga="1" />
+      <Level Position="4" DisplayName="L4" LaserIntensity="20" ApdGain="100" ApdPga="1" />
+      <Level Position="5" DisplayName="1" LaserIntensity="20" ApdGain="200" ApdPga="1" />
+      <Level Position="6" DisplayName="2" LaserIntensity="20" ApdGain="300" ApdPga="1" />
+      <Level Position="7" DisplayName="3" LaserIntensity="20" ApdGain="400" ApdPga="1" />
+      <Level Position="8" DisplayName="4" LaserIntensity="20" ApdGain="500" ApdPga="1" />
+      <Level Position="9" DisplayName="5" LaserIntensity="20" ApdGain="500" ApdPga="2" />
+      <Level Position="10" DisplayName="6" LaserIntensity="20" ApdGain="500" ApdPga="3" />
+      <Level Position="11" DisplayName="7" LaserIntensity="20" ApdGain="500" ApdPga="4" />
+      <Level Position="12" DisplayName="8" LaserIntensity="20" ApdGain="500" ApdPga="5" />
+      <Level Position="13" DisplayName="9" LaserIntensity="20" ApdGain="500" ApdPga="6" />
+      <Level Position="14" DisplayName="10" LaserIntensity="20" ApdGain="500" ApdPga="7" />
+    </Signal>
+    <!--488-->
+    <Signal LaserType="488">
+      <Level Position="1" DisplayName="L1" LaserIntensity="5" ApdGain="500" ApdPga="1" />
+      <Level Position="2" DisplayName="L2" LaserIntensity="5" ApdGain="1000" ApdPga="1" />
+      <Level Position="3" DisplayName="L3" LaserIntensity="5" ApdGain="1500" ApdPga="1" />
+      <Level Position="4" DisplayName="L4" LaserIntensity="5" ApdGain="2000" ApdPga="1" />
+      <Level Position="5" DisplayName="1" LaserIntensity="5" ApdGain="2500" ApdPga="1" />
+      <Level Position="6" DisplayName="2" LaserIntensity="5" ApdGain="3000" ApdPga="1" />
+      <Level Position="7" DisplayName="3" LaserIntensity="5" ApdGain="3500" ApdPga="1" />
+      <Level Position="8" DisplayName="4" LaserIntensity="10" ApdGain="3500" ApdPga="1" />
+      <Level Position="9" DisplayName="5" LaserIntensity="10" ApdGain="4000" ApdPga="1" />
+      <Level Position="10" DisplayName="6" LaserIntensity="10" ApdGain="4500" ApdPga="1" />
+      <Level Position="11" DisplayName="7" LaserIntensity="15" ApdGain="4500" ApdPga="1" />
+      <Level Position="12" DisplayName="8" LaserIntensity="15" ApdGain="5000" ApdPga="1" />
+      <Level Position="13" DisplayName="9" LaserIntensity="15" ApdGain="5500" ApdPga="1" />
+      <Level Position="14" DisplayName="10" LaserIntensity="15" ApdGain="6000" ApdPga="1" />
+    </Signal>
+  </Signals>
+
+  <!--Phosphor Signals-->
+  <PhosphorSignals>
+    <PhosphorSignal LaserType="638">
+      <Level Position="1" LaserIntensity="20" ApdGain="8000" ApdPga="1" />
+      <Level Position="2" LaserIntensity="20" ApdGain="8500" ApdPga="1" />
+      <Level Position="3" LaserIntensity="20" ApdGain="9000" ApdPga="1" />
+      <Level Position="4" LaserIntensity="20" ApdGain="9500" ApdPga="1" />
+      <Level Position="5" LaserIntensity="20" ApdGain="11000" ApdPga="1" />
+    </PhosphorSignal>
+  </PhosphorSignals>
+
+  <AutoScan>
+    <Resolution Value="500" />
+    <OptimalVal Value="50000" />
+    <OptimalDelta Value="0.08" />
+    <Ceiling Value="62000" />
+    <Floor Value="40" />
+    <Alpha488 Value="8.618" />
+    <StartingSignalLevel Position="9" />
+    <HighSignalStepdownLevel Position="6" />
+  </AutoScan>
+
+</Config>

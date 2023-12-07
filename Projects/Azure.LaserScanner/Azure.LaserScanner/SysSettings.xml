@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SysSettings>
+  <ChemiModule Value="False" />
+  <IgnoreCompCoefficient Value="False" />
+  <ImagingTabs>
+    <ImagingTab ImagingType="Fluorescence" IsVisible="True" />
+  </ImagingTabs>
+  <SampleTypes>
+    <SampleType Position="1" DisplayName="Gel (+0.50)" FocusPosition="0.50" />
+    <SampleType Position="2" DisplayName="Plate (+3.00)" FocusPosition="3.00" />
+    <SampleType Position="3" DisplayName="Membrane (0)" FocusPosition="0.00" />
+    <SampleType Position="4" DisplayName="Slide (+1.00)" FocusPosition="1.00" />
+  </SampleTypes>
+  <EmissionFilters>
+    <EmissionFilter Wavelength="513" Bandpass="17" />
+    <EmissionFilter Wavelength="572" Bandpass="28" />
+    <EmissionFilter Wavelength="676" Bandpass="37" />
+    <EmissionFilter Wavelength="720" Bandpass="24" />
+    <EmissionFilter Wavelength="829" Bandpass="62" />
+    <EmissionFilter Wavelength="424" Bandpass="SP" />
+  </EmissionFilters>
+</SysSettings>

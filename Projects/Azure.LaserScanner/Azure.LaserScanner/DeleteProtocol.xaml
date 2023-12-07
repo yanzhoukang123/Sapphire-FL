@@ -1,0 +1,114 @@
+﻿<Window x:Class="Azure.LaserScanner.DeleteProtocol"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Azure.LaserScanner"
+        mc:Ignorable="d"
+        Height="240"
+        Width="400"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border CornerRadius="28" 
+            Background="White">
+
+        <Border Margin="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Image Source=".\Resources\Images\Imaging\icon_delete-protocol.png" Height="25"/>
+                    <TextBlock x:Name="textblock1"
+                        TextWrapping="WrapWithOverflow"
+                        FontSize="18"
+                        Foreground="#0097FC"
+                        VerticalAlignment="Center"
+                        Width="Auto"
+                        Margin="5,0,1,0">
+                        <Bold>DELETE PROTOCOL</Bold>
+                    </TextBlock>
+                </StackPanel>
+
+                <TextBlock x:Name="textblock2" Grid.Row="1"
+                    TextWrapping="WrapWithOverflow"
+                    FontSize="14"
+                    Text="{Binding Message}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Margin="0,8">
+                </TextBlock>
+
+                <!--<Grid Grid.Row="3">
+                <Separator Height="4" Margin="2,4"/>
+                </Grid>-->
+
+                <Grid Grid.Row="2">
+                    <StackPanel Grid.Row="0">
+                        <TextBlock x:Name="txtProtocolName" Grid.Row="2"
+                            Text="{Binding Path=ProtocolName}"
+                            TextWrapping="WrapWithOverflow"
+                            FontSize="20"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Margin="0,4,0,4">
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <!--<Grid Grid.Row="5">
+                <Separator Height="4" Margin="2,4"/>
+                </Grid>-->
+
+                <Grid Grid.Row="4" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="_OkButton"
+                            Content="OK"
+                            Width="178"
+                            Style="{StaticResource RaisedImageButtonStyle}"
+                            Height="40"
+                            Background="#00CC00"
+                            FontSize="18"
+                            Foreground="White"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Click="OkButton_Click" /> 
+                        <Button x:Name="_CancelButton"
+                            Content="CANCEL"
+                            Margin="10,0,0,0"
+                            Height="40"
+                            Width="178"
+                            Background="#DD0000"
+                            FontSize="18"
+                            Style="{DynamicResource RaisedImageButtonStyle}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Click="Cancel_Click"
+                            Visibility="{Binding Path=IsCancelButtonVisibled, Converter={StaticResource boolToVisibilityConverter}}"/>
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+        </Border>
+    </Border>
+</Window>

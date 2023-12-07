@@ -1,0 +1,228 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.AutoContrastControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="100"
+             d:DesignWidth="310">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border CornerRadius="4"
+            Background="{DynamicResource ComboBoxBackground_Selected}">
+
+        <Grid MinWidth="240"
+
+              HorizontalAlignment="Stretch">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MaxHeight="70"/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="30" Width="70"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="30" Width="70"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="30" Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="30" Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Grid.Column="1"
+                    Fill="DarkGray"
+                    Width="1"
+                    Margin="1"/>
+                <Rectangle Grid.Column="3"
+                    Fill="DarkGray"
+                    Width="1"
+                    Margin="1"/>
+                <Rectangle Grid.Column="5"
+                    Fill="DarkGray"
+                    Width="1"
+                    Margin="1"/>
+
+                <ToggleButton x:Name="_AutoContrastButton" Style="{StaticResource ToggleInformButton}"
+                    Foreground="White"
+                    FontSize="11"
+                    Background="Transparent"
+                    Height="56"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding Path=ActiveDocument.IsAutoContrast}"
+                    Command="{Binding Path=AutoContrastCommand}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="gridBorder" BorderBrush="Transparent">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Auto"
+                                        TextWrapping="Wrap" 
+                                        TextAlignment="Center"
+                                        DockPanel.Dock="Bottom"
+                                        />
+                                    <Image x:Name="AutoContrastImage" Source="/Azure.ScannerEUI;component/Resources/Images/CropNormal.png"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="BorderThickness" Value="5"/>
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                        <Setter.Value>
+                                            <TranslateTransform Y="1.0" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="AutoContrastImage"
+                                            Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/CropSelected.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+                <ToggleButton x:Name="_InvertButton" Grid.Column="2"
+                    Style="{StaticResource ToggleInformButton}"
+                    Foreground="White"
+                    FontSize="11"
+                    Background="Transparent"
+                    Height="56"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding Path=ActiveDocument.IsInvert}"
+                    Command="{Binding Path=InvertCommand}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="gridBorder" BorderBrush="Transparent">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Invert"
+                                        TextWrapping="Wrap" 
+                                        TextAlignment="Center"
+                                        DockPanel.Dock="Bottom"
+                                        />
+                                    <Image x:Name="InvertImage" Source="/Azure.ScannerEUI;component/Resources/Images/CropNormal.png"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="BorderThickness" Value="5"/>
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                        <Setter.Value>
+                                            <TranslateTransform Y="1.0" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="InvertImage"
+                                            Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/CropSelected.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+                <ToggleButton x:Name="_SaturationButton" Grid.Column="4"
+                    Style="{StaticResource ToggleInformButton}"
+                    Foreground="White"
+                    FontSize="11"
+                    Background="Transparent"
+                    Height="56"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding Path=ActiveDocument.IsSaturation}"
+                    Command="{Binding Path=SaturationCommand}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="gridBorder" BorderBrush="Transparent">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Saturation"
+                                        TextWrapping="Wrap" 
+                                        TextAlignment="Center"
+                                        DockPanel.Dock="Bottom"
+                                        />
+                                    <Image x:Name="SaturationImage" Source="/Azure.ScannerEUI;component/Resources/Images/CropNormal.png"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="BorderThickness" Value="5"/>
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                        <Setter.Value>
+                                            <TranslateTransform Y="1.0" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="SaturationImage" Property="Source" Value="../Resources/Images/cropSelected.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+                <ToggleButton x:Name="_ImageInfoButton" Grid.Column="6"
+                    Style="{StaticResource ToggleInformButton}"
+                    Foreground="White"
+                    FontSize="11"
+                    Background="Transparent"
+                    Height="56"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding Path=ActiveDocument.IsShowImageInfo}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="gridBorder" BorderBrush="Transparent">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Image Info"
+                                        TextWrapping="Wrap" 
+                                        TextAlignment="Center"
+                                        DockPanel.Dock="Bottom"
+                                        />
+                                    <Image x:Name="ImageInfoImage" Source="../Resources/Images/CropNormal.png"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="BorderThickness" Value="5"/>
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                        <Setter.Value>
+                                            <TranslateTransform Y="1.0" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="ImageInfoImage"
+                                            Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/cropSelected.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+            </Grid>
+
+        </Grid>
+
+    </Border>
+
+</UserControl>

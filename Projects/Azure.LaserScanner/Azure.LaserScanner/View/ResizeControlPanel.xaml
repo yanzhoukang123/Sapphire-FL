@@ -1,0 +1,366 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.ResizeControlPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Azure.LaserScanner.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="530"
+    d:DesignWidth="350"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BitmapImage x:Key="imgGallerySave" UriSource="/Resources/Images/Gallery/icon_save-pub-default.png" />
+            <Style x:Key="TextBlockHeaderStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontWeight" Value="Regular" />
+            </Style>
+            <Style x:Key="TextBlockLabelStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+                <Setter Property="FontSize" Value="14px" />
+                <Setter Property="FontWeight" Value="Regular" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <TextBlock
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Margin="0,0,0,12"
+                FontWeight="SemiBold"
+                Foreground="#FFFFFFFF"
+                FontFamily="./Resources/Fonts/#Mulish"
+                Text="RESIZE" />
+            <Grid Margin="5,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="192"/>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <GroupBox 
+                    Grid.Row="0"
+                    Header="Image Dimensions"
+                    FontSize="15"
+                    FontFamily="{StaticResource DefaultFont}"
+                    BorderThickness="0"
+                    Foreground="White"
+                    Grid.RowSpan="2"
+                    IsEnabled="False">
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="Width:"
+                            TextAlignment="Center" />
+                        <TextBox Grid.Row="0" Grid.Column="1"
+                            Width="80"
+                            Height="24"
+                            Margin="15,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding ActualWidthInPixels, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextAlignment="Center" />
+                        <TextBox Grid.Row="0" Grid.Column="2"
+                            Width="120"
+                            Height="24"
+                            Margin="10,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="pixels"
+                            TextAlignment="Center"
+                            VerticalContentAlignment="Center" />
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="Height:"
+                            TextAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1"
+                            Width="80"
+                            Height="24"
+                            Margin="15,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding ActualHeightInPixels, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextAlignment="Center" />
+                        <TextBox Grid.Row="1" Grid.Column="2"
+                            Width="120"
+                            Height="24"
+                            Margin="10,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="pixels"
+                            TextAlignment="Center"
+                            VerticalContentAlignment="Center" />
+                        <Image Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"
+                            Width="13"
+                            Height="36"
+                            Margin="6,22,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Source="/Azure.LaserScanner;component/Resources/Images/Gallery/icon_decoration-link.png"
+                            Stretch="Fill" />
+                        <TextBlock Grid.Row="2" Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="Width:"
+                            TextAlignment="Right" />
+                        <TextBox Grid.Row="2" Grid.Column="1"
+                            Width="80"
+                            Height="24"
+                            Margin="15,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding ActualWidthInInchCm, StringFormat={}{0:F2}}"
+                            TextAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="2"
+                            Width="120"
+                            Height="24"
+                            Margin="10,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding SelectedConvUnit}"
+                            TextAlignment="Center"/>
+                        <Image Grid.Row="2" Grid.Column="3" Grid.RowSpan="2"
+                            Width="13"
+                            Height="36"
+                            Margin="6,22,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Source="/Azure.LaserScanner;component/Resources/Images/Gallery/icon_decoration-link.png"
+                            Stretch="Fill" />
+                        <TextBlock Grid.Row="3" Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="Height:"
+                            TextAlignment="Right" />
+                        <TextBox Grid.Row="3" Grid.Column="1"
+                            Width="80"
+                            Height="24"
+                            Margin="15,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding ActualHeightInInchCm, StringFormat={}{0:F2}}"
+                            TextAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="2"
+                            Width="120"
+                            Height="24"
+                            Margin="10,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding SelectedConvUnit}"
+                            TextAlignment="Center"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="PPI:" />
+                        <TextBox Grid.Row="4" Grid.Column="1"
+                            Width="80"
+                            Height="24"
+                            Margin="15,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding ActualImagePPI, StringFormat={}{0:F2}}"
+                            TextAlignment="Center"/>
+                        <TextBox Grid.Row="4" Grid.Column="2"
+                            Width="120"
+                            Height="24"
+                            Margin="10,5,0,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding ActualSelectedUnit}"
+                            TextAlignment="Center"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox 
+                    Grid.Row="2"
+                    Header="Publishing Dimensions Resize (8-bit)"
+                    FontSize="15"
+                    FontFamily="{StaticResource DefaultFont}"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Margin="0,4">
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="Width:"
+                            TextAlignment="Right" />
+                        <TextBox Grid.Row="0" Grid.Column="1"
+                            Width="80"
+                            Height="24"
+                            Margin="15,0,5,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding WidthInInchCm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}"
+                            TextAlignment="Center"
+                            IsEnabled="False"/>
+                        <TextBox Grid.Row="0" Grid.Column="2"
+                            Width="120"
+                            Height="24"
+                            Margin="10,0,5,0"
+                            TextAlignment="Center"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding SelectedConvUnit}"
+                            IsEnabled="False" />
+                        <Image
+                            Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"
+                            Width="13"
+                            Height="36"
+                            Margin="6,16,5,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Source="/Azure.LaserScanner;component/Resources/Images/Gallery/icon_decoration-link.png"
+                            Stretch="Fill" />
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="Height:"
+                            TextAlignment="Right" />
+                        <TextBox Grid.Row="1" Grid.Column="1"
+                            Width="80"
+                            Height="24"
+                            Margin="15,5,5,5"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding HeightInInchCm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}"
+                            TextAlignment="Center"
+                            IsEnabled="False"/>
+                        <TextBox Grid.Row="1" Grid.Column="2"
+                            Width="120"
+                            Height="24"
+                            Margin="10,0,5,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="{Binding SelectedConvUnit}"
+                            IsEnabled="False"
+                            TextAlignment="Center"/>
+
+
+                        <TextBlock Grid.Row="2" Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="Width:"
+                            TextAlignment="Center" />
+                        <TextBox Grid.Row="2" Grid.Column="1"
+                            Width="80"
+                            Height="32"
+                            Margin="15,5,5,0"
+                            Style="{StaticResource LightBorderTextBoxStyle}"
+                            Text="{Binding CurrentWidthInPixels, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextAlignment="Center" />
+                        <TextBox Grid.Row="2" Grid.Column="2"
+                            Width="120"
+                            Height="32"
+                            Margin="10,0,5,0"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="pixels"
+                            TextAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="Height:"
+                            TextAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="1"
+                            Width="80"
+                            Height="32"
+                            Margin="15,5,5,5"
+                            Style="{StaticResource LightBorderTextBoxStyle}"
+                            Text="{Binding CurrentHeightInPixels, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextAlignment="Center" />
+                        <TextBox Grid.Row="3" Grid.Column="2"
+                            Width="120"
+                            Height="32"
+                            Margin="10,5,5,5"
+                            Style="{StaticResource DarkBorderTextBoxStyle}"
+                            Text="pixels"
+                            TextAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            IsReadOnly="True"/>
+                        <Image Grid.Row="2" Grid.Column="3" Grid.RowSpan="2"
+                            Width="13"
+                            Height="36"
+                            Margin="6,22,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Source="/Azure.LaserScanner;component/Resources/Images/Gallery/icon_decoration-link.png"
+                            Stretch="Fill" />
+                        <TextBlock Grid.Row="4" Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockLabelStyle}"
+                            Text="DPI:" />
+                        <TextBox Grid.Row="4" Grid.Column="1"
+                            Width="80"
+                            Height="32"
+                            Margin="15,0,5,0"
+                            DataObject.Pasting="PastingHandler"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            Foreground="White"
+                            Style="{StaticResource LightBorderTextBoxStyle}"
+                            Text="{Binding CurrentImageDpi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}" 
+                            TextAlignment="Center"/>
+                        <ComboBox Grid.Row="4" Grid.Column="2"
+                            Style="{StaticResource DarkComboBoxStyle}"
+                            ItemContainerStyle="{StaticResource DarkComboBoxItemStyle}"
+                            Width="120"
+                            Height="32"
+                            Margin="10,0,5,0"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            ItemsSource="{Binding DocUnitOptions}"
+                            SelectedValue="{Binding DocSelectedUnit}" />
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <Button
+                Style="{StaticResource RaisedImageButtonStyle}"
+                MaxHeight="35"
+                Width="300"
+                FontSize="14"
+                Command="{Binding Path=SaveAsPubFileCommand}"
+                Margin="8,5">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource imgGallerySave}"
+                           Height="20"
+                           Width="30"/>
+                    <TextBlock Text="SAVE AS RESIZED PUB FILE" />
+                </StackPanel>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

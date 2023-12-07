@@ -1,0 +1,477 @@
+﻿<Window x:Class="Azure.ScannerEUI.View.ParameterSetup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:Azure.ScannerEUI.ViewModel"
+        xmlns:imagingsys="clr-namespace:Azure.ImagingSystem;assembly=Azure.ImagingSystem"
+        Title="PARAMETER SETUP"
+        Height="600"
+        Width="1000"
+        WindowStyle="ToolWindow"
+        WindowStartupLocation="CenterOwner"
+        Loaded="Window_Loaded">
+    <!--<Window.DataContext>
+        <local:ParameterSetupViewModel/>
+    </Window.DataContext>-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="100*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" Grid.Row="0">
+                <TextBlock Text="Mechanical Parameters" FontSize="20"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+            </Grid>
+            <Grid Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="0">
+                <TextBlock Text="Electrical Parameters" FontSize="20"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="1" Margin="40,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4" />
+                </Grid.ColumnDefinitions>
+                <!--X, Y, Z Range-->
+                <Label Grid.Row="0" Grid.Column="0" Content="X logical Home(mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=XLogicalHome, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Y logical Home(mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=YLogicalHome, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Optical Module Distance(mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="4" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=OpticalModuleDistance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="Pixel 10 Offset(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="6" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_Offset, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="8" Grid.Column="0" Content="Pixel 10 ChannelA DX(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="8" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_ChannelA_DX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+
+                <Label Grid.Row="10" Grid.Column="0" Content="Pixel 10 ChannelA DY(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="10" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_ChannelA_DY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+
+                <Label Grid.Row="12" Grid.Column="0" Content="Pixel 10 ChannelB DX(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="12" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_ChannelB_DX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+
+                <Label Grid.Row="14" Grid.Column="0" Content="Pixel 10 ChannelB DY(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="14" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_ChannelB_DY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+
+                <Label Grid.Row="16" Grid.Column="0" Content="Pixel 10 ChannelD DX(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="16" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_ChannelD_DX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+
+                <Label Grid.Row="18" Grid.Column="0" Content="Pixel 10 ChannelD DY(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="18" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_ChannelD_DY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="20" Grid.Column="0" Content="Focus Length (mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="20" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=FocusLength, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="1" Margin="40,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Is Phosphor Imaging On" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="2"
+                         Width="80"
+                         Height="25"
+                         FontSize="14"
+                         FontWeight="SemiBold"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         PreviewTextInput="TextBox_PreviewTextInput"
+                         Text="{Binding Path=IsPhosphorImagingOn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
+                         IsEnabled="False"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="IR Intensity @ 5 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=IRIntensityAt5mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="IR Intensity @ 10 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="4" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=IRIntensityAt10mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="IR Intensity @ 15 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="6" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=IRIntensityAt15mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="8" Grid.Column="0" Content="IR Intensity @ 20 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="8" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=IRIntensityAt20mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="10" Grid.Column="0" Content="Green Intensity @ 5 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="10" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=GreenIntensityAt5mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="12" Grid.Column="0" Content="Green Intensity @ 10 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="12" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=GreenIntensityAt10mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="14" Grid.Column="0" Content="Green Intensity @ 15 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="14" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=GreenIntensityAt15mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="16" Grid.Column="0" Content="Green Intensity @ 20 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="16" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=GreenIntensityAt20mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="18" Grid.Column="0" Content="Red Intensity @ 5mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="18" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=RedIntensityAt5mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="20" Grid.Column="0" Content="Red Intensity @ 10 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="20" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=RedIntensityAt10mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+            </Grid>
+            <Grid Grid.Column="4" Grid.Row="1" Margin="40,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Red Intensity @ 15 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=RedIntensityAt15mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Red Intensity @ 20 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=RedIntensityAt20mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Blue Intensity @ 5 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="4" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=BlueIntensityAt5mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="Blue Intensity @ 10 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="6" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=BlueIntensityAt10mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="8" Grid.Column="0" Content="Blue Intensity @ 15 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="8" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=BlueIntensityAt15mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="10" Grid.Column="0" Content="Blue Intensity @ 20 mW" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="10" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=BlueIntensityAt20mW, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="12" Grid.Column="0" Content="System Serial Number" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="12" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=SystemSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>
+                <Label Grid.Row="14" Grid.Column="0" Content="PMT Conpensation" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="14" Grid.Column="2"
+                         Width="80" Height="25" FontSize="14" FontWeight="SemiBold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                         Text="{Binding Path=PMTCompensation, Mode=TwoWay,  TargetNullValue={x:Static sys:String.Empty}}"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button Name="_ParametersReadCommand" 
+                    Command="{Binding Path=ParametersReadCommand}"
+                    Content="Read"
+                    FontSize="14"
+                    Height="30" 
+                    HorizontalAlignment="Center"  
+                    Style="{DynamicResource BlueButton}" 
+                    VerticalAlignment="Center" 
+                    Width="83" 
+                    Margin="0,0,150,0"/>
+            <Button Name="_ParametersWriteCommand"
+                    Command="{Binding Path=ParametersWriteCommand}" 
+                    Content="Write" 
+                    FontSize="14" 
+                    Height="30" 
+                    HorizontalAlignment="Center" 
+                    Style="{DynamicResource BlueButton}" 
+                    VerticalAlignment="Center" 
+                    Width="83" 
+                    Margin="150,0,0,0" 
+                    Grid.RowSpan="2" />
+        </Grid>
+    </Grid>
+</Window>

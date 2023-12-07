@@ -1,0 +1,658 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
+
+    <!-- PrimaryButton: Colors -->
+    <LinearGradientBrush x:Key="PrimaryButtonBackgroundBrush" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#FF70A5DC" Offset="0"/>
+        <GradientStop Color="#FF193D60" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- ToggleButton: Colors -->
+    <LinearGradientBrush x:Key="ToggleButtonBackgroundBrush_Checked" EndPoint="0,1" StartPoint="0,0">
+        <!--<GradientStop Color="#FF183351" Offset="0"/>-->
+        <GradientStop Color="#FF193D60" Offset="0"/>
+        <GradientStop Color="#FF692B47" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- PrimaryButton: Supporting Styles -->
+
+    <!-- InformButton: Styles -->
+    <Style x:Key="MyFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Control}">
+                    <Grid Margin="3 2">
+                        <Rectangle Name="r1" StrokeThickness="2" Stroke="Black" StrokeDashArray="2 2"/>
+                        <Border Name="border" Width="{TemplateBinding ActualWidth}" Height="{TemplateBinding ActualHeight}"  CornerRadius="2" BorderThickness="5" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ShadowStyle">
+        <Setter Property="Control.Foreground" Value="DarkBlue" />
+    </Style>
+    <Style x:Key="InformButton" TargetType="{x:Type Button}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Padding" Value="10,5,10,5"/>
+        <Setter Property="FontFamily" Value="Verdana"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisual}" />
+        <Setter Property="Foreground" Value="#FFFFFFFF"/>
+        <Setter Property="Background" >
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                    <GradientStop Color="#FF6595C6" Offset="0.2"/>
+                    <GradientStop Color="#FF072142" Offset="0.85"/>
+                    <GradientStop Color="#FF18365A" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Name="border" 
+                        BorderThickness="1"
+                        Padding="8,2" 
+                        BorderBrush="DarkGray" 
+                        CornerRadius="3" 
+                        Background="{TemplateBinding Background}">
+                        <Grid >
+                            <ContentPresenter HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" Name="contentShadow" 
+                               Style="{StaticResource ShadowStyle}">
+                                <ContentPresenter.RenderTransform>
+                                    <TranslateTransform X="1.0" Y="1.0" />
+                                </ContentPresenter.RenderTransform>
+                            </ContentPresenter>
+                            <ContentPresenter HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" Name="content"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#FF4788c8" />
+                            <Setter TargetName="contentShadow" Property="Control.Foreground" Value="Gray"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" >
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                                        <GradientStop Color="#FF6595C6" Offset="0.1"/>
+                                        <GradientStop Color="#FF072142" Offset="0.75"/>
+                                        <GradientStop Color="#FF18365A" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="content" Property="RenderTransform" >
+                                <Setter.Value>
+                                    <TranslateTransform Y="1.0" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsDefaulted" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ToggleInformButton: Styles -->
+    <Style x:Key="ToggleInformButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Padding" Value="10,5,10,5"/>
+        <Setter Property="FontFamily" Value="Verdana"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#FFFFFFFF"/>
+        <Setter Property="Background" Value="{StaticResource PrimaryButtonBackgroundBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Name="border" 
+                        BorderThickness="1"
+                        Padding="4,2" 
+                        BorderBrush="DarkGray" 
+                        CornerRadius="3" 
+                        Background="{TemplateBinding Background}">
+                        <Grid >
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" 
+                                Name="contentShadow" 
+                                Style="{StaticResource ShadowStyle}">
+                                <ContentPresenter.RenderTransform>
+                                    <TranslateTransform X="1.0" Y="1.0" />
+                                </ContentPresenter.RenderTransform>
+                            </ContentPresenter>
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" 
+                                Name="content"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#FF4788c8" />
+                            <Setter Property="Foreground" Value="#FF4788c8" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="BorderThickness" Value="5"/>
+                            <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundBrush_Checked}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundBrush_Checked}"/>
+                            <Setter TargetName="content" Property="RenderTransform" >
+                                <Setter.Value>
+                                    <TranslateTransform Y="1.0" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- RepeatInformButton: Styles -->
+    <Style x:Key="RepeatInformButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Padding" Value="10,5,10,5"/>
+        <Setter Property="FontFamily" Value="Verdana"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <!--<SolidColorBrush x:Key="HorizontalSliderTrackNormalBackground" Color="#FFE7EAEA"/>-->
+    <SolidColorBrush x:Key="HorizontalSliderTrackNormalBackground" Color="Black"/>
+    <!--<LinearGradientBrush x:Key="HorizontalSliderTrackNormalBorder" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#FFAEB1AF" Offset="0.1"/>
+        <GradientStop Color="White" Offset=".9"/>
+    </LinearGradientBrush>-->
+    <LinearGradientBrush x:Key="HorizontalSliderTrackNormalBorder" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#FF303030" Offset="0.1"/>
+        <GradientStop Color="#FF404040" Offset=".9"/>
+    </LinearGradientBrush>
+    <Style x:Key="SliderRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle Fill="Transparent"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CustomThumbForSlider" TargetType="{x:Type Thumb}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle Fill="{DynamicResource PrimaryButtonBackgroundBrush}" Stroke="#FF404050" Height="{TemplateBinding Height}" Width="30" RadiusX="5" Margin="0,0.333,0,-0.334" RadiusY="10"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MyCustomStyleForSlider" TargetType="{x:Type Slider}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Slider}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="{TemplateBinding Height}" MinHeight="{TemplateBinding MinHeight}"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TickBar x:Name="TopTick" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Placement="Top" Height="4" Grid.Row="0"/>
+                            <TickBar x:Name="BottomTick" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Placement="Bottom" Height="4" Grid.Row="0"/>
+                            <Border x:Name="TrackBackground" 
+                                Background="{StaticResource HorizontalSliderTrackNormalBackground}"
+                                BorderBrush="{StaticResource HorizontalSliderTrackNormalBorder}"
+                                BorderThickness="1" CornerRadius="1"
+                                Margin="5,0" VerticalAlignment="Center" Height="6.0" Grid.Row="1" >
+                                <!--Background="{StaticResource HorizontalSliderTrackNormalBackground}"-->
+                                <Canvas Margin="-6,-1">
+                                    <Rectangle Visibility="Hidden" x:Name="PART_SelectionRange" Height="4.0"
+                                        Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"
+                                        Stroke="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"
+                                        StrokeThickness="1.0"/>
+                                </Canvas>
+                            </Border>
+                            <Track x:Name="PART_Track" Grid.Row="1">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton  Style="{StaticResource  SliderRepeatButtonStyle}" Command="{x:Static Slider.DecreaseLarge}"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource SliderRepeatButtonStyle}" Command="{x:Static Slider.IncreaseLarge}"/>
+                                </Track.IncreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb" Style="{StaticResource CustomThumbForSlider}"
+                                    />
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Blue Button-->
+    <ControlTemplate x:Key="BlueButtonControl" TargetType="{x:Type Button}">
+        <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+            <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsDefaulted" Value="False">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Cursor" Value="Hand"></Setter>
+                <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#007dc1" Offset="0"/>
+                            <GradientStop Color="#0061a7" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="border">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#0061a7" Offset="0"/>
+                            <GradientStop Color="#007dc1" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" TargetName="border">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#007dc1" Offset="0"/>
+                            <GradientStop Color="#0061a7" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="BlueButton" TargetType="Button">
+        <Setter Property="Template" Value="{DynamicResource BlueButtonControl}"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Padding" Value="5,2,5,2"/>
+    </Style>
+    <!--Blue Button End-->
+
+    <!--  Raised Button Brushes  -->
+    <SolidColorBrush x:Key="RaisedButtonBackgroundBrush"
+                     Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="RaisedButtonMouseOverBackground"
+                     Opacity="0.12"
+                     Color="#FF000000" />
+    <SolidColorBrush x:Key="RaisedButtonPressedBackground"
+                     Color="#FF0C74A8" />
+    <SolidColorBrush x:Key="RaisedButtonDisabledBackground"
+                     Opacity="0.12"
+                     Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="RaisedButtonDisabledForeground"
+                     Opacity="0.30"
+                     Color="#FFFFFFFF" />
+    
+    <!--  Raised Button  -->
+    <Style x:Key="RaisedButtonStyle"
+           TargetType="{x:Type Button}">
+        <Setter Property="Background"
+                Value="{StaticResource RaisedButtonBackgroundBrush}" />
+        <Setter Property="Foreground"
+                Value="White" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
+        <Setter Property="Padding"
+                Value="16,1" />
+        <Setter Property="MinHeight"
+                Value="32" />
+        <Setter Property="MinWidth"
+                Value="88" />
+        <Setter Property="FontSize"
+                Value="15" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Grid x:Name="ShadowGrid">
+                            <Rectangle Fill="Black"
+                                       Opacity="0.26"
+                                       RadiusX="3"
+                                       RadiusY="3"
+                                       RenderTransformOrigin="0.5,0.5">
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform Y="1.83" />
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                                <Rectangle.Effect>
+                                    <BlurEffect Radius="1" />
+                                </Rectangle.Effect>
+                            </Rectangle>
+                            <Rectangle Fill="Black"
+                                       Opacity="0.08"
+                                       RadiusX="3"
+                                       RadiusY="3">
+                                <Rectangle.Effect>
+                                    <BlurEffect Radius="1.33" />
+                                </Rectangle.Effect>
+                            </Rectangle>
+                        </Grid>
+                        <Grid SnapsToDevicePixels="true">
+                            <Rectangle x:Name="BackgroundRec"
+                                       Fill="{TemplateBinding Background}"
+                                       RadiusX="3"
+                                       RadiusY="3" />
+                            <Rectangle x:Name="FocusRecOverlay"
+                                       Fill="{StaticResource RaisedButtonMouseOverBackground}"
+                                       RadiusX="3"
+                                       RadiusY="3"
+                                       Visibility="Collapsed" />
+                            <ContentPresenter x:Name="contentPresenter"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Focusable="False"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="true">
+                            <Setter TargetName="FocusRecOverlay"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="true">
+                            <Setter TargetName="BackgroundRec"
+                                    Property="Fill"
+                                    Value="{StaticResource RaisedButtonPressedBackground}" />
+                            <Setter TargetName="FocusRecOverlay"
+                                    Property="Visibility"
+                                    Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter TargetName="BackgroundRec"
+                                    Property="Fill"
+                                    Value="{StaticResource RaisedButtonDisabledBackground}" />
+                            <Setter TargetName="contentPresenter"
+                                    Property="TextElement.Foreground"
+                                    Value="{StaticResource RaisedButtonDisabledForeground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Color x:Key="AccentColor">#FF0B95E5</Color>
+    <!--  Action Button Brushes  -->
+    <SolidColorBrush x:Key="FloatingActionButtonIconBrush" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="FloatingActionMouseOverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="FloatingActionButtonPressedBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="FloatingActionButtonDisabledBackground"
+        Opacity="0.30"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="FloatingActionButtonDisabledForeground"
+        Opacity="0.30"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="FloatingActionButtonDisabledIconBrush"
+        Opacity="0.30"
+        Color="#FFFFFFFF" />
+    <!--  Floating Action Raised Button  -->
+    <Style x:Key="AddFloatingActionRasiedButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MinHeight" Value="35" />
+        <Setter Property="MinWidth" Value="35" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="ShadowGrid" Width="{TemplateBinding MinWidth}" Height="{TemplateBinding MinHeight}">
+                            <Ellipse Fill="Black" Opacity="0.26" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform Y="3.67" />
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                                <Ellipse.Effect>
+                                    <BlurEffect Radius="2" />
+                                </Ellipse.Effect>
+                            </Ellipse>
+                            <Ellipse Fill="Black" Opacity="0.08">
+                                <Ellipse.Effect>
+                                    <BlurEffect Radius="2.67" />
+                                </Ellipse.Effect>
+                            </Ellipse>
+                        </Grid>
+                        <Grid Width="{TemplateBinding MinWidth}" Height="{TemplateBinding MinHeight}" SnapsToDevicePixels="true">
+                            <Ellipse
+                                x:Name="BackgroundEllipse"
+                                Fill="{TemplateBinding Background}"
+                                Stroke="#00000000"
+                                StrokeThickness="0.1" />
+                            <Ellipse x:Name="FocusEllipseOverlay" Fill="{StaticResource FloatingActionMouseOverBackground}" Visibility="Collapsed" />
+                            <TextBlock
+                                x:Name="IconTextBlock"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource FloatingActionButtonIconBrush}"
+                                Text="&#xE710;" />
+                        </Grid>
+                        <ContentPresenter
+                            x:Name="contentPresenter"
+                            Grid.Column="1"
+                            Margin="8,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="FocusEllipseOverlay" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="BackgroundEllipse" Property="Fill" Value="{StaticResource FloatingActionButtonPressedBackground}" />
+                            <Setter TargetName="FocusEllipseOverlay" Property="Opacity" Value="0" />
+                            <Setter TargetName="IconTextBlock" Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="BackgroundEllipse" Property="Fill" Value="{StaticResource FloatingActionButtonDisabledBackground}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource FloatingActionButtonDisabledForeground}" />
+                            <Setter TargetName="ShadowGrid" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="IconTextBlock" Property="Foreground" Value="{StaticResource FloatingActionButtonDisabledIconBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SubtractFloatingActionRasiedButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MinHeight" Value="35" />
+        <Setter Property="MinWidth" Value="35" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="ShadowGrid" Width="{TemplateBinding MinWidth}" Height="{TemplateBinding MinHeight}">
+                            <Ellipse Fill="Black" Opacity="0.26" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform Y="3.67" />
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                                <Ellipse.Effect>
+                                    <BlurEffect Radius="2" />
+                                </Ellipse.Effect>
+                            </Ellipse>
+                            <Ellipse Fill="Black" Opacity="0.08">
+                                <Ellipse.Effect>
+                                    <BlurEffect Radius="2.67" />
+                                </Ellipse.Effect>
+                            </Ellipse>
+                        </Grid>
+                        <Grid Width="{TemplateBinding MinWidth}" Height="{TemplateBinding MinHeight}" SnapsToDevicePixels="true">
+                            <Ellipse
+                                x:Name="BackgroundEllipse"
+                                Fill="{TemplateBinding Background}"
+                                Stroke="#00000000"
+                                StrokeThickness="0.1" />
+                            <Ellipse x:Name="FocusEllipseOverlay" Fill="{StaticResource FloatingActionMouseOverBackground}" Visibility="Collapsed" />
+                            <TextBlock
+                                x:Name="IconTextBlock"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource FloatingActionButtonIconBrush}"
+                                Text="&#xE738;" />
+                        </Grid>
+                        <ContentPresenter
+                            x:Name="contentPresenter"
+                            Grid.Column="1"
+                            Margin="8,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="FocusEllipseOverlay" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="BackgroundEllipse" Property="Fill" Value="{StaticResource FloatingActionButtonPressedBackground}" />
+                            <Setter TargetName="FocusEllipseOverlay" Property="Opacity" Value="0" />
+                            <Setter TargetName="IconTextBlock" Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="BackgroundEllipse" Property="Fill" Value="{StaticResource FloatingActionButtonDisabledBackground}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource FloatingActionButtonDisabledForeground}" />
+                            <Setter TargetName="ShadowGrid" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="IconTextBlock" Property="Foreground" Value="{StaticResource FloatingActionButtonDisabledIconBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
+
+<!-- UNUSED -->
+<!--
+        <Style x:Key="ButtonFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Control}">
+                    <Grid Margin="3">
+                        <Rectangle Name="r1" StrokeThickness="1" Stroke="Black" StrokeDashArray="2 2"/>
+                        <Border Name="border" Width="{TemplateBinding ActualWidth}" Height="{TemplateBinding ActualHeight}"  CornerRadius="2" BorderThickness="1" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
+        <Setter Property="Background" >
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                    <GradientStop Color="#FFFFD190" Offset="0.2"/>
+                    <GradientStop Color="Orange" Offset="0.85"/>
+                    <GradientStop Color="#FFFFD190" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+-->
+    
+    

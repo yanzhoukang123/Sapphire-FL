@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.ImagingViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Azure.ScannerEUI.ViewModel"
+             xmlns:wpfFramework="clr-namespace:Azure.WPF.Framework;assembly=Azure.WPF.Framework"
+             mc:Ignorable="d" 
+             d:DesignHeight="300"
+             d:DesignWidth="930"
+             Background="#FF091B24">
+
+    <Grid>
+        <Border
+            Padding="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="251*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="TopGridContainer" Grid.Row="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                    <Label x:Name="TopLabel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Foreground="White"
+                        Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.CapturingTopStatusText}">
+                    </Label>
+                </Grid>
+
+                <Border Name="_ImageBorder" Grid.Row="1">
+                    <ScrollViewer Name="_ScrollViewer"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        VerticalScrollBarVisibility="Disabled"
+                        Margin="0">
+                        <Canvas Name="_DisplayCanvas"
+                                Background="#FF091B24"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                IsManipulationEnabled="False">
+                            <Canvas.RenderTransform>
+                                <MatrixTransform></MatrixTransform>
+                            </Canvas.RenderTransform>
+                            <Image Name="_DisplayImage"
+                                Source="{Binding Path=DisplayImage, NotifyOnTargetUpdated=True}"
+                                Width="{Binding ElementName=_DisplayCanvas, Path=ActualWidth}"
+                                Height="{Binding ElementName=_DisplayCanvas, Path=ActualHeight}"
+                                Canvas.Left="0"
+                                Canvas.Top="0"
+                                OpacityMask="{x:Null}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                IsManipulationEnabled="True"
+                                ManipulationStarting="_DisplayImage_ManipulationStarting"
+                                ManipulationCompleted="_DisplayImage_ManipulationCompleted"
+                                ManipulationDelta="_DisplayImage_ManipulationDelta"
+                                MouseMove="_DisplayImage_MouseMove"
+                                SizeChanged="_DisplayImage_SizeChanged"
+                                Stretch="Uniform"
+                                RenderOptions.BitmapScalingMode="HighQuality">
+                                <Image.RenderTransform>
+                                    <MatrixTransform></MatrixTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                            <Thumb Opacity="0.2" Name="_Thumb"
+                                Background="Black"
+                                Width="{Binding ElementName=_DisplayCanvas, Path=ActualWidth}"
+                                Height="{Binding ElementName=_DisplayCanvas, Path=ActualHeight}"
+                                DragDelta="_Thumb_DragDelta"
+                                OpacityMask="{x:Null}"
+                                Foreground="{x:Null}"
+                                UseLayoutRounding="False"
+                                Canvas.Left="0"
+                                Canvas.Top="0"
+                                Visibility="Hidden">
+                            </Thumb>
+                        </Canvas>
+                    </ScrollViewer>
+                </Border>
+
+                <Border x:Name="_ProgressBarBorder" Grid.Row="2"
+                    BorderThickness="1"
+                    Padding="4">
+                    <Grid  Margin="20,2">
+                        <Grid.Visibility>
+                            <MultiBinding Converter="{StaticResource ResourceKey=logicalOrToVisMultiConverter}">
+                                <Binding Path="IsCapturing" />
+                                <Binding Path="IsScanning" />
+                            </MultiBinding>
+                        </Grid.Visibility>
+                        <ProgressBar x:Name="_ImagingProgressBar"
+                            Minimum="0"
+                            Maximum="100"
+                            IsIndeterminate="True"
+                            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PercentComplete}"
+                            Foreground="#4378bc"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            IsHitTestVisible="False"
+                            IsTabStop="False"
+                            />
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.EstimatedTimeRemaining}"
+                            Foreground="Black"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            FontSize="14"
+                            />
+                    </Grid>
+                </Border>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,136 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.GalleryROIControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Azure.LaserScanner.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BitmapImage x:Key="imgGallerySelect" UriSource="/Resources/Images/Gallery/btn_gallery-select-default.png" />
+            <BitmapImage x:Key="imgGalleryClearClipboard" UriSource="/Resources/Images/Gallery/btn_gallery-clear-clipboard-default.png" />
+            <BitmapImage x:Key="imgGalleryCrop" UriSource="/Resources/Images/Gallery/btn_gallery-crop-2-default.png" />
+            <BitmapImage x:Key="imgGalleryCopy" UriSource="/Resources/Images/Gallery/btn_gallery-copy-default.png" />
+            <BitmapImage x:Key="imgGalleryPaste" UriSource="/Resources/Images/Gallery/btn_gallery-paste-default.png" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel>
+        <TextBlock 
+            Style="{StaticResource TextBlockBodyTextStyle}"
+            Margin="0,0,0,12"
+            FontWeight="SemiBold"
+            Foreground="#FFFFFFFF"
+            FontFamily="./Resources/Fonts/#Mulish"
+            Text="ROI" />
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock 
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Margin="0,0,0,10"
+                Foreground="#FFFFFFFF"
+                FontFamily="./Resources/Fonts/#Mulish"
+                Text="Selection" />
+            <StackPanel>
+                <ToggleButton
+                    x:Name="_SelectBtn"
+                    IsChecked="{Binding Path=ActiveDocument.IsSelectionToolChecked}"
+                    IsEnabled="{Binding Path=IsActiveDocument}"
+                    Style="{StaticResource FlatIconToggleButtonStyle}"
+                    Height="56"
+                    Content="{StaticResource imgGallerySelect}"
+                    Tag="Select"
+                    Checked="_SelectBtn_Checked"
+                    Unchecked="_SelectBtn_Checked">
+                </ToggleButton>
+                <TextBlock
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Foreground="#FFFFFFFF"
+                    FontSize="12px"
+                    Text="Select" />
+            </StackPanel>
+        </StackPanel>
+        <Separator HorizontalAlignment="Stretch" Margin="0,15"></Separator>
+            <TextBlock 
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Margin="0,0,0,10"
+                Foreground="#FFFFFFFF"
+                FontFamily="./Resources/Fonts/#Mulish"
+                Text="Edit" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <StackPanel>
+                    <Button
+                        Style="{StaticResource GalleryFlatIconButtonStyle}"
+                        Height="56"
+                        Content="{StaticResource imgGalleryClearClipboard}"
+                        IsEnabled="True"
+                        Command="{Binding ImageCopyPasteVm.ClearClipboardCommand}"/>
+                    <TextBlock
+                        Style="{StaticResource TextBlockBodyTextStyle}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Foreground="#FFFFFFFF"
+                        FontSize="12px"
+                        Text="Clear&#x0d;&#x0a;Clipboard" />
+                </StackPanel>
+                <StackPanel Margin="10,0">
+                    <Button
+                        Style="{StaticResource GalleryFlatIconButtonStyle}"
+                        Height="56"
+                        Content="{StaticResource imgGalleryCopy}"
+                        IsEnabled="True"
+                        Command="{Binding ImageCopyPasteVm.CopyCommand}"/>
+                    <TextBlock
+                        Style="{StaticResource TextBlockBodyTextStyle}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Foreground="#FFFFFFFF"
+                        FontSize="12px"
+                        Text="Copy" />
+                </StackPanel>
+                <StackPanel>
+                    <Button
+                        Style="{StaticResource GalleryFlatIconButtonStyle}"
+                        Height="56"
+                        Content="{StaticResource imgGalleryPaste}"
+                        IsEnabled="True"
+                        Command="{Binding ImageCopyPasteVm.PasteCommand}"/>
+                    <TextBlock
+                        Style="{StaticResource TextBlockBodyTextStyle}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Foreground="#FFFFFFFF"
+                        FontSize="12px"
+                        Text="Paste" />
+                </StackPanel>
+            </StackPanel>
+        <Separator HorizontalAlignment="Stretch" Margin="0,15"></Separator>
+        <TextBlock 
+            Style="{StaticResource TextBlockBodyTextStyle}"
+            Margin="0,0,0,10"
+            Foreground="#FFFFFFFF"
+            FontFamily="./Resources/Fonts/#Mulish"
+            Text="Crop" />
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Button
+                Style="{StaticResource GalleryFlatIconButtonStyle}"
+                Height="56"
+                Content="{StaticResource imgGalleryCrop}"
+                IsEnabled="True"
+                Command="{Binding ImageCopyPasteVm.CropCommand}"/>
+            <TextBlock
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Foreground="#FFFFFFFF"
+                FontSize="12px"
+                Text="Crop" 
+                Margin="0,0,0,10"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

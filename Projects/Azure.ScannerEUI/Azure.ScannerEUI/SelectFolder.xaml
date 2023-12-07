@@ -1,0 +1,171 @@
+﻿<Window x:Class="Azure.ScannerEUI.SelectFolder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        mc:Ignorable="d" 
+        Height="310"
+        Width="500"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
+        MouseDown="Window_MouseDown">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border Margin="15">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="textblock1" TextWrapping="WrapWithOverflow"
+                       FontSize="14"
+                       VerticalAlignment="Center"
+                       Width="Auto">
+                <Bold>Select Destination Folder</Bold>
+            </TextBlock>
+
+            <Grid Grid.Row="1">
+                <Separator Height="4" Margin="1,4"/>
+            </Grid>
+
+            <TextBlock x:Name="textblock2" Grid.Row="2"
+                       TextWrapping="WrapWithOverflow"
+                       FontSize="14"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Margin="0">
+                All new and unsaved image will be save to the following folder. Press <Bold>Save All</Bold> to proceed. If you would like to select a different folder, press <Bold>Browse</Bold>.
+            </TextBlock>
+
+            <Grid Grid.Row="3">
+                <Separator Height="4" Margin="1,4"/>
+            </Grid>
+
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="310*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBox x:Name="_DestFolderTextBox" Grid.Column="0"
+                    Height="30"
+                    FontSize="14"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    HorizontalAlignment="Stretch"/>
+                <Button x:Name="_Browse"
+                    Content="Browse..."
+                    Grid.Column="1"
+                    Height="40"
+                    Width="120"
+                    Style="{StaticResource InformButton}"
+                    FontSize="16"
+                    FontFamily="Trebuchet MS"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="2"
+                    Click="_Browse_Click"
+                    />
+            </Grid>
+            
+            <Grid Grid.Row="5">
+                <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right" Margin="1">
+                    <TextBlock Text="Save as type: "
+                       TextWrapping="WrapWithOverflow"
+                       FontSize="14"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       />
+                    <ComboBox Name="SaveAsFileTypeCb"
+                        FontSize="14"
+                        Style="{StaticResource CaptureControlComboBoxStyle}"
+                        Foreground="{DynamicResource ContentAreaForegroundBrush}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Width="120"
+                        Height="32"
+                        VerticalContentAlignment="Center"
+                        SelectedIndex="0"
+                        SelectionChanged="SaveAsFileTypeCb_SelectionChanged"
+                        Margin="2,6"
+                        >
+                        <ComboBoxItem Content="TIFF" />
+                        <ComboBoxItem Content="TIFF (Compressed)" />
+                        <ComboBoxItem Content="JPG" />
+                        <ComboBoxItem Content="BMP" />
+                    </ComboBox>
+
+                </StackPanel>
+            </Grid>
+            
+            <Grid Grid.Row="6">
+                <Separator Height="4" Margin="1,4"/>
+            </Grid>
+            
+            <Grid Grid.Row="7">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="310*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="_KeyboardBtn" Grid.Column="0"
+                    Width="51"
+                    Height="39"
+                    Margin="2"
+                    Focusable="False"
+                    HorizontalAlignment="Left"
+                    Click="_KeyboardBtn_Click">
+                    <Button.Content>
+                        <Image Source="/Azure.ScannerEUI;component/Resources/Images/Keyboard.png" />
+                    </Button.Content>
+                </Button>
+                <StackPanel Grid.Column="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                    <Button x:Name="_SaveAll"
+                        Content="Save All"
+                        Height="40"
+                        Width="120"
+                        Style="{StaticResource InformButton}"
+                        FontSize="16"
+                        FontFamily="Trebuchet MS"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="_SaveAll_Click"
+                        Margin="2"
+                        />
+                    <Button x:Name="_Cancel"
+                        Content="Cancel"
+                        Height="40"
+                        Width="120"
+                        Style="{StaticResource InformButton}"
+                        FontSize="16"
+                        FontFamily="Trebuchet MS"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Click="_Cancel_Click"
+                        Margin="2"
+                        />
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

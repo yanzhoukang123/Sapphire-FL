@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.scaleProcess"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="80" 
+             d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border CornerRadius="4"
+        Background="{DynamicResource ComboBoxBackground_Selected}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="69"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="Auto" MinWidth="69"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="Auto" MinWidth="74"/>
+                <ColumnDefinition Width="3"/>
+                <ColumnDefinition Width="Auto" MinWidth="75"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.Column="1"
+                           Fill="DarkGray"
+                           Width="1"
+                           Margin="1"/>
+            <Rectangle Grid.Column="3"
+                           Fill="DarkGray"
+                           Width="1"
+                           Margin="1"/>
+            <Rectangle Grid.Column="5"
+                           Fill="DarkGray"
+                           Width="1"
+                           Margin="1"/>
+            <ToggleButton x:Name="_ScalaClearButton" Grid.Column="0"
+                    Style="{StaticResource ToggleInformButton}"
+                    Foreground="White"
+                    FontSize="11"
+                    Background="Transparent"
+                    Height="56"
+                    VerticalAlignment="Top"
+                    IsEnabled="{Binding Path=IsActiveDocument}"
+                    IsChecked="{Binding Path=IsArrowClear}" Margin="1,2,0,0">
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="gridBorder" BorderBrush="Transparent">
+                            <DockPanel LastChildFill="True">
+                                <TextBlock Text="ClearScale"
+                                        TextWrapping="Wrap" 
+                                        TextAlignment="Center"
+                                        DockPanel.Dock="Bottom"
+                                        />
+                                <Image x:Name="ImageMergeImage" Source="/Azure.ScannerEUI;component/Resources/Images/CropNormal.png"/>
+                            </DockPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderThickness" Value="5"/>
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ImageMergeImage"
+                                        Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/cropSelected.png"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+            <ToggleButton x:Name="_ScaleBackButton" Grid.Column="2"
+                    Style="{StaticResource ToggleInformButton}"
+                    Foreground="White"
+                    FontSize="11"
+                    Background="Transparent"
+                    Height="56"
+                    VerticalAlignment="Top"
+                    IsEnabled="{Binding Path=IsActiveDocument}"
+                    IsChecked="{Binding Path=IsBackWard}" Margin="2,2,2,0">
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="gridBorder" BorderBrush="Transparent">
+                            <DockPanel LastChildFill="True">
+                                <TextBlock Text="Backward"
+                                        TextWrapping="Wrap" 
+                                        TextAlignment="Center"
+                                        DockPanel.Dock="Bottom"
+                                        />
+                                <Image x:Name="ImageMergeImage" Source="/Azure.ScannerEUI;component/Resources/Images/CropNormal.png"/>
+                            </DockPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderThickness" Value="5"/>
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ImageMergeImage"
+                                        Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/cropSelected.png"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+            <ToggleButton x:Name="_ScaleFrontButton" Grid.Column="4"
+                    Style="{StaticResource ToggleInformButton}"
+                    Foreground="White"
+                    FontSize="11"
+                    Background="Transparent"
+                    Height="56"
+                    VerticalAlignment="Top"
+                    IsEnabled="{Binding Path=IsActiveDocument}"
+                    IsChecked="{Binding Path=IsForWard}" Margin="2,2,11,0">
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="gridBorder" BorderBrush="Transparent">
+                            <DockPanel LastChildFill="True">
+                                <TextBlock Text="Forward"
+                                        TextWrapping="Wrap" 
+                                        TextAlignment="Center"
+                                        DockPanel.Dock="Bottom"
+                                        />
+                                <Image x:Name="ImageMergeImage" Source="/Azure.ScannerEUI;component/Resources/Images/CropNormal.png"/>
+                            </DockPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderThickness" Value="5"/>
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ImageMergeImage"
+                                        Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/cropSelected.png"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+        </Grid>
+    </Border>
+</UserControl>

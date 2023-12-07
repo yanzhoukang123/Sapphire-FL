@@ -1,0 +1,64 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.SettingsPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Azure.LaserScanner"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type local:GeneralSettingsViewModel}">
+                <local:GeneralSettingsPanel />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:AdvancedSettingsViewModel}">
+                <local:AdvancedSettingsPanel />
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="0,10,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ItemsControl ItemsSource="{Binding PageViewModels}" Margin="32,0,0,0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton
+                        Style="{DynamicResource SubNavRadioButtonStyle}"
+                        Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                        CommandParameter="{Binding}"
+                        Content="{Binding Name}" 
+                        Margin="0,0,20,0"
+                        Foreground="White"
+                        GroupName="SubNavGroup"
+                        IsChecked="{Binding Path=IsSelected}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <Rectangle Style="{StaticResource SeperatorLineRec}" VerticalAlignment="Bottom" />
+        <ContentControl
+            Grid.Row="1"
+            Margin="10,0,0,0"
+            HorizontalAlignment="Stretch"
+            Content="{Binding CurrentPageViewModel}" />
+        <!--<DockPanel>
+            <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0,0,1,0">
+
+            </Border>
+
+        </DockPanel>-->
+    </Grid>
+</UserControl>

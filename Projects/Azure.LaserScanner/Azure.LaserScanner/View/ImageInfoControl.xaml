@@ -1,0 +1,332 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.ImageInfoControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    d:DesignHeight="670"
+    d:DesignWidth="300"
+    mc:Ignorable="d"
+    MaxWidth="350">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeaderLabel" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="TextLabel1" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0,2,4,2" />
+            </Style>
+            <Style x:Key="TextLabel2Val" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="4,0,8,0" />
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock Style="{StaticResource HeaderLabel}"
+               Margin="0,0,0,12"
+               FontWeight="SemiBold"
+               Foreground="#FFFFFFFF"
+               FontFamily="./Resources/Fonts/#Mulish"
+               Text="INFO" />
+        <Grid Visibility="{Binding Path=IsActiveDocument, Converter={StaticResource boolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Created :" />
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.DateTime}" />
+            </Border>
+            <Border Grid.Row="1" Grid.Column="0">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Modified :" />
+            </Border>
+            <Border Grid.Row="1" Grid.Column="1">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ModifiedDate}" />
+            </Border>
+            <Border Grid.Row="2" Grid.Column="0">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Capture Type :" />
+            </Border>
+            <Border Grid.Row="2" Grid.Column="1">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.CaptureType}" />
+            </Border>
+            <Border Grid.Row="3" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Scan Type :" />
+            </Border>
+            <Border Grid.Row="3" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.ScanType}" />
+            </Border>
+
+            <Border Grid.Row="4" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Exposure Time :" />
+            </Border>
+            <Border Grid.Row="4" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.FormattedExposureTime}" />
+            </Border>
+
+            <Border Grid.Row="5" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Autoexposure Type :" />
+            </Border>
+            <Border Grid.Row="5" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.AutoExposureType}" />
+            </Border>
+
+            <Border Grid.Row="6" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Readout Speed :" />
+            </Border>
+            <Border Grid.Row="6" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.ReadoutSpeed}" />
+            </Border>
+            <Border Grid.Row="7" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Bin Level :" />
+            </Border>
+            <Border Grid.Row="7" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.BinFactor, Converter={StaticResource binLevelConverter}}" />
+            </Border>
+            <Border Grid.Row="8" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Gain :" />
+            </Border>
+            <!-- Display empty string if value is -1 -->
+            <Border Grid.Row="8" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextLabel2Val}">
+                            <Setter Property="Text" Value="{Binding Path=ActiveDocument.ImageInfo.GainValue}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ActiveDocument.ImageInfo.GainValue}" Value="-1" >
+                                    <Setter Property="Text" Value="{x:Static sys:String.Empty}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Border>
+            <Border Grid.Row="9" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Calibration :" />
+            </Border>
+            <Border Grid.Row="9" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityNegateConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.Calibration}" />
+            </Border>
+
+            <!--  Scanned image info  -->
+
+            <Border Grid.Row="10" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Scan Region :" />
+            </Border>
+            <Border Grid.Row="10" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ScanRegion}" />
+            </Border>
+            <Border Grid.Row="11" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Focus Type :" />
+            </Border>
+            <Border Grid.Row="11" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.SampleType}" />
+            </Border>
+            <Border Grid.Row="12" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Focus Position :" />
+            </Border>
+            <Border Grid.Row="12" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ScanFocusPosition}" />
+            </Border>
+            <Border Grid.Row="13" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Pixel Size :" />
+            </Border>
+            <Border Grid.Row="13" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.ScanResolution}" />
+            </Border>
+            <Border Grid.Row="14" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Scan Speed :" />
+            </Border>
+            <Border Grid.Row="14" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ScanSpeed}" />
+            </Border>
+            <Border Grid.Row="15" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Intensity :" />
+            </Border>
+            <Border Grid.Row="15" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.IntensityLevel}" />
+            </Border>
+            <Border Grid.Row="16" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Laser :" />
+            </Border>
+            <Border Grid.Row="16" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.LaserWavelength}" />
+            </Border>
+            <Border Grid.Row="17" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Filter :" />
+            </Border>
+            <Border Grid.Row="17" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.FilterWavelength}" TextWrapping="WrapWithOverflow" />
+            </Border>
+            <Border Grid.Row="18" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Quality :" />
+            </Border>
+            <Border Grid.Row="18" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.ScanQuality}" />
+            </Border>
+            <Border Grid.Row="19" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Parameter 1 :" />
+            </Border>
+            <Border Grid.Row="19" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ApdGain}" />
+            </Border>
+            <Border Grid.Row="20" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Parameter 2 :" />
+            </Border>
+            <Border Grid.Row="20" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ApdPga}" />
+            </Border>
+            <Border Grid.Row="21" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Parameter 3 :" />
+            </Border>
+            <Border Grid.Row="21" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.LasersIntensity}" />
+            </Border>
+            <Border Grid.Row="22" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Laser Module :" />
+            </Border>
+            <Border Grid.Row="22" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsScannedImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.LaserChannel}" />
+            </Border>
+            <Border Grid.Row="23" Grid.Column="0">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Firmware :" />
+            </Border>
+            <Border Grid.Row="23" Grid.Column="1">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.FirmwareVersion}" />
+            </Border>
+            <Border Grid.Row="24" Grid.Column="0">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Software Version :" />
+            </Border>
+            <Border Grid.Row="24" Grid.Column="1">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.SoftwareVersion}" />
+            </Border>
+            <Border Grid.Row="25" Grid.Column="0">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Serial Number :" />
+            </Border>
+            <Border Grid.Row="25" Grid.Column="1">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.ImageInfo.SystemSN}" />
+            </Border>
+            <Border Grid.Row="26" Grid.Column="0">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="EDR :" />
+            </Border>
+            <Border Grid.Row="26" Grid.Column="1">
+                <TextBlock Style="{StaticResource TextLabel2Val}" Text="{Binding Path=ActiveDocument.EdrDynamicBit}" />
+            </Border>
+            <Border Grid.Row="27" Grid.Column="0" Visibility="{Binding Path=ActiveDocument.IsSmartScan, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource TextLabel1}" Text="Ignore Speckles :" />
+            </Border>
+            <Border Grid.Row="27" Grid.Column="1" Visibility="{Binding Path=ActiveDocument.IsSmartScan, Converter={StaticResource boolToVisibilityConverter}}">
+                <TextBlock>
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextLabel2Val}">
+                            <Setter Property="Text" Value="Off"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ActiveDocument.ImageInfo.IsSmartscanDespeckled}" Value="True" >
+                                    <Setter Property="Text" Value="On"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Border>
+            <Border Grid.Row="28" Grid.Column="0">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource TextLabel1}" VerticalAlignment="Top" Text="Comment :" />
+                    <Button
+                        x:Name="addEditBtn"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Command="{Binding Path=ActiveDocument.EditCommentCommand}"
+                        Width="125"
+                        Style="{StaticResource RaisedImageButtonStyle}"
+                        ToolTip="Add/edit comment"
+                        Margin="10,0,0,0"
+                        MouseRightButtonDown="addEditBtn_MouseRightButtonDown">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Margin="0,0,10,0"
+                                Kind="Edit" />
+                            <TextBlock Text="ADD/EDIT" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="28" Grid.Column="1">
+                <TextBlock 
+                    Style="{StaticResource TextLabel2Val}"
+                    Text="{Binding Path=ActiveDocument.ImageInfoComment, Mode=TwoWay, NotifyOnTargetUpdated=True}"
+                    TextWrapping="WrapWithOverflow" />
+            </Border>
+
+            <TextBox Grid.Row="29"
+                Style="{StaticResource DarkBorderTextBoxStyle}"
+                Text="{Binding DynamicBit, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                Visibility="{Binding Path=IsEditDynamicBitAllowed, Converter={StaticResource boolToVisibilityConverter}}"
+                Margin="5">
+                <TextBox.InputBindings>
+                    <KeyBinding Gesture="Enter" 
+                    Command="{Binding UpdateTextBoxBindingOnEnterCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}" />
+                </TextBox.InputBindings>
+            </TextBox>
+        </Grid>
+    </StackPanel>
+
+</UserControl>

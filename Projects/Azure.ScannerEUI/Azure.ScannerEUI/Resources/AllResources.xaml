@@ -1,0 +1,17 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Resource dictionary entries should be defined here. -->
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/ButtonStyles.xaml"/>
+        <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/ControlStyle.xaml"/>
+        <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/TabControlStyle.xaml"/>
+        <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/ComboBoxStyles.xaml"/>
+        <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/GroupBoxStyle.xaml"/>
+        <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/CircleToggleButtonStyle.xaml"/>
+        <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/SliderStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- If implicit styles are used,  add a generic style here to ensure implicit styles are applied properly. -->
+</ResourceDictionary>

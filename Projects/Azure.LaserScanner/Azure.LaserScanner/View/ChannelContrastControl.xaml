@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Azure.LaserScanner.View.ChannelContrastControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:views="clr-namespace:Azure.LaserScanner.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="400">
+    <Grid>
+        <StackPanel>
+            <!--<views:ChannelSelectControl
+                ChannelHeader="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=ChannelSelectHeader}">
+            </views:ChannelSelectControl>-->
+            <views:ManualContrastControl />
+        </StackPanel>
+    </Grid>
+</UserControl>

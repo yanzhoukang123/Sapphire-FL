@@ -1,0 +1,183 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.ContrastControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extToolkit="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    d:DesignHeight="210"
+    d:DesignWidth="450"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border>
+        <Grid Width="600">
+            <StackPanel Orientation="Vertical">
+                <!-- Black -->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextBlockBodyTextStyle}"
+                               Foreground="#0097FC"
+                               VerticalAlignment="Center"
+                               Text="Black" />
+                    <StackPanel Orientation="Horizontal">
+                        <Slider x:Name="sliderBlack"
+                                Width="325"
+                                VerticalAlignment="Center"
+                                LargeChange="300"
+                                Maximum="65534"
+                                Minimum="0"
+                                Orientation="Horizontal"
+                                SmallChange="10"
+                                Value="{Binding Path=ContrastVm.BlackValue, UpdateSourceTrigger=PropertyChanged}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding BlackValueChangedCommand}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="PreviewKeyUp">
+                                    <i:InvokeCommandAction Command="{Binding BlackValueChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+                    
+                        <TextBox x:Name="blackValueTextBox"
+                                 Style="{StaticResource DarkBorderTextBoxStyle}"
+                                 Height="20"
+                                 MinWidth="60"
+                                 Margin="10,0,0,0"
+                                 HorizontalContentAlignment="Right"
+                                 VerticalContentAlignment="Center"
+                                 FontWeight="Normal"
+                                 PreviewTextInput="TextBox_PreviewTextInput"
+                                 KeyUp="TextBox_KeyEnterUpdate"
+                                 Text="{Binding Path=ContrastVm.BlackValue, TargetNullValue={x:Static sys:String.Empty}}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding UpdateBlackContrastOnEnterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}" Gesture="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                    </StackPanel>
+                </StackPanel>
+                <!-- White -->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextBlockBodyTextStyle}"
+                               Foreground="#0097FC"
+                               VerticalAlignment="Center"
+                               Text="White" />
+                    <StackPanel Orientation="Horizontal">
+                        <Slider x:Name="sliderWhite"
+                                Width="325"
+                                VerticalAlignment="Center"
+                                LargeChange="300"
+                                Maximum="65535"
+                                Minimum="1"
+                                Orientation="Horizontal"
+                                SmallChange="10"
+                                Value="{Binding Path=ContrastVm.WhiteValue, UpdateSourceTrigger=PropertyChanged}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding WhiteValueChangedCommand}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="PreviewKeyUp">
+                                    <i:InvokeCommandAction Command="{Binding WhiteValueChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+
+                        <TextBox x:Name="whiteValueTextBox"
+                                 Style="{StaticResource DarkBorderTextBoxStyle}"
+                                 MinWidth="60"
+                                 Margin="10,0,0,0"
+                                 HorizontalContentAlignment="Right"
+                                 VerticalContentAlignment="Center"
+                                 FontWeight="Normal"
+                                 PreviewTextInput="TextBox_PreviewTextInput"
+                                 KeyUp="TextBox_KeyEnterUpdate"
+                                 Text="{Binding Path=ContrastVm.WhiteValue, TargetNullValue={x:Static sys:String.Empty}}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding UpdateWhiteContrastOnEnterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}" Gesture="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                    </StackPanel>
+                </StackPanel>
+                <!-- Gamma -->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextBlockBodyTextStyle}"
+                               Foreground="#0097FC"
+                               VerticalAlignment="Center"
+                               Text="Gamma" />
+                    <StackPanel Orientation="Horizontal">
+                        <Slider x:Name="sliderGamma"
+                                Width="325"
+                                VerticalAlignment="Center"
+                                LargeChange="0.1"
+                                Maximum="1"
+                                Minimum="-1"
+                                Orientation="Horizontal"
+                                SmallChange="0.01"
+                                Value="{Binding Path=ContrastVm.GammaValue, UpdateSourceTrigger=PropertyChanged}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding GammaValueChangedCommand}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="PreviewKeyUp">
+                                    <i:InvokeCommandAction Command="{Binding GammaValueChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Slider>
+
+                        <TextBox x:Name="gammaValueTextBox"
+                                 Style="{StaticResource DarkBorderTextBoxStyle}"
+                                 MinWidth="60"
+                                 Margin="10,0,0,0"
+                                 HorizontalContentAlignment="Right"
+                                 VerticalContentAlignment="Center"
+                                 FontWeight="Normal"
+                                 PreviewTextInput="TextBox_PreviewTextInput"
+                                 KeyUp="TextBox_KeyEnterUpdate"
+                                 Text="{Binding Path=ContrastVm.GammaValue, Converter={StaticResource ResourceKey=realGammaConverter}, StringFormat=0.00}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding UpdateGammaOnEnterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}" Gesture="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+            
+            
+
+            
+
+
+            <!--  Numeric textbox  -->
+            <!--<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="4"
+                                      Minimum="0" Maximum="65535"
+                                      Increment="1"
+                                      MinWidth="60"
+                                      Value="{Binding Path=BlackValue}"/>-->
+            <!--<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="4"
+                                      Increment="1"
+                                      Minimum="1" Maximum="65535"
+                                      MinWidth="60"
+                                      Value="{Binding Path=WhiteValue}"/>-->
+            <!--<extToolkit:DecimalUpDown Grid.Row="2" Grid.Column="4"
+                                      Increment="0.1"
+                                      MinWidth="60"
+                                      Text="{Binding Value, ElementName=sliderGamma, Converter={StaticResource ResourceKey=realGammaConverter}, StringFormat=0.00}"/>-->
+
+            <!--  Contrast textbox  -->
+
+
+            
+        </Grid>
+    </Border>
+
+</UserControl>

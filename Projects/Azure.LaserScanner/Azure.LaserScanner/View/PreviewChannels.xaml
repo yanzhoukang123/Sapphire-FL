@@ -1,0 +1,109 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.PreviewChannels"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:aip="clr-namespace:Azure.Image.Processing;assembly=Azure.Image.Processing"
+    d:DesignHeight="240"
+    d:DesignWidth="100"
+    mc:Ignorable="d"
+    x:Name="_PreviewChannels">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock
+                Text="Channels"
+                FontSize="14"
+                VerticalAlignment="Center"
+                />
+        </Grid>-->
+        <Grid Margin="1">
+            <StackPanel Orientation="{Binding ElementName=_PreviewChannels, Path=ButtonsOrientation}">
+                <StackPanel Visibility="{Binding Path=IsLaserL1PrvVisible, Converter={StaticResource boolToVisibilityConverter}}"
+                            Margin="{Binding ElementName=_PreviewChannels, Path=ButtonsMargin}" >
+                    
+                    <ToggleButton
+                        Width="40"
+                        Height="40"
+                        Content="{Binding LaserL1Wavelength, FallbackValue=685}"
+                        IsChecked="{Binding Path=IsLaserL1PrvSelected}"
+                        Style="{StaticResource CircleToggleButton}"
+                        BorderBrush="{Binding Path=LaserL1ColorChannel, Converter={StaticResource enumToColorConverter}, FallbackValue={StaticResource AccentColorBrush}, UpdateSourceTrigger=PropertyChanged}"
+                        />
+
+                    <CheckBox
+                        HorizontalAlignment="Center"
+                        IsChecked="{Binding Path=IsContrastLaserL1Channel}"
+                        Style="{StaticResource MainCheckBoxStyle}"
+                        Visibility="{Binding ElementName=_PreviewChannels, Path=IsContrastChannelAllowed, Converter={StaticResource boolToVisibilityConverter}}" 
+                        Margin="0,2,0,0"/>
+                </StackPanel>
+                <StackPanel Visibility="{Binding Path=IsLaserR1PrvVisible, Converter={StaticResource boolToVisibilityConverter}}"
+                            Margin="{Binding ElementName=_PreviewChannels, Path=ButtonsMargin}">
+                    
+                    <ToggleButton
+                        Width="40"
+                        Height="40"
+                        Content="{Binding LaserR1Wavelength, FallbackValue=532}"
+                        IsChecked="{Binding Path=IsLaserR1PrvSelected}"
+                        Style="{StaticResource CircleToggleButton}"
+                        BorderBrush="{Binding Path=LaserR1ColorChannel, Converter={StaticResource enumToColorConverter}, FallbackValue={StaticResource AccentColorBrush}, UpdateSourceTrigger=PropertyChanged}"
+                        />
+
+                    <CheckBox
+                        HorizontalAlignment="Center"
+                        IsChecked="{Binding Path=IsContrastLaserR1Channel}"
+                        Style="{StaticResource MainCheckBoxStyle}"
+                        Visibility="{Binding ElementName=_PreviewChannels, Path=IsContrastChannelAllowed, Converter={StaticResource boolToVisibilityConverter}}"
+                        Margin="0,2,0,0"/>
+                </StackPanel>
+                <StackPanel Visibility="{Binding Path=IsLaserR2PrvVisible, Converter={StaticResource boolToVisibilityConverter}}">
+                    
+                    <ToggleButton
+                        Width="40"
+                        Height="40"
+                        Content="{Binding LaserR2Wavelength, FallbackValue=488}"
+                        IsChecked="{Binding Path=IsLaserR2PrvSelected}"
+                        Style="{StaticResource CircleToggleButton}"
+                        BorderBrush="{Binding Path=LaserR2ColorChannel, Converter={StaticResource enumToColorConverter}, FallbackValue={StaticResource AccentColorBrush}, UpdateSourceTrigger=PropertyChanged}"
+                        />
+
+                    <CheckBox
+                        HorizontalAlignment="Center"
+                        IsChecked="{Binding Path=IsContrastLaserR2Channel}"
+                        Style="{StaticResource MainCheckBoxStyle}"
+                        Visibility="{Binding ElementName=_PreviewChannels, Path=IsContrastChannelAllowed, Converter={StaticResource boolToVisibilityConverter}}"
+                        Margin="0,2,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!--<Grid Grid.Column="2">
+            <Button Content="Preview"
+                Style="{DynamicResource BlueButton}"
+                Width="90"
+                Height="50"
+                FontSize="14"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Margin="1"
+                Command="{Binding Path=ScanPreviewCommand}"
+                />
+        </Grid>-->
+    </Grid>
+</UserControl>

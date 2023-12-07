@@ -1,0 +1,199 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.ManualContrastControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:Azure.ScannerEUI.View"
+        mc:Ignorable="d" 
+        d:DesignHeight="300"
+        d:DesignWidth="346">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <!--<Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black" Offset="0" />
+            <GradientStop Color="#093a72" Offset="1" />
+        </LinearGradientBrush>
+    </Window.Background>-->
+
+    <Border CornerRadius="4"
+        Background="{DynamicResource ComboBoxBackground_Selected}">
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="81*" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="260*" />
+                </Grid.ColumnDefinitions>
+                <Label Name="labelBlack" Content="B" Grid.Row="0" Grid.Column="0"
+                       Height="28"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       FontFamily="Trebuchet MS"
+                       Foreground="White"
+                       Margin="5,0"
+                       />
+                <TextBox Name="_ContrastBlackTextBox" Grid.Column="2"
+                         Width="80"
+                         VerticalAlignment="Center"
+                         TextAlignment="Center"
+                         FontSize="18" FontFamily="Trebuchet MS"
+                         IsReadOnly="True"
+                         IsEnabled="True"
+                         Text="{Binding Value, ElementName=_BlackValueSlider}"
+                         Margin="5,0,0,0"
+                         />
+
+            </Grid>
+            
+            <Grid Grid.Row="2">
+                <Slider Name="_BlackValueSlider"
+                    Width="324"
+                    Height="45"
+                    Margin="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource HorizontalImageSlider}"
+                    SmallChange="{Binding Path=ActiveDocument.SmallChange}"
+                    LargeChange="{Binding Path=ActiveDocument.LargeChange}"
+                    Maximum="{Binding Path=ActiveDocument.MaxWhiteValue, UpdateSourceTrigger=PropertyChanged}"
+                    Value="{Binding Path=ActiveDocument.BlackValue, UpdateSourceTrigger=PropertyChanged}"
+                    IsSnapToTickEnabled="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding BlackSliderContrastCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Slider>
+            </Grid>
+            
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="81*" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="260*" />
+                </Grid.ColumnDefinitions>
+                <Label Name="labelWhite" Content="W" Grid.Column="0"
+                       Height="28"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       FontFamily="Trebuchet MS"
+                       Foreground="White"
+                       Margin="5,0"
+                       />
+                <TextBox Name="_ContrastWhiteTextBox" Grid.Column="2"
+                         Width="80"
+                         VerticalAlignment="Center"
+                         TextAlignment="Center"
+                         FontSize="18" FontFamily="Trebuchet MS"
+                         IsReadOnly="True"
+                         Text="{Binding Value, ElementName=_WhiteValueSlider}"
+                         Margin="5,0"
+                         />
+            </Grid>
+            
+            <Grid Grid.Row="6">
+                <Slider Name="_WhiteValueSlider"
+                    Width="324"
+                    Height="45"
+                    Margin="1"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Style="{StaticResource HorizontalImageSlider}"
+                    SmallChange="{Binding Path=ActiveDocument.SmallChange}"
+                    LargeChange="{Binding Path=ActiveDocument.LargeChange}"
+                    Maximum="{Binding Path=ActiveDocument.MaxWhiteValue, UpdateSourceTrigger=PropertyChanged}"
+                    Value="{Binding Path=ActiveDocument.WhiteValue, UpdateSourceTrigger=PropertyChanged}"
+                    IsSnapToTickEnabled="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding WhiteSliderContrastCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Slider>
+            </Grid>
+            
+            <Grid Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="81*" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="260*" />
+                </Grid.ColumnDefinitions>
+                <Label Name="labelGamma" Content="γ" Grid.Column="0"
+                       Height="28"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       FontSize="18" FontFamily="EucrosiaUPC"
+                       Foreground="White"
+                       Margin="5,0"
+                       />
+                <TextBox Name="_ContrastGammaTextBox" Grid.Column="2"
+                         Width="80"
+                         VerticalAlignment="Center"
+                         TextAlignment="Center"
+                         FontSize="18" FontFamily="Trebuchet MS"
+                         IsReadOnly="True"
+                         Text="{Binding Value, ElementName=_GammaValueSlider, Converter={StaticResource ResourceKey=gammaValueConverter}, StringFormat=0.00}"
+                         Margin="5,0"
+                         />
+            </Grid>
+            
+            <Grid Grid.Row="10">
+                <Slider Name="_GammaValueSlider"
+                        Width="324"
+                        Height="45"
+                        Margin="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource HorizontalImageSlider}"
+                        Minimum="-1" Maximum="1"
+                        SmallChange="0.1"
+                        LargeChange="0.1"
+                        Value="{Binding Path=ActiveDocument.GammaValue}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                <i:InvokeCommandAction Command="{Binding GammaSliderContrastCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                </Slider>
+            </Grid>
+            
+            <!--<Grid Grid.Row="11" x:Name="_RgbChanContainer">
+                <local:RGBChannelControl
+                    x:Name="_RGBChanControl"
+                    Margin="1,4,1,1"
+                    Visibility="{Binding Path=IsRGBImage, Converter={StaticResource boolToVisibilityConverter}}"/>
+            </Grid>-->
+
+        </Grid>
+        
+    </Border>
+</UserControl>

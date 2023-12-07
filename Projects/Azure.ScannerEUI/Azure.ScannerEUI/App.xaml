@@ -1,0 +1,38 @@
+﻿<Application x:Class="Azure.ScannerEUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:wpfFramework="clr-namespace:Azure.WPF.Framework;assembly=Azure.WPF.Framework"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <wpfFramework:BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"></wpfFramework:BooleanToVisibilityConverter>
+            <wpfFramework:BooleanToVisibileHiddenConverter x:Key="boolToVisibileHiddenConverter"></wpfFramework:BooleanToVisibileHiddenConverter>
+            <wpfFramework:BooleanToVisibilityNegateConverter x:Key="boolToVisibilityNegateConverter"></wpfFramework:BooleanToVisibilityNegateConverter>
+            <wpfFramework:BooleanToVisibleMultiConverter x:Key="boolToVisibleMultiConverter"></wpfFramework:BooleanToVisibleMultiConverter>
+            <wpfFramework:LogicalOrToVisibilityMultiConverter x:Key="logicalOrToVisMultiConverter"></wpfFramework:LogicalOrToVisibilityMultiConverter>
+            <wpfFramework:LogicalNegateConverter x:Key="logicalNegateConverter"></wpfFramework:LogicalNegateConverter>
+            <wpfFramework:GammaValueConverter x:Key="gammaValueConverter"></wpfFramework:GammaValueConverter>
+            <wpfFramework:EnumToBooleanConverter x:Key="enumToBooleanConverter"></wpfFramework:EnumToBooleanConverter>
+            <wpfFramework:GainValueConverter x:Key="gainValueConverter"></wpfFramework:GainValueConverter>
+            <wpfFramework:BinLevelConverter x:Key="binLevelConverter"></wpfFramework:BinLevelConverter>
+
+            <Color x:Key="AccentColor">#FF0B95E5</Color>
+            <SolidColorBrush x:Key="AccentColorBrush" Color="{DynamicResource AccentColor}" />
+            
+            <SolidColorBrush x:Key="ContentAreaForegroundBrush" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="ContentAreaBackgroundBrush" Color="#FF294C73"/>
+
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="/Azure.Resources;component/ControlStyle.xaml"/>-->
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/ButtonStyles.xaml" />
+                <!--<ResourceDictionary Source="/Azure.Resources;component/CheckBoxStyle.xaml" />-->
+                <!--<ResourceDictionary Source="/Azure.Resources;component/ComboBoxStyles.xaml"/>-->
+                <!--<ResourceDictionary Source="/AvalonDock.Themes;component/themes/dev2010.xaml"/>-->
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/ToggleSwitch/Assets/Styles.xaml"/>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/ToggleSwitch/Assets/ToggleSwitchStyles.xaml"/>
+                <ResourceDictionary Source="/AvalonDock.Themes;component/themes/dev2010.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

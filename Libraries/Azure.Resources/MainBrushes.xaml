@@ -1,0 +1,346 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="AccentColor">#FF0B95E5</Color>
+    <SolidColorBrush x:Key="AccentColorBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="GalleryBtnBackgroundBrush" Color="Transparent" />
+    
+    <!--  Scanner Brushes  -->
+    <SolidColorBrush x:Key="ScannerReadyBrush" Color="#FF7AC943" />
+    <SolidColorBrush x:Key="ScannerNotReadyBrush" Color="#FF999999" />
+
+    <!--  Main Window Background  -->
+    <SolidColorBrush x:Key="MainBackgroundBrush" Color="#FFEFEFEF" />
+    <!--  Navigation RadioButton Brushes  -->
+    <SolidColorBrush x:Key="NavRadioButtonSelectedIndicatorBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="NavRadioButtonSelectedBackground" Color="#FF000000" />
+
+    <!--  Raised Button Brushes  -->
+    <SolidColorBrush x:Key="RaisedButtonBackgroundBrush" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="RaisedButtonMouseOverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="RaisedButtonPressedBackground" Color="#FF0C74A8" />
+    <SolidColorBrush
+        x:Key="RaisedButtonDisabledBackground"
+        Opacity="0.12"
+        Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="RaisedButtonDisabledForeground"
+        Opacity="0.30"
+        Color="#FFFFFFFF" />
+
+    <!--  SecondaryRaisedButton Brushes  -->
+    <SolidColorBrush
+        x:Key="SecondaryRaisedButtonBackgroundBrush"
+        Opacity="0.3"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="SecondaryRaisedButtonMouseOverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="SecondaryRaisedButtonPressedBackground" Color="#FF0C74A8" />
+    <SolidColorBrush
+        x:Key="SecondaryRaisedButtonDisabledBackground"
+        Opacity="0.12"
+        Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="SecondaryRaisedButtonDisabledForeground"
+        Opacity="0.30"
+        Color="#FFFFFFFF" />
+
+    <!--  FlatButton Brushes  -->
+    <SolidColorBrush
+        x:Key="FlatButtonBackgroundBrush"
+        Opacity="0.3"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="FlatButtonMouseOverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="FlatButtonPressedBackground" Color="#FF0C74A8" />
+    <SolidColorBrush
+        x:Key="FlatButtonDisabledBackground"
+        Opacity="0.12"
+        Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="FlatButtonDisabledForeground"
+        Opacity="0.30"
+        Color="#FFFFFFFF" />
+
+    <!--  Action Button Brushes  -->
+    <SolidColorBrush x:Key="FloatingActionButtonIconBrush" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="FloatingActionMouseOverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="FloatingActionButtonPressedBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="FloatingActionButtonDisabledBackground"
+        Opacity="0.30"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="FloatingActionButtonDisabledForeground"
+        Opacity="0.30"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="FloatingActionButtonDisabledIconBrush"
+        Opacity="0.30"
+        Color="#FFFFFFFF" />
+
+    <!--  Icon Brushes  -->
+    <SolidColorBrush x:Key="IconButtonForegroundBrush" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="BackgroundIconButtonBackgroundBrush" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="BackgroundIconButtonForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush
+        x:Key="BackgroundIconMouseOverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="BackgroundIconPressedBackground" Color="#FF0C74A8" />
+
+    <!--  Icon Text Brushes  -->
+    <SolidColorBrush x:Key="IconTextButtonBackground" Color="Transparent" />
+    <SolidColorBrush
+        x:Key="IconTextButtonMouseOverBackground"
+        Opacity="0.2"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="IconTextButtonPressedBackground"
+        Opacity="0.6"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="IconTextButtonPressedForeground" Color="#FFFFFFFF" />
+    <SolidColorBrush
+        x:Key="IconTextButtonDisabledForeground"
+        Opacity="0.2"
+        Color="#FF000000" />
+
+    <!--  Icon TogglButton Brushes  -->
+    <SolidColorBrush x:Key="IconToggleButtonBackground" Color="Transparent" />
+    <SolidColorBrush
+        x:Key="IconToggleButtonMouseOverBackground"
+        Opacity="0.6"        
+        Color="#0097FC" />
+    <SolidColorBrush
+        x:Key="IconToggleButtonPressedBackground"
+        Opacity="0.6"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="IconToggleButtonPressedForeground" Color="#FFFFFFFF" />
+    <SolidColorBrush
+        x:Key="IconToggleButtonDisabledForeground"
+        Opacity="0.2"
+        Color="#FF000000" />
+
+    <!--  Gallery Icon TogglButton Brushes  -->
+    <SolidColorBrush x:Key="GalleryIconToggleButtonBackground" Color="Transparent" />
+    <SolidColorBrush
+        x:Key="GalleryIconToggleButtonMouseOverBackground"
+        Opacity="0.2"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="GalleryIconToggleButtonPressedBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="GalleryIconToggleButtonPressedForeground" Color="#FFFFFFFF" />
+    <SolidColorBrush
+        x:Key="GalleryIconToggleButtonDisabledForeground"
+        Opacity="0.2"
+        Color="#FF000000" />
+
+    <!--  Flat ToggleButton Brushes  -->
+    <SolidColorBrush
+        x:Key="FlatToggleButtonBackground"
+        Opacity="0.3"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="FlatToggleButtonMouseOverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="FlatToggleButtonPressedBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="FlatToggleButtonDisabledBackground"
+        Opacity="0.12"
+        Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="FlatToggleButtonDisabledForeground"
+        Opacity="0.30"
+        Color="#FFFFFFFF" />
+
+    <!--  Switch ToggleButton Brushes  -->
+    <SolidColorBrush x:Key="SwitchToggleButtonFillOff" Color="Transparent" />
+    <SolidColorBrush x:Key="SwitchToggleButtonStrokeOffBorder" Color="#CC000000" />
+    <SolidColorBrush x:Key="SwitchToggleButtonFillOn" Color="#FF0B95E5" />
+    <SolidColorBrush x:Key="SwitchToggleButtonStrokeOnBorder" Color="#FF0B95E5" />
+    <SolidColorBrush x:Key="SwitchToggleButtonKnobFillOn" Color="#FF0B95E5" />
+    <SolidColorBrush x:Key="SwitchToggleButtonKnobFillOff" Color="#CC000000" />
+    <SolidColorBrush
+        x:Key="SwitchToggleButtonKnobFillOnPointerOver"
+        Opacity="0.7"
+        Color="#FF0B95E5" />
+    <SolidColorBrush x:Key="SwitchToggleButtonKnobFillOffPointerOver" Color="#B2000000" />
+    <SolidColorBrush
+        x:Key="SwitchToggleButtonFillOnPointerOver"
+        Opacity="0.7"
+        Color="#FF0B95E5" />
+    <SolidColorBrush x:Key="SwitchToggleButtonFillOnPressed" Color="#99000000" />
+    <SolidColorBrush x:Key="SwitchToggleButtonKnobFillOnPressed" Color="#FF0B95E5" />
+    <SolidColorBrush x:Key="SwitchToggleButtonKnobFillOffPressed" Color="#CC000000" />
+    <SolidColorBrush x:Key="SwitchToggleButtonFillOnDisabled" Color="#33000000" />
+    <SolidColorBrush x:Key="SwitchToggleButtonKnobFillOnDisabled" Color="#33000000" />
+    <SolidColorBrush x:Key="SwitchToggleButtonDisabledBorder" Color="#FFADB2B5" />
+    <SolidColorBrush x:Key="SwitchToggleButtonDisabledForeground" Color="#66000000" />
+
+    <!--  RadioButton Brushes  -->
+    <SolidColorBrush x:Key="BlueRadioButtonStaticBackground" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BlueRadioButtonStaticBorder" Color="#FF999999" />
+    <SolidColorBrush x:Key="BlueRadioButtonMouseOverBackground" Color="#FFF3F9FF" />
+    <SolidColorBrush x:Key="BlueRadioButtonMouseOverBorder" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="BlueRadioButtonMouseOverGlyph"
+        Opacity="0.75"
+        Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="BlueRadioButtonDisabledBackground" Color="#FFE6E6E6" />
+    <SolidColorBrush x:Key="BlueRadioButtonDisabledBorder" Color="#FFBCBCBC" />
+    <SolidColorBrush x:Key="BlueRadioButtonDisabledGlyph" Color="#FF707070" />
+    <SolidColorBrush x:Key="BlueRadioButtonPressedBackground" Color="#FFD9ECFF" />
+    <SolidColorBrush x:Key="BlueRadioButtonPressedBorder" Color="#FF3C77DD" />
+    <SolidColorBrush x:Key="BlueRadioButtonPressedGlyph" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="BlueRadioButtonStaticGlyph" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="BlueRadioButtonIsCheckedBorder" Color="{DynamicResource AccentColor}" />
+
+    <!--  TextBox Brushes  -->
+    <SolidColorBrush x:Key="BorderTextBoxStaticBorder" Color="#FF999999" />
+    <SolidColorBrush
+        x:Key="BorderTextBoxMouseOverBorder"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="TextBoxFocusBorder" Color="{DynamicResource AccentColor}" />
+
+    <!--  ComboBox Brushes  -->
+    <SolidColorBrush x:Key="BorderComboBoxBackground" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BorderComboBoxBorder" Color="#FF999999" />
+    <SolidColorBrush
+        x:Key="BorderComboBoxMouseOverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush
+        x:Key="BorderComboBoxMouseOverBorder"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="BorderComboBoxPressedGlyph" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BorderComboBoxPressedBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="BorderComboBoxPressedBorder" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="BorderComboBoxDisabledGlyph" Color="#FFBFBFBF" />
+    <SolidColorBrush x:Key="BorderComboBoxDisabledBackground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="BorderComboBoxDisabledBorder" Color="#FFD9D9D9" />
+    <SolidColorBrush x:Key="BorderComboBoxGlyph" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="BorderComboBoxPopupBackground" Color="#FFEFEFEF" />
+    <SolidColorBrush x:Key="BorderComboBoxPopupBorder" Color="#FF999999" />
+
+    <!--  ComboBoxItem Brushes  -->
+    <SolidColorBrush
+        x:Key="ComboBoxItemItemsviewHoverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemItemsviewSelectedBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush
+        x:Key="ComboBoxItemItemsviewSelectedHoverBackground"
+        Opacity="0.12"
+        Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemItemsviewHoverFocusBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="ComboBoxItemItemsviewHoverForeground" Color="#FFFFFFFF" />
+
+    <!--  Slider Brushes  -->
+    <SolidColorBrush x:Key="SliderThumbStaticForeground" Color="#FFE5E5E5" />
+    <SolidColorBrush x:Key="SliderThumbMouseOverBackground" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="SliderThumbMouseOverBorder" Color="#FF7Eb4EA" />
+    <SolidColorBrush x:Key="SliderThumbPressedBackground" Color="#FFDAECFC" />
+    <SolidColorBrush x:Key="SliderThumbPressedBorder" Color="#FF569DE5" />
+    <SolidColorBrush x:Key="SliderThumbDisabledBackground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="SliderThumbDisabledBorder" Color="#FFD9D9D9" />
+    <SolidColorBrush x:Key="SliderThumbStaticBackground" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="SliderThumbStaticBorder" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="SliderThumbTrackBorder" Color="#FFD6D6D6" />
+    <SolidColorBrush x:Key="SliderThumbTrackBackground" Color="#FFE7EAEA" />
+
+    <!-- Image Gallery Expander -->
+    <SolidColorBrush x:Key="DisplayFileItemMouseOverBackground" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="DisplayFileItemMouseOverBorder" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="DisplayFileItemSelectedInactiveBackground" Color="#3DDADADA" />
+    <SolidColorBrush x:Key="DisplayFileItemSelectedInactiveBorder" Color="#FFDADADA" />
+    <SolidColorBrush x:Key="DisplayFileItemSelectedActiveBackground" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="DisplayFileItemSelectedActiveBorder" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="GridExpanderBackgroundBrush" Color="#FF00A7FF" />
+    <SolidColorBrush x:Key="GalleryListBoxForegroundBrush" Color="#FF4C4C4C" />
+
+    <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3" />
+    <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9" />
+
+    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke" Color="#FF5593FF" />
+    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Fill" Color="#FFF3F9FF" />
+    <SolidColorBrush x:Key="Expander.MouseOver.Arrow.Stroke" Color="#FF000000" />
+    <SolidColorBrush x:Key="Expander.Pressed.Circle.Stroke" Color="#FF3C77DD" />
+    <SolidColorBrush x:Key="Expander.Pressed.Circle.Fill" Color="#FFD9ECFF" />
+    <SolidColorBrush x:Key="Expander.Pressed.Arrow.Stroke" Color="#FF000000" />
+    <SolidColorBrush x:Key="Expander.Disabled.Circle.Stroke" Color="#FFBCBCBC" />
+    <SolidColorBrush x:Key="Expander.Disabled.Circle.Fill" Color="#FFE6E6E6" />
+    <SolidColorBrush x:Key="Expander.Disabled.Arrow.Stroke" Color="#FF707070" />
+    <SolidColorBrush x:Key="Expander.Static.Circle.Fill" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="#FF333333" />
+    <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke" Color="#FF333333" />
+
+    <SolidColorBrush x:Key="SectionHeaderForegroundBrush" Color="#FF4C4C4C" />
+
+    <!--  DarkComboBox Brushes  -->
+    <SolidColorBrush x:Key="DarkComboBoxBackground" Color="#FF1D2022" />
+    <SolidColorBrush x:Key="DarkComboBoxBorder" Color="#FF999999" />
+
+    <LinearGradientBrush x:Key="ComboBox.Static.Background" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.0" Color="#FFF0F0F0" />
+        <GradientStop Offset="1.0" Color="#FFE5E5E5" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#FFACACAC" />
+    <SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="#FFABADB3" />
+    <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="#FF000000" />
+    <LinearGradientBrush x:Key="ComboBox.MouseOver.Background" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.0" Color="#FFECF4FC" />
+        <GradientStop Offset="1.0" Color="#FFDCECFC" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#FF7EB4EA" />
+    <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#FF7EB4EA" />
+    <LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.0" Color="#FFEBF4FC" />
+        <GradientStop Offset="1.0" Color="#FFDCECFC" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#FF7EB4EA" />
+    <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000" />
+    <LinearGradientBrush x:Key="ComboBox.Pressed.Background" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.0" Color="#FFDAECFC" />
+        <GradientStop Offset="1.0" Color="#FFC4E0FC" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5" />
+    <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5" />
+    <LinearGradientBrush x:Key="ComboBox.Pressed.Editable.Button.Background" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.0" Color="#FFDAEBFC" />
+        <GradientStop Offset="1.0" Color="#FFC4E0FC" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5" />
+    <SolidColorBrush x:Key="ComboBox.Disabled.Glyph" Color="#FFBFBFBF" />
+    <SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9" />
+    <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Border" Color="#FFBFBFBF" />
+    <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060" />
+
+    <SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF" />
+
+    <!--  Transparent Button Brushes  -->
+    <SolidColorBrush x:Key="TransparentButtonForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TransparentButtonPressedForegroundBrush" Color="#419DE6" />
+    
+</ResourceDictionary>

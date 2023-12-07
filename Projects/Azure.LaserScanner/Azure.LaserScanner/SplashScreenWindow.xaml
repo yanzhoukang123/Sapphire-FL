@@ -1,0 +1,34 @@
+﻿<Window x:Class="Azure.LaserScanner.SplashScreenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow"
+        Closing="Window_Closing"
+        Width="512" Height="420">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Image Source="SplashScreen.jpg" Stretch="Uniform" Margin="4,1"/>
+        </Grid>
+        <Grid Grid.Row="1" Margin="4,1">
+            <TextBox x:Name="infoBlock"
+                VerticalScrollBarVisibility="Visible"
+                TextChanged="infoBlock_TextChanged"
+                IsReadOnly="True"
+                Margin="1"/>
+        </Grid>
+        <Grid Grid.Row="2" Margin="4,1,4,4">
+            <ProgressBar x:Name="progressBarSplashScreen"
+                Height="11"
+                Margin="1"
+                VerticalAlignment="Top"
+                Foreground="#FF286AC1"
+                Background="#FFF7F6F6" />
+        </Grid>
+    </Grid>
+</Window>

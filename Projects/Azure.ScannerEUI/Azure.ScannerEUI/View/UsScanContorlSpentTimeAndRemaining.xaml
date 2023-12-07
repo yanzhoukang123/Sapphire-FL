@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.UsScanContorlSpentTimeAndRemaining"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Azure.ScannerEUI.View"
+             mc:Ignorable="d" Height="106" Width="450">
+    <Grid Margin="0,8,7,6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="105"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" MinWidth="245"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <local:ScanControl HorizontalAlignment="Left" Height="44" Margin="1,22,0,0" VerticalAlignment="Top" Width="110" Grid.ColumnSpan="2"/>
+        <local:ScanChannelSwitch Grid.Column="1" HorizontalAlignment="Left" Height="75" Margin="5,-2,0,0" VerticalAlignment="Top" Width="103" Grid.RowSpan="2"/>
+        <local:RemainingAndSpentTime Grid.Column="2" HorizontalAlignment="Left" Height="84" Margin="13,-8,0,0" VerticalAlignment="Top" Width="210" Grid.RowSpan="2"/>
+
+        <Button Content="X Speed Calib" Grid.Column="0" Grid.Row="1" Margin="5" Command="{Binding Path=ScannerVM.HorizontalScanSpeedCalibrationCmd}"/>
+    </Grid>
+</UserControl>

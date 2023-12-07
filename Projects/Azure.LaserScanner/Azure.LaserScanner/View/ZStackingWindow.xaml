@@ -1,0 +1,239 @@
+﻿<Window x:Class="Azure.LaserScanner.View.ZStackingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Azure.LaserScanner.View"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"
+        Background="#232832"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="Z Stacking"
+        WindowStartupLocation="CenterOwner"
+        Height="625"
+        Width="935">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+                <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="#2E3440" SecondaryColor=" #232832" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <FontFamily x:Key="DefaultFont">pack://application:,,,/Fonts/#Muli</FontFamily>
+            <Style x:Key="BaseTextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="DefaultFont" />
+                <!--<Setter Property="Foreground" Value="White" />-->
+            </Style>
+            <Style x:Key="CaptionTextBlockStyle" BasedOn="{StaticResource BaseTextBlockStyle}" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+
+            <DataTemplate x:Key="ImageGalleryDataTemplate">
+                <Grid>
+                    <!-- Drop Shadow -->
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="2"
+                        Background="#44000000">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="5" Y="5" />
+                        </Border.RenderTransform>
+                        <Border.BitmapEffect>
+                            <BlurBitmapEffect Radius="4" />
+                        </Border.BitmapEffect>
+                    </Border>
+                    <Border Padding="2" Background="White" BorderBrush="#22000000" BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Image
+                                Width="140"
+                                Source="{Binding DisplayImage}" />
+                            <Border
+                                Grid.Row="1"
+                                Width="140"
+                                Margin="1">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{StaticResource GalleryListBoxForegroundBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding Title}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </DataTemplate>
+            <ItemsPanelTemplate x:Key="ImageGalleryItemsPanelTemplate">
+                <WrapPanel></WrapPanel>
+                    <!--Display Images on UniformGrid Panel-->
+                    <!--<UniformGrid Rows="1" HorizontalAlignment="Left" VerticalAlignment="Center" />-->
+            </ItemsPanelTemplate>
+            <!--<ItemsPanelTemplate x:Key="ImageGalleryItemsPanelTemplate2R">
+                <UniformGrid Rows="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            </ItemsPanelTemplate>-->
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" x:Name="leftPanel">
+            <materialDesign:Card
+                x:Name="sourceImgContainer"
+                UniformCornerRadius="6"
+                Margin="5">
+                <GroupBox
+                    Header="SOURCE IMAGES"
+                    Style="{DynamicResource MaterialDesignGroupBox}"
+                    Margin="5"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                    BorderThickness="0">
+                    <ListBox
+                        Width="560"
+                        MinHeight="165"
+                        ItemTemplate="{DynamicResource ImageGalleryDataTemplate}"
+                        ItemsPanel="{DynamicResource ImageGalleryItemsPanelTemplate}"
+                        ItemsSource="{Binding SourceFiles}"
+                        SelectedItem="{Binding SelectedSourceFile}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    </ListBox>
+                </GroupBox>
+            </materialDesign:Card>
+            <materialDesign:Card
+                UniformCornerRadius="6"
+                Margin="5">
+                <GroupBox
+                    Header="ADD/REMOVE FRAMES"
+                    Style="{DynamicResource MaterialDesignGroupBox}"
+                    Margin="5"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                    BorderThickness="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button
+                            Style="{StaticResource MaterialDesignOutlinedLightButton}"
+                            Content="REMOVE IMAGE"
+                            Width="150"
+                            Command="{Binding RemoveFileCommand}"
+                            Margin="5,0">
+                        </Button>
+                        <Button
+                            Style="{StaticResource MaterialDesignOutlinedLightButton}"
+                            Width="150"
+                            Command="{Binding AddFileCommand}"
+                            Content="ADD IMAGE"
+                            Margin="5,0"/>
+                    </StackPanel>
+                </GroupBox>
+            </materialDesign:Card>
+            <materialDesign:Card
+                UniformCornerRadius="6"
+                Margin="5">
+                <GroupBox
+                    Header="Z-STACK FRAMES"
+                    Style="{DynamicResource MaterialDesignGroupBox}"
+                    Margin="5"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                    BorderThickness="0">
+                    <ListBox
+                        Width="560"
+                        MinHeight="165"
+                        ItemTemplate="{DynamicResource ImageGalleryDataTemplate}"
+                        ItemsPanel="{DynamicResource ImageGalleryItemsPanelTemplate}"
+                        ItemsSource="{Binding ZStackingFiles}"
+                        SelectedItem="{Binding SelectedZStackingFile}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    </ListBox>
+                </GroupBox>
+            </materialDesign:Card>
+        </StackPanel>
+        <materialDesign:Card
+            Grid.Column="2"
+            UniformCornerRadius="6"
+            Width="300"
+            VerticalAlignment="Top"
+            Margin="5">
+            <GroupBox
+                Header="CREATE Z-STACK IMAGE"
+                Style="{DynamicResource MaterialDesignGroupBox}"
+                Margin="5"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                BorderThickness="0">
+                <Grid>
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                FontSize="15"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="Projection Type"
+                                Margin="0,4"/>
+                            <ComboBox 
+                                Width="200"
+                                Height="30"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Style="{StaticResource DarkComboBoxStyle}"
+                                ItemContainerStyle="{StaticResource DarkComboBoxItemStyle}"
+                                ItemsSource="{Binding Path=ProjectionTypeOptions}"
+                                DisplayMemberPath="Key"
+                                SelectedValuePath="Value"
+                                SelectedValue="{Binding Path=SelectedProjectionType}" />
+                        </StackPanel>
+                        <Button
+                            Command="{Binding CreateZStackedImageCommand}"
+                            Content="Create Z-Stack Image"
+                            Width="200"
+                            Style="{StaticResource MaterialDesignOutlinedLightButton}"
+                            Margin="0,10"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </materialDesign:Card>
+
+        <!--<materialDesign:Card
+            Grid.Column="2"
+            UniformCornerRadius="6"
+            Height="{Binding ElementName=previewContainer, Path=ActualWidth}"
+            VerticalAlignment="Top"
+            Margin="8">
+            <GroupBox VerticalAlignment="Top"
+                Header="IMAGE VIEWER"
+                Style="{DynamicResource MaterialDesignGroupBox}"
+                Height="540"
+                Margin="10"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                BorderThickness="0">
+                <Grid x:Name="previewContainer" Width="540">
+                    <Image
+                        x:Name="imageControl"
+                        Width="{Binding ElementName=previewContainer, Path=ActualWidth}"
+                        Height="{Binding ElementName=previewContainer, Path=ActualHeight}"
+                        Canvas.Left="0"
+                        Canvas.Top="0"
+                        Stretch="Uniform"
+                        VerticalAlignment="Top"
+                        gif:ImageBehavior.RepeatBehavior="0x"
+                        gif:ImageBehavior.AnimatedSource="{Binding ZStackedImage}"
+                        MouseLeftButtonDown="imageControl_MouseLeftButtonDown"/>
+                </Grid>
+            </GroupBox>
+        </materialDesign:Card>-->
+    </Grid>
+</Window>

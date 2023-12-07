@@ -1,0 +1,264 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.GeneralAppSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:local="clr-namespace:Azure.Common;assembly=Azure.Common"
+    BorderThickness="1"
+    Background="Transparent">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="CaptionTextBlockStyle"
+                TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="4">
+        <StackPanel>
+            <TextBlock
+                Margin="0,0,0,12"
+                Foreground="White"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="FILE SAVING SETTINGS" />
+            <StackPanel>
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=IsAutoSavePubFileEnabled}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="Enable publication image autosaving" />
+                </CheckBox>
+                <StackPanel
+                    IsEnabled="{Binding IsAutoSavePubFileEnabled}"
+                    Margin="36,0,0,0">
+                    <CheckBox
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding Path=IsAutoSavePubFile300dpi}"
+                        Style="{StaticResource MainCheckBoxStyle}">
+                        <TextBlock
+                            FontWeight="Regular"
+                            Foreground="White"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="300 DPI 8-bit PUB TIFF" />
+                    </CheckBox>
+                    <CheckBox
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding Path=IsAutoSavePubFile600dpi}"
+                        Style="{StaticResource MainCheckBoxStyle}">
+                        <TextBlock
+                            FontWeight="Regular"
+                            Foreground="White"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="600 DPI 8-bit PUB TIFF" />
+                    </CheckBox>
+                    <CheckBox
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding Path=IsAutoSavePubFileJpeg}"
+                        Style="{StaticResource MainCheckBoxStyle}">
+                        <TextBlock
+                            FontWeight="Regular"
+                            Foreground="White"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="JPEG" />
+                    </CheckBox>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Margin="0,12">
+                <TextBlock
+                    Foreground="White"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="SCANNED IMAGE FLIPPING" />
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=IsHorizontalFlipEnabled}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="Enable horizontal auto-flip" />
+                </CheckBox>
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=IsVerticalFlipEnabled}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="Enable vertical auto-flip" />
+                </CheckBox>
+            </StackPanel>
+
+            <!--<StackPanel Margin="0,12">
+                <TextBlock
+                    Foreground="White"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="EXTENDED DYNAMIC RANGE" />
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=IsExtDynamicRangeEnabled}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="Enable EDR scanning" />
+                </CheckBox>
+            </StackPanel>-->
+
+            <StackPanel Margin="0,12">
+                <TextBlock
+                    Foreground="White"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="LASER MODULE" />
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=IsAlwaysShowLaserModuleChanged}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        MaxWidth="220"
+                        TextWrapping="WrapWithOverflow"
+                        Text="Always Show Laser Module Changed On Application Start" />
+                </CheckBox>
+            </StackPanel>
+            <StackPanel Margin="0,12">
+                <TextBlock
+                    Foreground="White"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="SMART SCAN" />
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=IsDespeckleSmartScan}"
+                    Style="{StaticResource MainCheckBoxStyle}"
+                    ToolTip="Apply despeckler on Smart Scan's test images">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        MaxWidth="220"
+                        TextWrapping="WrapWithOverflow"
+                        Text="Ignore Speckles" />
+                </CheckBox>
+            </StackPanel>
+
+            <StackPanel Margin="0,12">
+                <TextBlock
+                    Foreground="White"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="AUTO ALIGNMENT TARGET" />
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=EdmundTargetType, Converter={StaticResource enumToBooleanConverter},ConverterParameter={x:Static local:EdmundTargetType.BrandingOnTop}}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="Edmund Branding On Top" />
+                </CheckBox>
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=EdmundTargetType, Converter={StaticResource enumToBooleanConverter},ConverterParameter={x:Static local:EdmundTargetType.BrandingOnBottom}}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="Edmund Branding On Bottom" />
+                </CheckBox>
+            </StackPanel>
+
+            <StackPanel Margin="0,12">
+                <TextBlock
+                    Foreground="White"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="CHEMI MODULE CONNECTION" />
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=CMConnectionType, Converter={StaticResource enumToBooleanConverter},ConverterParameter={x:Static local:CMConnectionType.WIFI}}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="WI-FI" />
+                </CheckBox>
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=CMConnectionType, Converter={StaticResource enumToBooleanConverter},ConverterParameter={x:Static local:CMConnectionType.LAN}}"
+                    Style="{StaticResource MainCheckBoxStyle}">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="LAN" />
+                </CheckBox>
+            </StackPanel>
+
+            <!-- Added for testing -->
+            <!--<StackPanel>
+                <TextBlock
+                    Foreground="White"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="IMAGE CORRECTION" />
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path= IsPixelOffsetProcessing}"
+                    Style="{StaticResource MainCheckBoxStyle}"
+                    ToolTip="Enable sawtooth correction">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="Enable Sawtooth (PixelOffsetProcessing)" />
+                </CheckBox>
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=Is2LineAverageEnabled}"
+                    Style="{StaticResource MainCheckBoxStyle}"
+                    ToolTip="Enable 2-line averaging">
+                    <TextBlock
+                        FontWeight="Normal"
+                        Foreground="White"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="Enable Line Average (AllModuleProcessing)" />
+                </CheckBox>
+            </StackPanel>-->
+            
+            <!--<TextBlock
+                Margin="0,20,0,12"
+                Foreground="{StaticResource SectionHeaderForegroundBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="SIMULATION MODE" />
+            <CheckBox
+                Margin="0,0,0,20"
+                HorizontalAlignment="Left"
+                IsChecked="{Binding Path=IsSimulationModeEnabled}"
+                Style="{StaticResource GeneralCheckBoxStyle}">
+                <TextBlock
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource SectionHeaderForegroundBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    TextWrapping="Wrap">
+                    <Run Text="Enable simulation mode " />
+                    <LineBreak /><Run Text="(REQUIRED application restart to take effect)" />
+                </TextBlock>
+            </CheckBox>-->
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.CustomFocusControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:Azure.LaserScanner.View"
+    mc:Ignorable="d" 
+    d:DesignHeight="40" d:DesignWidth="350">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <StackPanel x:Name="parentPanel" Orientation="Horizontal">
+            <Slider
+                VerticalAlignment="Center"
+                LargeChange="0.05"
+                Maximum="{Binding FocusMaxInMm}"
+                Minimum="{Binding FocusMinInMm}"
+                SmallChange="0.01"
+                Width="220"
+                Value="{Binding CustomFocusValue}">
+            </Slider>
+            <TextBox x:Name="customFocusTextBox"
+                     Style="{StaticResource DarkBorderTextBoxStyle}"
+                     MinWidth="60"
+                     Margin="1"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontWeight="SemiBold"
+                     PreviewTextInput="TextBox_PreviewTextInput"
+                     KeyUp="TextBox_KeyEnterUpdate"
+                     Text="{Binding CustomFocusValue, StringFormat=0.00}">
+            </TextBox>
+            <TextBlock Text="mm"
+                       Margin="5"
+                       Foreground="White"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

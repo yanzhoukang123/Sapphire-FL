@@ -1,0 +1,13 @@
+﻿<Application x:Class="Azure.Avocado.FwUpgrader.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:azureWpf="clr-namespace:Azure.WPF.Framework;assembly=Azure.WPF.Framework"
+             xmlns:local="clr-namespace:Azure.Avocado.FwUpgrader"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <azureWpf:BooleanToVisibilityConverter x:Key="boolToVisibleConverter"/>
+            <azureWpf:BooleanToVisibilityNegateConverter x:Key="boolToCollapsedConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

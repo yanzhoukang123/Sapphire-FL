@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Azure.LaserScanner.View.ManualAlignControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Azure.LaserScanner.View"
+             xmlns:vm="clr-namespace:Azure.LaserScanner.ViewModel"
+             xmlns:ip="clr-namespace:Azure.Image.Processing;assembly=Azure.Image.Processing"
+             mc:Ignorable="d" 
+             d:DesignHeight="230" d:DesignWidth="200">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BitmapImage x:Key="imgShiftLeft" UriSource="/Resources/Images/Gallery/arrow_left_icon.png" />
+            <BitmapImage x:Key="imgShiftRight" UriSource="/Resources/Images/Gallery/arrow_right_icon.png" />
+            <BitmapImage x:Key="imgShiftUp" UriSource="/Resources/Images/Gallery/arrow_up_icon.png" />
+            <BitmapImage x:Key="imgShiftDown" UriSource="/Resources/Images/Gallery/arrow_down_icon.png" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+        <StackPanel>
+            <StackPanel HorizontalAlignment="Left">
+                <!--<TextBlock
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    HorizontalAlignment="Left"
+                    Foreground="#FFFFFFFF"
+                    FontSize="16px"
+                    Text="Shift Direction" 
+                    Margin="0,0,0,10"/>-->
+                <StackPanel>
+                <Button
+                    Style="{StaticResource GalleryFlatIconButtonStyle}"
+                    Height="45"
+                    Content="{StaticResource imgShiftUp}"
+                    HorizontalAlignment="Center"
+                    Command="{Binding ManualAlignCommand}"
+                    CommandParameter="{x:Static vm:ManualAlignViewModel+PixelShift.Up }" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button
+                            Style="{StaticResource GalleryFlatIconButtonStyle}"
+                            Height="45"
+                            Content="{StaticResource imgShiftLeft}"
+                            Command="{Binding ManualAlignCommand}"
+                            CommandParameter="{x:Static vm:ManualAlignViewModel+PixelShift.Left }" />
+                        <Button
+                            Style="{StaticResource GalleryFlatIconButtonStyle}"
+                            Height="45"
+                            Content="{StaticResource imgShiftDown}"
+                            Command="{Binding ManualAlignCommand}"
+                            CommandParameter="{x:Static vm:ManualAlignViewModel+PixelShift.Down }" />
+                        <Button
+                            Style="{StaticResource GalleryFlatIconButtonStyle}"
+                            Height="45"
+                            Content="{StaticResource imgShiftRight}"
+                            Command="{Binding ManualAlignCommand}"
+                            CommandParameter="{x:Static vm:ManualAlignViewModel+PixelShift.Right }" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            
+        <!--<local:RGBChannelControl
+            HorizontalAlignment="Center"
+            Visibility="{Binding Path=IsRgbImage, Converter={StaticResource boolToVisibilityConverter}}" />-->
+
+        <StackPanel HorizontalAlignment="Left">
+            <TextBlock
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                HorizontalAlignment="Left"
+                Foreground="#FFFFFFFF"
+                FontSize="16px"
+                Text="Channel" 
+                Margin="0,0,0,10" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <ToggleButton
+                    Style="{StaticResource CircleToggleButton}"
+                    BorderBrush="Red" 
+                    Width="38"
+                    Height="38"
+                    IsChecked="{Binding Path=SelectedChannel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static ip:ImageChannelType.Red}}"
+                    />
+                <ToggleButton
+                    Style="{StaticResource CircleToggleButton}"
+                    BorderBrush="Green"
+                    Width="38"
+                    Height="38"
+                    IsChecked="{Binding Path=SelectedChannel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static ip:ImageChannelType.Green}}"
+                    />
+                <ToggleButton
+                    Style="{StaticResource CircleToggleButton}"
+                    BorderBrush="Blue"
+                    Width="38"
+                    Height="38"
+                    IsChecked="{Binding Path=SelectedChannel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static ip:ImageChannelType.Blue}}"
+                    />
+                <ToggleButton
+                    Style="{StaticResource CircleToggleButton}"
+                    BorderBrush="Gray"
+                    Width="38"
+                    Height="38"
+                    IsChecked="{Binding Path=SelectedChannel, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static ip:ImageChannelType.Gray}}"
+                    Visibility="{Binding Path=Is4ChannelImage, Converter={StaticResource boolToVisibilityConverter}}" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

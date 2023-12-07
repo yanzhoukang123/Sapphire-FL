@@ -1,0 +1,28 @@
+﻿<Window x:Class="Azure.ScannerEUI.SplashScreenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:imagingsys="clr-namespace:Azure.ImagingSystem;assembly=Azure.ImagingSystem"
+        Height="450"
+        Width="700"
+        WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" MinWidth="700" MinHeight="450" MaxWidth="700" MaxHeight="450" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="417*"/>
+            <RowDefinition Height="91*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Image Source="SplashScreenWindow1.jpg" Stretch="Fill" Margin="0,-1,0,-15" MinWidth="692" MinHeight="358"/>
+        </Grid>
+        <Grid  Grid.Row="1" Margin="0,0,0,2">
+
+            <TextBox x:Name="infoBlock"    VerticalScrollBarVisibility="Visible" TextChanged="infoBlock_TextChanged" IsReadOnly="True" Margin="0,16,0,-4"/>
+        </Grid>
+        <Grid  Grid.Row="2" Margin="-4,0,4,0">
+            <ProgressBar x:Name="progressBarSplashScreen" Height="11" Margin="0,0,-8,-3" VerticalAlignment="Top" Foreground="#FF286AC1" Background="#FFF7F6F6" />
+        </Grid>
+
+
+    </Grid>
+</Window>

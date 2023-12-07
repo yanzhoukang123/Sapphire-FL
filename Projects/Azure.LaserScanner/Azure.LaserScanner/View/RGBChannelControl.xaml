@@ -1,0 +1,142 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.RGBChannelControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:aip="clr-namespace:Azure.Image.Processing;assembly=Azure.Image.Processing"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Azure.LaserScanner.View"
+    d:DesignHeight="120"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="RadioButton" BasedOn="{StaticResource ChannelToggleInformButton}" />
+
+            <!--<BitmapImage x:Key="imgGalleryRedChannel" UriSource="/Resources/Images/Gallery/icon_r-ch-default.png" />
+            <BitmapImage x:Key="imgGalleryGreenChannel" UriSource="/Resources/Images/Gallery/icon_g-ch-default.png" />
+            <BitmapImage x:Key="imgGalleryBlueChannel" UriSource="/Resources/Images/Gallery/icon_b-ch-default.png" />
+            <BitmapImage x:Key="imgGalleryGrayChannel" UriSource="/Resources/Images/Gallery/icon_gy-ch-default.png" />-->
+            <BitmapImage x:Key="imgGalleryCompositChecked" UriSource="/Resources/Images/Gallery/icon_rgb-selected.png" />
+            <BitmapImage x:Key="imgGalleryCompositUnchecked" UriSource="/Resources/Images/Gallery/icon_rgb-default.png" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock
+                Style="{StaticResource TextBlockBodyTextStyle}"
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Foreground="#FFFFFFFF"
+                FontSize="16px"
+                Text="Channels" 
+                Margin="0,0,0,10"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <StackPanel Margin="0,0,8,0">
+                <ToggleButton
+                    Style="{StaticResource CircleToggleButton}"
+                    BorderBrush="Red" 
+                    Width="45"
+                    Height="45"
+                    Command="{Binding Path=DisplayRedChCommand}"
+                    IsChecked="{Binding Path=ActiveDocument.IsDisplayRedChannel}" />
+                <CheckBox
+                    x:Name="chkRedChannel"
+                    Style="{StaticResource MainCheckBoxStyle}"
+                    Width="26"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding Path=ActiveDocument.IsContrastRedChannel}"
+                    Margin="0,2" />
+            </StackPanel>
+            <StackPanel Margin="0,0,8,0">
+                <ToggleButton
+                    x:Name="_GreenChannelButton"
+                    Style="{StaticResource CircleToggleButton}"
+                    BorderBrush="Green"
+                    Width="45"
+                    Height="45"
+                    Command="{Binding Path=DisplayGreenChCommand}"
+                    IsChecked="{Binding Path=ActiveDocument.IsDisplayGreenChannel}" />
+                <CheckBox
+                    x:Name="chkGreenChannel"
+                    Style="{StaticResource MainCheckBoxStyle}"
+                    Width="26"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding Path=ActiveDocument.IsContrastGreenChannel}"
+                    Margin="0,2" />
+            </StackPanel>
+            <StackPanel Margin="0,0,8,0">
+                <ToggleButton
+                    x:Name="_BlueChannelButton"
+                    Style="{StaticResource CircleToggleButton}"
+                    BorderBrush="Blue"
+                    Width="45"
+                    Height="45"
+                    Command="{Binding Path=DisplayBlueChCommand}"
+                    IsChecked="{Binding Path=ActiveDocument.IsDisplayBlueChannel}" />
+                <CheckBox
+                    Name="chkBlueChannel"
+                    Style="{StaticResource MainCheckBoxStyle}"
+                    Width="26"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding Path=ActiveDocument.IsContrastBlueChannel}"
+                    Margin="0,2" />
+            </StackPanel>
+            <StackPanel Margin="0,0,8,0"
+                Visibility="{Binding Path=ActiveDocument.Is4ChannelImage, Converter={StaticResource boolToVisibilityConverter}}">
+                <ToggleButton
+                    x:Name="_GrayChannelButton"
+                    Style="{StaticResource CircleToggleButton}"
+                    BorderBrush="Gray"
+                    Width="45"
+                    Height="45"
+                    Command="{Binding Path=DisplayGrayChCommand}"
+                    IsChecked="{Binding Path=ActiveDocument.IsDisplayGrayChannel}"
+                    Visibility="{Binding Path=ActiveDocument.Is4ChannelImage, Converter={StaticResource boolToVisibilityConverter}}" />
+                <CheckBox
+                    Name="chkGrayChannel"
+                    Style="{StaticResource MainCheckBoxStyle}"
+                    Width="26"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding Path=ActiveDocument.IsContrastGrayChannel}"
+                    Margin="0,2" />
+            </StackPanel>
+            <StackPanel>
+                <ToggleButton
+                    x:Name="_CompositDisplayButton"
+                    Height="45"
+                    Width="45"
+                    Background="Transparent"
+                    Command="{Binding Path=DisplayCompositeCommand}"
+                    IsChecked="{Binding ActiveDocument.IsDisplayOverAll}"
+                    Margin="2">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource FlatIconToggleButtonStyle}">
+                            <Setter Property="Content" Value="{StaticResource imgGalleryCompositUnchecked}" />
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content" Value="{StaticResource imgGalleryCompositChecked}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            <CheckBox
+                Name="chkCompositDisplay"
+                Style="{StaticResource MainCheckBoxStyle}"
+                Width="26"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Path=ActiveDocument.IsDisplayOverAll}"
+                Margin="0,2" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+
+</UserControl>

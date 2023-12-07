@@ -1,0 +1,19 @@
+20190821-V2.0.0.0821
+Added W motion control UI;
+Added Channel switch for A and B;
+Fixed the bug of Use Current Pos Button's function;
+
+20190812-V2.0.0.0812
+Modified the Channel C gain to PMT type;
+Channel D Gain and PGA are identical to Channel C;
+
+20190803-V2.0.0.0803
+Added parameter settings of W Motion in configuration file;
+Obtain the X motion moving speed during scannning by theoretical calculation;
+Set X scanning range from x0 - 5mm to x0 + dx + 5mm;
+Added a icon for the program;
+Always display APD Values regardless of selected channel;
+
+
+20190802-V2.0.0.0000
+Initial version of scanner 2.0, it supports both galil controller and inhouse controller;

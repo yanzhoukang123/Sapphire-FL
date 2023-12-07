@@ -1,0 +1,106 @@
+﻿<Window x:Class="Azure.LaserScanner.View.RotateArbitraryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Azure.LaserScanner.View"
+        mc:Ignorable="d"
+        Title="Rotate Arbitrary"
+        Width="680"
+        Height="620"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Color x:Key="DarkBgColor">#FF333843</Color>
+            <SolidColorBrush x:Key="DarkBgBrush" Color="{StaticResource DarkBgColor}"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid x:Name="mainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border x:Name="canvasBorder" Grid.Row="0" Height="400" Margin="20"
+                ClipToBounds="True">
+            <Canvas x:Name="_DisplayCanvas">
+                <Grid Width="{Binding ActualWidth, ElementName=canvasBorder}" 
+                      Height="{Binding ActualHeight, ElementName=canvasBorder}">
+                    <Image x:Name="_DisplayImage"
+                        Source="{Binding Path=DisplayImage, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        RenderTransformOrigin="0.5,0.5"
+                        Margin="20">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform x:Name="myRotateTrans" Angle="{Binding ArbitraryRotationAngle}" />
+                                <ScaleTransform  x:Name="myScaleTrans"></ScaleTransform>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Grid>
+            </Canvas>
+        </Border>
+    
+        <Border
+            Grid.Row="1"
+            Background="{StaticResource DarkBgBrush}"
+            CornerRadius="6"
+            VerticalAlignment="Bottom">
+            <StackPanel Margin="5">
+                <Border
+                    Background="{StaticResource DarkBgBrush}"
+                    BorderBrush="#2E3440"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,4,2">
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="0,0,4,0"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="zoomOutBtn"
+                            Width="25"
+                            Height="25"
+                            FontSize="10"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="#2E3440"
+                            BorderThickness="1"
+                            BorderBrush="#2E3440"
+                            Click="ZoomOutBtn_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/Gallery/btn_zoom-out-default.png" Width="20" />
+                            </StackPanel>
+                        </Button>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            Text="Zoom"
+                            FontSize="11"
+                            Margin="8,1" />
+                        <Button
+                            x:Name="zoomInBtn"
+                            Width="25"
+                            Height="25"
+                            FontSize="10"
+                            Background="#2E3440" 
+                            BorderThickness="1"
+                            BorderBrush="#2E3440"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Click="ZoomInBtn_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/Gallery/btn_zoom-in-default.png" Width="20" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <local:RotateArbitraryControl x:Name="rotateArbitraryControl" Margin="10"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

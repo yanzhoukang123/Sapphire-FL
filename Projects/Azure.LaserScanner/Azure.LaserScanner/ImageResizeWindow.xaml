@@ -1,0 +1,121 @@
+﻿<Window x:Class="Azure.LaserScanner.ImageResizeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Azure.LaserScanner"
+        xmlns:views="clr-namespace:Azure.LaserScanner.View"
+        xmlns:viewModels="clr-namespace:Azure.LaserScanner.ViewModel"
+        Title="Image Resize"
+        Height="280"
+        Width="300"
+        MinHeight="280"
+        MinWidth="300"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="ToolWindow"
+        Loaded="ImageResizeWindow_Loaded">
+
+    <!--<Window.Resources>
+        <local:PixelsPercentageConverter x:Key="pixelsPercentageConverter" />
+    </Window.Resources>-->
+
+    <Grid>
+        <GroupBox Header="Resize"
+                  Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
+                    <Label Content="By:" VerticalAlignment="Center"/>
+                    <RadioButton x:Name="_Percentage"
+                        Content="Percentage"
+                        GroupName="ResizeBy"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Margin="5,0"
+                        IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:ImageResizeWindow}, Path=SelectedResizeBy, Converter={StaticResource enumToBooleanConverter},ConverterParameter={x:Static local:ResizeByType.Percentage}}"/>
+                    <RadioButton x:Name="_Pixels"
+                        Content="Pixels"
+                        GroupName="ResizeBy"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Margin="4,0,0,0"
+                        IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:ImageResizeWindow}, Path=SelectedResizeBy, Converter={StaticResource enumToBooleanConverter},ConverterParameter={x:Static local:ResizeByType.Pixels}}"/>
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="85"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="157*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="/Resources/Images/Resize_vertical_medium.png"
+                            Width="24"
+                            Height="24"/>
+                    <Label Grid.Column="1" Content="Horizontal:" />
+                    <TextBox Grid.Column="3" x:Name="_HorizontalTextBox"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        PreviewTextInput="TextBox_PreviewTextInput"
+                        TextChanged="HorizontalTextBox_TextChanged">
+                    </TextBox>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="85"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="157*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0"
+                            Source="/Resources/Images/Resize_horizontal_medium.png"
+                            Width="24"
+                            Height="24"/>
+                    <Label Grid.Column="1" Content="Vertical:" />
+                    <TextBox Grid.Column="3" x:Name="_VerticalTextBox"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        PreviewTextInput="TextBox_PreviewTextInput"
+                        TextChanged="VerticalTextBox_TextChanged"
+                        >
+                    </TextBox>
+                </Grid>
+
+                <CheckBox Grid.Row="3" x:Name="_MaintainAspectRatio"
+                    Content="Maintain aspect ratio"
+                    VerticalContentAlignment="Center"
+                    Margin="5"
+                    IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:ImageResizeWindow}, Path=IsMaintainAspectRatio}"/>
+
+                <Grid Grid.Row="4" Margin="2">
+                    <StackPanel
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Margin="5">
+                        <Button x:Name="_OkButton" Content="OK"
+                            Width="80"
+                            Height="32"
+                            Margin="2"
+                            IsDefault="True"
+                            Click="OkButton_Click"/>
+                        <Button x:Name="_CancelButton" Content="Cancel"
+                            Width="80"
+                            Height="32"
+                            Margin="2"
+                            IsCancel="True"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

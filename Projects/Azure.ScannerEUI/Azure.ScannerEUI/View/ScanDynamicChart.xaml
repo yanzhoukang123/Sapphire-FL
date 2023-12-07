@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.ScanDynamicChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+             mc:Ignorable="d" 
+             d:DesignHeight="348" d:DesignWidth="604"
+              DataContext="{Binding Path=ScannerVM}">
+    <UserControl.Resources>
+        <d3:PenDescription   x:Key="channelA" DescriptionString="R1"/>
+        <d3:PenDescription   x:Key="channelB" DescriptionString="R2"/>
+        <d3:PenDescription   x:Key="channelC" DescriptionString="L" />
+        <d3:PenDescription   x:Key="commond" DescriptionString="Commond" />
+        <d3:PenDescription   x:Key="feedback" DescriptionString="Feedback" />
+        <!--<d3:PenDescription x:Key="channelD" DescriptionString="ChannelD" /> Visibility="{Binding CommondFeedback}"-->
+    </UserControl.Resources>
+    <Grid DataContext="{Binding}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="169*" />
+            <ColumnDefinition Width="435*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="298*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <d3:ChartPlotter x:Name="_APDChart" Grid.ColumnSpan="2" Margin="0,0,32,30" Grid.RowSpan="2"    Visibility="{Binding ChannelVisibility}">  
+            <d3:Header FontFamily="Georgia" Content="{Binding CurrentScanHeaderTitle}"/>
+            <d3:VerticalAxisTitle FontFamily="Georgia" Content="{Binding CurrentScanVerticaTitle}"/>
+            <d3:HorizontalAxisTitle FontFamily="Georgia" Content="{Binding CurrentScanHorizontalTitle}"/>
+            <d3:LineGraph x:Name="ChannelA"  Stroke="Green" StrokeThickness="3" Description="{StaticResource channelA}"  DataSource="{Binding Path=ChannelA}"/>
+            <d3:LineGraph x:Name="ChannelB"  Stroke="Blue" StrokeThickness="3" Description="{StaticResource channelB}" DataSource="{Binding Path=ChannelB}" />
+            <d3:LineGraph x:Name="ChannelC"  Stroke="Black" StrokeThickness="3" Description="{StaticResource channelC}" DataSource="{Binding Path=ChannelC}"/>
+            <!--<d3:LineGraph x:Name="ChannelD"  Stroke="Red" StrokeThickness="3" Description="{StaticResource channelD}" DataSource="{Binding Path=ChannelD}" />-->
+            
+        </d3:ChartPlotter>
+        <d3:ChartPlotter x:Name="_APDChart1" Grid.ColumnSpan="2" Margin="0,0,32,30" Grid.RowSpan="2"    Visibility="{Binding CommondFeedbackVisibility}">
+            <d3:Header FontFamily="Georgia" Content="{Binding CurrentScanHeaderTitle}"/>
+            <d3:VerticalAxisTitle FontFamily="Georgia" Content="{Binding CurrentScanVerticaTitle}"/>
+            <d3:HorizontalAxisTitle FontFamily="Georgia" Content="{Binding CurrentScanHorizontalTitle}"/>
+            <d3:LineGraph x:Name="Commond"  Stroke="Green" StrokeThickness="3" Description="{StaticResource commond}"  DataSource="{Binding Path=Commond}" />
+            <d3:LineGraph x:Name="Feedback"  Stroke="Blue" StrokeThickness="3" Description="{StaticResource feedback}" DataSource="{Binding Path=Feedback}"/>
+            <!--<d3:LineGraph x:Name="ChannelD"  Stroke="Red" StrokeThickness="3" Description="{StaticResource channelD}" DataSource="{Binding Path=ChannelD}" />-->
+
+        </d3:ChartPlotter>
+    </Grid>
+</UserControl>

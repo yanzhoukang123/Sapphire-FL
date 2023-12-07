@@ -1,0 +1,253 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.RotateControlPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Azure.LaserScanner.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="400"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BitmapImage x:Key="imgGalleryRotate" UriSource="/Resources/Images/Gallery/btn_gallery-rotate-default.png" />
+            <BitmapImage x:Key="imgGalleryRotateSelected" UriSource="/Resources/Images/Gallery/btn_gallery-rotate-selected.png" />
+            <BitmapImage x:Key="imgGalleryRotateLeft" UriSource="/Resources/Images/Gallery/btn_gallery-rotate-left-default.png" />
+            <BitmapImage x:Key="imgGalleryRotateRight" UriSource="/Resources/Images/Gallery/btn_gallery-rotate-right-default.png" />
+            <BitmapImage x:Key="imgGalleryFlipHorizontal" UriSource="/Resources/Images/Gallery/btn_gallery-flip-horizontal-default.png" />
+            <BitmapImage x:Key="imgGalleryFlipVertical" UriSource="/Resources/Images/Gallery/btn_gallery-flip-vertical-default.png" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock Style="{StaticResource TextBlockBodyTextStyle}"
+                   Margin="0,0,0,12"
+                   FontWeight="SemiBold"
+                   Foreground="#FFFFFFFF"
+                   FontFamily="./Resources/Fonts/#Mulish"
+                   Text="IMAGE ORIENTATION" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <!-- Rotation (top row buttons -->
+            <StackPanel Grid.Row="0">
+                <TextBlock
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    VerticalAlignment="Center"
+                    Foreground="#FFFFFFFF"
+                    FontSize="16px"
+                    Text="Rotation" 
+                    Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <Button Name="btnRotateLeft" 
+                            Style="{StaticResource GalleryFlatIconButtonStyle}" 
+                            Height="56"
+                            Content="{StaticResource imgGalleryRotateLeft}"
+                            Command="{Binding Path=ImageTransformVm.RotateLeft90Command}"
+                            ToolTip="Rotate left 90 degree"/>
+                        <TextBlock
+                            Style="{StaticResource TextBlockBodyTextStyle}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Grid.Column="0"
+                            Foreground="#FFFFFFFF"
+                            FontSize="12px"
+                            Text="Rotate&#x0d;&#x0a;  Left" 
+                            Margin="0,0,0,10"/>
+                        <!--<StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=_RotateArbitraryBtn, Path=IsChecked}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>-->
+                    </StackPanel>
+                    <StackPanel Margin="10,0">
+                        <Button Name="btnRotateRight" 
+                            Style="{StaticResource GalleryFlatIconButtonStyle}" 
+                            Height="56"
+                            Content="{StaticResource imgGalleryRotateRight}"
+                            Command="{Binding Path=ImageTransformVm.RotateRight90Command}"
+                            ToolTip="Rotate right 90 degree"/>
+                        <TextBlock
+                            Style="{StaticResource TextBlockBodyTextStyle}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Foreground="#FFFFFFFF"
+                            FontSize="12px"
+                            Text="Rotate&#x0d;&#x0a; Right" 
+                            Margin="0,0,0,10"/>
+                        <!--<StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=_RotateArbitraryBtn, Path=IsChecked}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>-->
+                    </StackPanel>
+                    <StackPanel>
+                        <ToggleButton
+                            x:Name="_RotateArbitraryBtn"
+                            Tag="Rotate"
+                            IsChecked="{Binding Path=ImageTransformVm.IsRotateArbitraryChecked}"
+                            Command="{Binding Path=ImageTransformVm.ShowRotateArbitraryWinCommand}">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton" BasedOn="{StaticResource FlatIconToggleButtonStyle}">
+                                    <Setter Property="Content" Value="{StaticResource imgGalleryRotate}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Content" Value="{StaticResource imgGalleryRotateSelected}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                        <TextBlock
+                            Style="{StaticResource TextBlockBodyTextStyle}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Foreground="#FFFFFFFF"
+                            FontSize="12px"
+                            Text="Rotate" 
+                            Margin="0,0,0,10"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!--<StackPanel IsEnabled="{Binding IsActiveDocument}">
+                    <local:RotateArbitraryControl Margin="0,10"/>
+                    <StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=_RotateArbitraryBtn, Path=IsChecked}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>-->
+
+            </StackPanel>
+            <!-- Orientation (bottom row buttons) -->
+            <StackPanel Grid.Row="1">
+                <TextBlock
+                        Style="{StaticResource TextBlockBodyTextStyle}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Foreground="#FFFFFFFF"
+                        FontSize="16px"
+                        Text="Orientation" 
+                        Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <Button
+                            Style="{StaticResource GalleryFlatIconButtonStyle}"
+                            Height="56"
+                            Content="{StaticResource imgGalleryFlipHorizontal}"
+                            FontSize="12"
+                            IsEnabled="True"
+                            Command="{Binding Path=ImageTransformVm.FlipHorizontalCommand}" />
+                        <TextBlock
+                            Style="{StaticResource TextBlockBodyTextStyle}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Foreground="#FFFFFFFF"
+                            FontSize="12px"
+                            Text="     Flip&#x0d;&#x0a;Horizontal" 
+                            Margin="0,0,0,10"/>
+                    </StackPanel>
+                    <StackPanel Margin="10,0">
+                        <Button
+                            Style="{StaticResource GalleryFlatIconButtonStyle}"
+                            Height="56"
+                            Content="{StaticResource imgGalleryFlipVertical}"
+                            IsEnabled="True"
+                            Command="{Binding Path=ImageTransformVm.FlipVerticalCommand}"/>
+                        <TextBlock
+                            Style="{StaticResource TextBlockBodyTextStyle}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Foreground="#FFFFFFFF"
+                            FontSize="12px"
+                            Text="   Flip&#x0d;&#x0a;Vertical" 
+                            Margin="0,0,0,10"/>
+                    </StackPanel>
+                    <!--<StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=_RotateArbitraryBtn, Path=IsChecked}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>-->
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- Image Channel Alignment -->
+            <StackPanel Grid.Row="2"
+                    Visibility="{Binding Path=ActiveDocument.IsRgbImage, Converter={StaticResource boolToVisibilityConverter}, FallbackValue=Collapsed}">
+                <Separator HorizontalAlignment="Stretch" Margin="0,15"></Separator>
+                <TextBlock
+                    Style="{StaticResource TextBlockBodyTextStyle}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Foreground="#FFFFFFFF"
+                    FontSize="16px"
+                    Text="Pixel Alignment" 
+                    Margin="0,0,0,10"/>
+                <local:ManualAlignControl
+                    DataContext="{Binding ManualAlignVm}"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    />
+            </StackPanel>
+        </Grid>
+
+        <!--Commented out until we can work on this feature -->
+        <!--<TextBlock Margin="16,10" Foreground="#FFFFFFFF" TextWrapping="Wrap">
+            <Run Text="Please use the slider or the text box to change the rotation angle. The rotation desn't take effect on the original image until the" />
+            <Run FontWeight="SemiBold" Text="Apply" />
+            <Run Text="button is selected." />
+        </TextBlock>
+        <TextBlock Margin="16,10" Foreground="#FFFFFFFF" Text="[Range -90 to +90]" />
+        <Grid Margin="16,10,8,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Slider
+                x:Name="RotationSlider"
+                VerticalAlignment="Center"
+                Maximum="90"
+                Minimum="-90" />
+            <TextBox
+                Style="{StaticResource BorderTextBoxStyle}"
+                Grid.Column="1"
+                Width="60"
+                Margin="10,0,0,0"
+                Text="{Binding Value, ElementName=RotationSlider, StringFormat=N2}" />
+        </Grid>
+
+        <Button
+            Style="{StaticResource RaisedButtonStyle}"
+            Margin="0,20,8,0"
+            HorizontalAlignment="Right"
+            Content="Accept" />-->
+    </StackPanel>
+</UserControl>

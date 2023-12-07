@@ -1,0 +1,185 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.ScanControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Azure.LaserScanner.ViewModel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="80"
+    d:DesignWidth="580"
+    mc:Ignorable="d">
+
+    <!--<UserControl.DataContext>
+        <local:ScannerViewModel/>
+    </UserControl.DataContext>-->
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Background" Value="#232832" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel VerticalAlignment="Center" Orientation="Horizontal"
+            Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScanning, Converter={StaticResource boolToVisibilityNegateConverter}}">
+            <TextBlock
+                Margin="0,0,8,0"
+                Style="{StaticResource TextBlockStyle}"
+                Text="Scan Time: "
+                Foreground="#A8B0BA"/>
+            <TextBlock
+                Style="{StaticResource TextBlockStyle}"
+                Text="{Binding Path=ScanTime}"
+                Foreground="#A8B0BA"/>
+            <TextBlock
+                Style="{StaticResource TextBlockStyle}"
+                Text="{Binding Path=TotalScanTime}"
+                Foreground="#A8B0BA"
+                Margin="5,0,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Column="0"
+              Grid.Row="0"
+              Margin="0,0,4,0"
+              VerticalAlignment="Center"
+              Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScanning, Converter={StaticResource boolToVisibilityConverter}}">
+            <ProgressBar
+                Height="30"
+                Maximum="100"
+                Minimum="0"
+                Background="#232832"
+                HorizontalAlignment="Stretch"
+                Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PercentCompleted, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="14"
+                Grid.Row="0"
+                Foreground="White"
+                FontWeight="SemiBold"
+                Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.StatusTextProgress, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+        <StackPanel Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    Margin="0,5,0,0"
+                    Orientation="Horizontal">
+            <Button
+                x:Name="previewButton"
+                Height="35"
+                VerticalAlignment="Center"
+                Margin="5,0,115,0"
+                Width="150"
+                Command="{Binding Path=StartScanCommand}"
+                CommandParameter="{x:Static local:ScanType.Preview}"
+                IsEnabled="{Binding Path=DataContext.IsScanning, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource logicalNegateConverter}}"
+                Visibility="{Binding Path=DataContext.IsPhosphorImaging, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource boolToVisibilityNegateConverter}}"
+                Style="{DynamicResource RaisedImageButtonStyle}"
+                Background="#FF9D05">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/Imaging/icon_preview-default.png"
+                           Height="20"/>
+                    <TextBlock Text="PREVIEW" Margin="10,0,0,0" />
+                </StackPanel>
+            </Button>
+            <Button x:Name="autoScanButton"
+                Height="30"
+                Width="150"
+                VerticalAlignment="Center"
+                Command="{Binding Path=StartScanCommand}"
+                CommandParameter="{x:Static local:ScanType.Auto}"
+                Visibility="{Binding Path=DataContext.IsPhosphorImaging, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource boolToVisibilityNegateConverter}}"
+                Style="{DynamicResource RaisedImageButtonStyle}"
+                Background="#12AE01" 
+                Margin="0,-7">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource ResourceKey=logicalOrNegateConverter}">
+                        <Binding Path="DataContext.IsScanning" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}" FallbackValue="false" />
+                        <Binding Path="DataContext.FluorescenceVM.IsEdrScanning" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}" FallbackValue="false" />
+                    </MultiBinding>
+                </Button.IsEnabled>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/Imaging/icon_smartscan-default.png"
+                           Height="20"/>
+                    <TextBlock Text="SMARTSCAN" Margin="10,0,0,0" />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="_ScanButton"
+                Height="25"
+                Width="150"
+                Margin="4,0,0,0"
+                Command="{Binding Path=StartScanCommand}"
+                CommandParameter="{x:Static local:ScanType.Normal}">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource RaisedImageButtonStyle}" TargetType="Button">
+                        <Setter Property="Background" Value="#0097FC " />
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScanning}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/Imaging/icon_scan-default.png"
+                           Height="20"/>
+                    <TextBlock Text="SCAN" Margin="10,0,0,0" />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="_StopScanButton"
+                Height="35"
+                Margin="4,0"
+                Command="{Binding Path=StopScanCommand}"
+                IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsPreparingToScan, Converter={StaticResource ResourceKey=logicalNegateConverter}}">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource RaisedImageButtonStyle}" TargetType="{x:Type Button}">
+                        <!--SecondaryRaisedButtonStyle-->
+                        <Setter Property="Background" Value="#DD0000" />
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <!--<MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScanning}" Value="True" />
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsPreparing}" Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>-->
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScanning}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/Imaging/btn_cancel-scan-selected.png"
+                           Height="20"/>
+                    <TextBlock Text="STOP" Margin="10,0,0,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

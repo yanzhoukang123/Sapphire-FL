@@ -1,0 +1,468 @@
+﻿<UserControl
+    x:Class="Azure.LaserScanner.View.GridLineControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extToolkit="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+    xmlns:local="clr-namespace:Azure.LaserScanner.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Azure.LaserScanner.View"
+    xmlns:viewmodel="clr-namespace:Azure.LaserScanner.ViewModel"
+    xmlns:cil="clr-namespace:CroppingImageLibrary;assembly=CroppingImageLibrary"
+    d:DataContext="{d:DesignInstance Type=viewmodel:ImagingViewModel}"
+    d:DesignHeight="500"
+    d:DesignWidth="640"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.Resources;component/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="65px" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0"
+            Height="25"
+            Background="#232832 "
+            Margin="0,0,0,5">
+            <TextBlock
+                Margin="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="SemiBold"
+                Foreground="#A8B0BA"
+                Text="SCANNER BACK" />
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <ScrollViewer
+                x:Name="scrollViewer"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                ClipToBounds="True"
+                Margin="1">
+                <Grid x:Name="gridContainer" ClipToBounds="True">
+                    <Grid.LayoutTransform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="myGridScaleTransform" />
+                        </TransformGroup>
+                    </Grid.LayoutTransform>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid x:Name="horizontalHeaderTop" Grid.Row="0" Grid.Column="1" />
+                    <Grid x:Name="verticalHeader" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" />
+                    <Grid x:Name="verticalMargin" Grid.Row="1" Grid.Column="1" />
+
+                    <Border x:Name="borderContainer" Grid.Row="1" Grid.Column="2"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        ClipToBounds="True"
+                        CornerRadius="16">
+                        <Border x:Name="gridBorder"
+                            BorderBrush="Black"
+                            ClipToBounds="True">
+                            <Canvas x:Name="displayCanvas"
+                                ClipToBounds="True">
+                                <Canvas.LayoutTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform x:Name="myCanvasScaleTransform" />
+                                    </TransformGroup>
+                                </Canvas.LayoutTransform>
+                                <Canvas x:Name="gridCanvas"
+                                    Width="{Binding ElementName=gridBorder, Path=ActualHeight}"
+                                    Height="{Binding ElementName=gridBorder, Path=ActualHeight}"
+                                    ClipToBounds="True">
+                                    <Canvas.Background>
+                                        <DrawingBrush
+                                            x:Name="myGrayDrawingBrush"
+                                            Stretch="None"
+                                            TileMode="Tile"
+                                            Viewport="0,0 20,20"
+                                            ViewportUnits="Absolute">
+                                            <DrawingBrush.Drawing>
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <GeometryGroup>
+                                                            <LineGeometry
+                                                                x:Name="myGrayLineGeo1"
+                                                                StartPoint="0,0"
+                                                                EndPoint="0,0" />
+                                                            <LineGeometry
+                                                                x:Name="myGrayLineGeo2"
+                                                                StartPoint="0,0"
+                                                                EndPoint="0,0" />
+                                                        </GeometryGroup>
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Brush="DarkGray" Thickness="1" />
+                                                    </GeometryDrawing.Pen>
+                                                </GeometryDrawing>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Canvas.Background>
+                                </Canvas>
+
+                                <!--<Canvas Width="{Binding ElementName=borderContainer, Path=ActualHeight}"
+                                    Height="{Binding ElementName=borderContainer, Path=ActualHeight}">
+                                    <Canvas.Background>
+                                        <DrawingBrush x:Name="blueDrawingBrush" Stretch="None" TileMode="Tile"
+                                            Viewport="0,0 100,100" ViewportUnits="Absolute">
+                                            <DrawingBrush.Drawing>
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <GeometryGroup>
+                                                            <LineGeometry x:Name="blueLineGeo1" StartPoint="0,0" EndPoint="0,100"/>
+                                                            <LineGeometry x:Name="blueLineGeo2" StartPoint="0,0" EndPoint="100,0"/>
+                                                        </GeometryGroup>
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Thickness="1" Brush="Blue"/>
+                                                    </GeometryDrawing.Pen>
+                                                </GeometryDrawing>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Canvas.Background>
+                                </Canvas>-->
+                                <!--<Canvas Width="{Binding ElementName=gridContainer, Path=ActualWidth}" Height="{Binding ElementName=gridContainer, Path=ActualHeight}">
+                                    <Canvas.Background>
+                                        <DrawingBrush x:Name="redDrawingBrush" Stretch="None" TileMode="Tile"
+                                            Viewport="20,20 200,200" ViewportUnits="Absolute">
+                                            <DrawingBrush.Drawing>
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Geometry>
+                                                        <GeometryGroup>
+                                                            <LineGeometry x:Name="redLineGeo1" StartPoint="20,20" EndPoint="20,220"/>
+                                                            <LineGeometry x:Name="redLineGeo2" StartPoint="20,20" EndPoint="220,20"/>
+                                                        </GeometryGroup>
+                                                    </GeometryDrawing.Geometry>
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Thickness="1" Brush="Red"/>
+                                                    </GeometryDrawing.Pen>
+                                                </GeometryDrawing>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Canvas.Background>
+                                </Canvas>-->
+
+                                <!--<Image
+                                    x:Name="previewImage"
+                                    Canvas.Left="{Binding Path=PreviewStartX}"
+                                    Canvas.Top="{Binding Path=PreviewStartY}"
+                                    Width="{Binding Path=PreviewImageWidth}"
+                                    Height="{Binding Path=PreviewImageHeight}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    OpacityMask="{x:Null}"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Source="{Binding Path=PreviewImage, NotifyOnTargetUpdated=True}"
+                                    Stretch="Uniform">
+                                    <Image.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleY="-1" />
+                                        </TransformGroup>
+                                    </Image.RenderTransform>
+                                </Image>-->
+
+                                <!--<Thumb
+                                    x:Name="_Thumb"
+                                    Canvas.Left="0"
+                                    Canvas.Top="0"
+                                    Background="White"
+                                    DragCompleted="_Thumb_DragCompleted"
+                                    DragDelta="_Thumb_DragDelta"
+                                    Foreground="{x:Null}"
+                                    Opacity="0.06"
+                                    OpacityMask="{x:Null}"
+                                    SizeChanged="_Thumb_SizeChanged"
+                                    UseLayoutRounding="False" />-->
+
+                                <!-- Testing display multiple preview images-->
+                                <ItemsControl ItemsSource="{Binding PreviewImages}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Canvas />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemContainerStyle>
+                                        <!-- ContentPresenter is the default item container in ItemsControl -->
+                                        <Style TargetType="ContentPresenter">
+                                            <Setter Property="Canvas.Left" Value="{Binding Left}"/>
+                                            <Setter Property="Canvas.Top" Value="{Binding Top}"/>
+                                            <Setter Property="Width" Value="{Binding Width}"/>
+                                            <Setter Property="Height" Value="{Binding Height}"/>
+                                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                            <Setter Property="VerticalAlignment" Value="Stretch" />
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <Image
+                                                            Source="{Binding Image}"
+                                                            OpacityMask="{x:Null}"
+                                                            Stretch="Uniform"
+                                                            RenderTransformOrigin="0.5,0.5">
+                                                            <!--<Image.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <ScaleTransform ScaleY="-1" />
+                                                                </TransformGroup>
+                                                            </Image.RenderTransform>-->
+                                                        </Image>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ItemsControl.ItemContainerStyle>
+                                </ItemsControl>
+
+                                <!--<ContentControl Content="{Binding ScanRegionAdornerLayer}" />-->
+
+                                <cil:CropToolControl
+                                    Name="myCropTool"
+                                    Width="{Binding ElementName=displayCanvas, Path=ActualWidth, Mode=OneWay}"
+                                    Height="{Binding ElementName=displayCanvas, Path=ActualHeight, Mode=OneWay}"
+                                    CropService="{Binding CropServices}">
+                                </cil:CropToolControl>
+
+                                <!--<drawlib:DrawingCanvas Name="drawingCanvasScanRegion" Tool="Rectangle" Background="#00000000"
+                                    Width="{Binding ElementName=displayCanvas, Path=ActualWidth, Mode=OneWay}"
+                                    Height="{Binding ElementName=displayCanvas, Path=ActualHeight, Mode=OneWay}">
+                                    <drawlib:DrawingCanvas.LayoutTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" />
+                                            <ScaleTransform ScaleY="-1" />
+                                        </TransformGroup>
+                                    </drawlib:DrawingCanvas.LayoutTransform>
+                                </drawlib:DrawingCanvas>-->
+
+                                <!--<ItemsControl x:Name="_ScanRegionAdorner" ItemsSource="{Binding ScanRegions}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Canvas />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemContainerStyle>
+                                        --><!-- ContentPresenter is the default item container in ItemsControl --><!--
+                                        <Style TargetType="ContentPresenter">
+                                            <Setter Property="Canvas.Left" Value="{Binding Left}"/>
+                                            <Setter Property="Canvas.Top" Value="{Binding Top}"/>
+                                            <Setter Property="Width" Value="{Binding Width}"/>
+                                            <Setter Property="Height" Value="{Binding Height}"/>
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <Thumb />
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ItemsControl.ItemContainerStyle>
+                                </ItemsControl>-->
+                                
+                            </Canvas>
+                        </Border>
+                    </Border>
+
+                    <Grid x:Name="horizontalMargin" Grid.Row="2" Grid.Column="2" />
+                    <Grid x:Name="horizontalHeaderBot" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" />
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+        <Grid Grid.Row="2"
+            Height="25"
+            Background="#232832 ">
+            <TextBlock
+                Margin="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="SemiBold"
+                Foreground="#A8B0BA"
+                Text="SCANNER FRONT" />
+        </Grid>
+
+        <Grid Grid.Row="3"
+              Background="#2E3440">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Grid.Column="1"
+                Margin="5">
+                <Button
+                    Width="25"
+                    Height="25"
+                    Margin="0,0,5,0"
+                    Click="ZoomDecrement_Click"
+                    FontSize="10"
+                    BorderThickness="1"
+                    BorderBrush="#2E3440"
+                    Background="#2E3440">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/Gallery/btn_zoom-out-default.png" Width="25" Height="25" />
+                    </StackPanel>
+                </Button>
+                <Slider
+                    x:Name="zoomSlider"
+                    Width="200"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    LargeChange="0.2"
+                    Maximum="50"
+                    Minimum="1"
+                    SmallChange="0.1"
+                    Style="{StaticResource LargeSliderStyle}" />
+                <Button
+                    Width="25"
+                    Height="25"
+                    BorderThickness="1"
+                    BorderBrush="#2E3440"
+                    Click="ZoomIncrement_Click"
+                    Background="#2E3440"
+                    FontSize="10">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/Gallery/btn_zoom-in-default.png" Width="25" Height="25" />
+                    </StackPanel>
+                </Button>
+                <!--<TextBlock
+                    x:Name="zoomLevel"
+                    Margin="4,1"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Foreground="White" />-->
+            </StackPanel>
+
+            <!--
+                TODO: This needs to be bound to when the scanner is ready.
+                We will switch the visibility of the two stackPanels
+            -->
+            <!--<Grid Grid.Column="1" Visibility="Collapsed">
+                <StackPanel
+                    x:Name="ScannerNotReadyStackPanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Ellipse Width="20" Height="20">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Setter Property="Fill" Value="{StaticResource ScannerNotReadyBrush}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScannerReady}" Value="True">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Fill" Value="{StaticResource ScannerReadyBrush}" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <TextBlock Margin="8,0,0,0" Opacity="0.5">
+                        <TextBlock.Style>
+                            <Style BasedOn="{StaticResource TextBlockBodyTextStyle}" TargetType="{x:Type TextBlock}">
+                                <Setter Property="Text" Value="Scanner Not Ready" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScannerReady}" Value="True">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Text" Value="Scanner Ready" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsScanning}" Value="True">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Text" Value="Scanning" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel
+                    x:Name="ScannerReadyStackPanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+                    <Ellipse
+                        Width="20"
+                        Height="20"
+                        Fill="{StaticResource ScannerReadyBrush}" />
+                    <TextBlock
+                        Margin="8,0,0,0"
+                        Opacity="0.5"
+                        Style="{StaticResource TextBlockBodyTextStyle}"
+                        Text="Scanner Ready" />
+                </StackPanel>
+            </Grid>-->
+
+            <Button
+                x:Name="ContrastSettingsButton"
+                Grid.Column="0"
+                Width="180"
+                Height="30"
+                BorderBrush="White"
+                BorderThickness="1"
+                Background="Transparent"
+                Foreground="White"
+                HorizontalAlignment="Right"
+                Margin="5"
+                VerticalAlignment="Center"
+                Command="{Binding Path=ShowPreviewContrastCommand}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="8"/>
+                    </Style>
+                </Button.Resources>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/Imaging/icon_contrast-default.png"
+                           Height="25"/>
+                    <TextBlock Text="CONTRAST SETTINGS" Margin="10,5,0,0" />
+                </StackPanel>
+            </Button>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1"
+              Background="#2E3440">
+            <!--  Channels preview  -->
+            <Grid>
+                <views:PreviewChannels
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsContrastChannelAllowed="False"
+                    ButtonsOrientation="Vertical"
+                    ButtonsMargin="0,0,0,6"
+                    DataContext="{Binding}" />
+            </Grid>
+        </Grid>
+        <!--<Grid Grid.Column="2"
+              Grid.RowSpan="4"
+              Background="#1D212A">
+        </Grid>-->
+    </Grid>
+
+</UserControl>

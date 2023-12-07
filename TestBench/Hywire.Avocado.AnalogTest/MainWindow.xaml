@@ -1,0 +1,77 @@
+﻿<Window x:Class="Hywire.Avocado.AnalogTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hywire.Avocado.AnalogTest"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Connect" Width="100" Margin="5" Command="{Binding Path=SetCmd}" CommandParameter="Connect"/>
+            <CheckBox Content="Is Connected" Margin="5" IsChecked="{Binding Path=IsConnected}" IsEnabled="False"/>
+        </StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Scan DX:" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="5"/>
+            <TextBox Width="100" Grid.Row="0" Grid.Column="1" Margin="5"/>
+            <TextBlock Text="Ruler pulses" Grid.Row="0" Grid.Column="2" Margin="5"/>
+
+            <TextBlock Text="Scan DY:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="5"/>
+            <TextBox Width="100" Grid.Row="1" Grid.Column="1" Margin="5"/>
+            <TextBlock Text="Lines" Grid.Row="1" Grid.Column="2" Margin="5"/>
+
+            <TextBlock Text="Scan DZ:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="5"/>
+            <TextBox Width="100" Grid.Row="2" Grid.Column="1" Margin="5"/>
+            <TextBlock Text="Points" Grid.Row="2" Grid.Column="2" Margin="5"/>
+
+            <TextBlock Text="Resolution:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="5"/>
+            <TextBox Width="100" Grid.Row="3" Grid.Column="1" Margin="5"/>
+            <TextBlock Text="Ruler pulses" Grid.Row="3" Grid.Column="2" Margin="5"/>
+            <TextBlock Text="(Horizontal scan resolution)" Grid.Row="3" Grid.Column="3" Margin="5"/>
+
+            <TextBlock Text="Acc numbers:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Margin="5"/>
+            <TextBox Width="100" Grid.Row="4" Grid.Column="1" Margin="5"/>
+            <TextBlock Text="Points" Grid.Row="4" Grid.Column="2" Margin="5"/>
+            <TextBlock Text="(Accumulating numbers per pixel)" Grid.Row="4" Grid.Column="3" Margin="5"/>
+
+            <TextBlock Text="Interval:" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Margin="5"/>
+            <TextBox Width="100" Grid.Row="5" Grid.Column="1" Margin="5"/>
+            <TextBlock Text="msec" Grid.Row="5" Grid.Column="2" Margin="5"/>
+            <TextBlock Text="(static scan sampling interval)" Grid.Row="5" Grid.Column="3" Margin="5"/>
+
+            <Button Content="Start" Grid.Row="6" Grid.Column="1" Margin="5" Command="{Binding Path=SetCmd}" CommandParameter="Start"/>
+
+            <TextBlock Text="ChA Value:" Grid.Row="7" Grid.Column="0" Margin="5"/>
+            <TextBlock Text="{Binding Path=SampleValueChA}" Grid.Row="7" Grid.Column="1" Margin="5"/>
+
+            <TextBlock Text="ChB Value:" Grid.Row="8" Grid.Column="0" Margin="5"/>
+            <TextBlock Text="{Binding Path=SampleValueChB}" Grid.Row="8" Grid.Column="1" Margin="5"/>
+
+            <TextBlock Text="ChC Value:" Grid.Row="9" Grid.Column="0" Margin="5"/>
+            <TextBlock Text="{Binding Path=SampleValueChC}" Grid.Row="9" Grid.Column="1" Margin="5"/>
+        </Grid>
+    </StackPanel>
+</Window>

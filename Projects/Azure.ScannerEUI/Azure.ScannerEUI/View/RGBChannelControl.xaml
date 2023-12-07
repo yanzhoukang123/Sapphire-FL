@@ -1,0 +1,232 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.RGBChannelControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:aip="clr-namespace:Azure.Image.Processing;assembly=Azure.Image.Processing"
+             mc:Ignorable="d" 
+             d:DesignHeight="60"
+             d:DesignWidth="240">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border CornerRadius="4"
+            Background="{DynamicResource ComboBoxBackground_Selected}">
+
+        <Grid MinWidth="240"
+              
+              HorizontalAlignment="Stretch">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MaxHeight="60"/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="RgbaButtons">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="30" Width="57"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="30" Width="57"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="30" Width="57"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="30" Width="57"/>
+                </Grid.ColumnDefinitions>
+                
+                <Rectangle Grid.Column="1"
+                           Fill="DarkGray"
+                           Width="1"
+                           Margin="1"/>
+                <Rectangle Grid.Column="3"
+                           Fill="DarkGray"
+                           Width="1"
+                           Margin="1"/>
+                <Rectangle Grid.Column="5"
+                           Fill="DarkGray"
+                           Width="1"
+                           Margin="1"/>
+
+                <ToggleButton x:Name="_RedChannelButton" Style="{StaticResource ToggleInformButton}"
+                              Foreground="White"
+                              FontSize="11"
+                              Background="Transparent"
+                              Height="56"
+                              VerticalAlignment="Top"
+                              IsChecked="{Binding Path=ActiveDocument.SelectedChannelType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static aip:ImageChannelType.Red}}"
+                              Command="{Binding Path=DisplayRedChCommand}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="gridBorder" BorderBrush="Transparent">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Red"
+                                               TextWrapping="Wrap" 
+                                               TextAlignment="Center"
+                                               DockPanel.Dock="Bottom"
+                                               />
+                                    <Image x:Name="RedChannelImage" Source="/Azure.ScannerEUI;component/Resources/Images/RNormal.png"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="BorderThickness" Value="5"/>
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                        <Setter.Value>
+                                            <TranslateTransform Y="1.0" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="RedChannelImage"
+                                            Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/RSelected.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+                <ToggleButton x:Name="_GreenChannelButton" 
+                              Grid.Column="2"
+                              Style="{StaticResource ToggleInformButton}"
+                              Foreground="White"
+                              FontSize="11"
+                              Background="Transparent"
+                              Height="56"
+                              VerticalAlignment="Top"
+                              IsChecked="{Binding Path=ActiveDocument.SelectedChannelType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static aip:ImageChannelType.Green}}"
+                              Command="{Binding Path=DisplayGreenChCommand}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="gridBorder" BorderBrush="Transparent">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Green"
+                                               TextWrapping="Wrap" 
+                                               TextAlignment="Center"
+                                               DockPanel.Dock="Bottom"
+                                               />
+                                    <Image x:Name="GreenChannelImage" Source="/Azure.ScannerEUI;component/Resources/Images/GNormal.png"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="BorderThickness" Value="5"/>
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                        <Setter.Value>
+                                            <TranslateTransform Y="1.0" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="GreenChannelImage" Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/GSelected.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+                <ToggleButton x:Name="_BlueChannelButton"
+                              Grid.Column="4"
+                              Style="{StaticResource ToggleInformButton}"
+                              Foreground="White"
+                              FontSize="11"
+                              Background="Transparent"
+                              Height="56"
+                              VerticalAlignment="Top"
+                              IsChecked="{Binding Path=ActiveDocument.SelectedChannelType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static aip:ImageChannelType.Blue}}"
+                              Command="{Binding Path=DisplayBlueChCommand}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="gridBorder" BorderBrush="Transparent">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Blue"
+                                               TextWrapping="Wrap" 
+                                               TextAlignment="Center"
+                                               DockPanel.Dock="Bottom"
+                                               />
+                                    <Image x:Name="BlueChannelImage" Source="/Azure.ScannerEUI;component/Resources/Images/BNormal.png"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="BorderThickness" Value="5"/>
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                        <Setter.Value>
+                                            <TranslateTransform Y="1.0" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="BlueChannelImage" Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/BSelected.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+                <ToggleButton x:Name="_CompositDisplayButton"
+                              Grid.Column="6"
+                              Style="{StaticResource ToggleInformButton}"
+                              HorizontalAlignment="Stretch"
+                              Foreground="White"
+                              FontSize="11"
+                              Background="Transparent"
+                              Height="56"
+                              VerticalAlignment="Top"
+                              IsChecked="{Binding Path=ActiveDocument.SelectedChannelType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static aip:ImageChannelType.Mix}}"
+                              Command="{Binding Path=DisplayCompositeCommand}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="gridBorder" BorderBrush="Transparent">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="All"
+                                               TextWrapping="Wrap" 
+                                               TextAlignment="Center"
+                                               DockPanel.Dock="Bottom"
+                                               />
+                                    <Image x:Name="CompositDisplayImage" Source="/Azure.ScannerEUI;component/Resources/Images/RGBNormal.png"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="gridBorder" Property="BorderBrush" Value="#FF4788c8" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="BorderThickness" Value="5"/>
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter TargetName="gridBorder" Property="RenderTransform" >
+                                        <Setter.Value>
+                                            <TranslateTransform Y="1.0" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="CompositDisplayImage" Property="Source" Value="/Azure.ScannerEUI;component/Resources/Images/RGBSelected.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+            </Grid>
+
+        </Grid>
+
+    </Border>
+
+</UserControl>

@@ -1,0 +1,303 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:Azure.ScannerEUI.ViewModel"
+             xmlns:ScannerEUI="clr-namespace:Azure.ScannerEUI" x:Class="Azure.ScannerEUI.View.LasersControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="120"
+             d:DesignWidth="470"
+             DataContext="{Binding ScannerVM}">
+
+    <!--<UserControl.DataContext>
+        <local:ScannerViewModel/>
+    </UserControl.DataContext>-->
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Azure.ScannerEUI;component/Resources/AllResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Lasers" Style="{StaticResource MyLabelHeaderStyle}" 
+                           Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Content="Power" Style="{StaticResource MyLabelHeaderStyle}" 
+                           Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Content="Intensity" Style="{StaticResource MyLabelHeaderStyle}" 
+                           Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Laser -->
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                        <Label Content="A" Style="{StaticResource MyLabelHeaderStyle}"/>
+                        <TextBox x:Name="_LaserAPowerTextBox"
+                            Margin="1,2"
+                            Width="90"
+                            Height="25"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Background="LightBlue"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding LaserAPower, StringFormat=\{0:F\}, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox x:Name="_LaserAIntensityTextBox"
+                            Margin="1,1"
+                            Width="90"
+                            Height="25"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Background="LightGray"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding LaserAIntensity, Mode=OneWay, TargetNullValue={x:Static sys:String.Empty}}" IsReadOnly="True" />
+                        <ToggleSwitch:HorizontalToggleSwitch 
+                            ThumbTemplate="{StaticResource SimpleThumbTemplate}"
+                            FontSize="14"
+                            BorderBrush="#FF6A6A6A"
+                            UncheckedForeground="White" 
+                            UncheckedContent="Off" 
+                            CheckedContent="On" 
+                            IsChecked="{Binding IsLaserASelected, Mode=TwoWay}"
+                            Focusable="True" 
+                            HorizontalAlignment="Center"
+                            Margin="1,4">
+                            <ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFB3B5B7" Offset="1"/>
+                                    <GradientStop Color="#FFEDEEEE"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                            <ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFE1E2E2"/>
+                                    <GradientStop Color="#FF555555"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                            <ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF6E97B7" Offset="1"/>
+                                    <GradientStop Color="#FF46738A"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                        </ToggleSwitch:HorizontalToggleSwitch>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical">
+                        <Label Content="B" Style="{StaticResource MyLabelHeaderStyle}" />
+                        <TextBox x:Name="_LaserBPowerTextBox"
+                            Margin="1,2"
+                            Width="90"
+                            Height="25"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Background="LightBlue"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding LaserBPower, StringFormat=\{0:F\}, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox x:Name="_LaserBIntensityTextBox"
+                            Margin="1,1"
+                            Width="90"
+                            Height="25"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Background="LightGray"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding LaserBIntensity, Mode=OneWay, TargetNullValue={x:Static sys:String.Empty}}" IsReadOnly="True" />
+                        <ToggleSwitch:HorizontalToggleSwitch 
+                            ThumbTemplate="{StaticResource SimpleThumbTemplate}"
+                            FontSize="14"
+                            BorderBrush="#FF6A6A6A"
+                            UncheckedForeground="White" 
+                            UncheckedContent="Off" 
+                            CheckedContent="On" 
+                            IsChecked="{Binding IsLaserBSelected, Mode=TwoWay}"
+                            HorizontalAlignment="Center"
+                            Margin="1,4">
+                            <ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFB3B5B7" Offset="1"/>
+                                    <GradientStop Color="#FFEDEEEE"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                            <ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFE1E2E2"/>
+                                    <GradientStop Color="#FF555555"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                            <ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF6E97B7" Offset="1"/>
+                                    <GradientStop Color="#FF46738A"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                        </ToggleSwitch:HorizontalToggleSwitch>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Vertical"
+                                Visibility="{Binding DataContext.ApdVM.IsCChannel, Converter={StaticResource boolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScannerEUI:MainWindow}}}">
+                        <Label Content="C" Style="{StaticResource MyLabelHeaderStyle}" />
+                        <TextBox x:Name="_LaserCPowerTextBox"
+                            Margin="1,2"
+                            Width="90"
+                            Height="25"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Background="LightBlue"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding LaserCPower, StringFormat=\{0:F\}, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox x:Name="_LaserCIntensityTextBox"
+                            Margin="1,1"
+                            Width="90"
+                            Height="25"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Background="LightGray"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding LaserCIntensity, Mode=OneWay, TargetNullValue={x:Static sys:String.Empty}}" IsReadOnly="True" />
+                        <ToggleSwitch:HorizontalToggleSwitch 
+                            ThumbTemplate="{StaticResource SimpleThumbTemplate}"
+                            FontSize="14"
+                            BorderBrush="#FF6A6A6A"
+                            UncheckedForeground="White" 
+                            UncheckedContent="Off" 
+                            CheckedContent="On" 
+                            IsChecked="{Binding IsLaserCSelected, Mode=TwoWay}"
+                            HorizontalAlignment="Center"
+                            Margin="1,4">
+                            <ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFB3B5B7" Offset="1"/>
+                                    <GradientStop Color="#FFEDEEEE"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                            <ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFE1E2E2"/>
+                                    <GradientStop Color="#FF555555"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                            <ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF6E97B7" Offset="1"/>
+                                    <GradientStop Color="#FF46738A"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                        </ToggleSwitch:HorizontalToggleSwitch>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="6" Orientation="Vertical"
+                                Visibility="{Binding DataContext.ApdVM.IsDChannel, Converter={StaticResource boolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScannerEUI:MainWindow}}}">
+                        <Label Content="D" Style="{StaticResource MyLabelHeaderStyle}" />
+                        <TextBox x:Name="_LaserDPowerTextBox"
+                            Margin="1,2"
+                            Width="90"
+                            Height="25"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Background="LightBlue"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding LaserDPower, StringFormat=\{0:F\}, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox x:Name="_LaserDIntensityTextBox"
+                            Margin="1,1"
+                            Width="90"
+                            Height="25"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Background="LightGray"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding LaserDIntensity, Mode=OneWay, TargetNullValue={x:Static sys:String.Empty}}" IsReadOnly="True" />
+                        <ToggleSwitch:HorizontalToggleSwitch 
+                            ThumbTemplate="{StaticResource SimpleThumbTemplate}"
+                            FontSize="14"
+                            BorderBrush="#FF6A6A6A"
+                            UncheckedForeground="White" 
+                            UncheckedContent="Off" 
+                            CheckedContent="On" 
+                            IsChecked="{Binding IsLaserDSelected, Mode=TwoWay}"
+                            HorizontalAlignment="Center"
+                            Margin="1,4">
+                            <ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFB3B5B7" Offset="1"/>
+                                    <GradientStop Color="#FFEDEEEE"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                            <ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFE1E2E2"/>
+                                    <GradientStop Color="#FF555555"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                            <ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF6E97B7" Offset="1"/>
+                                    <GradientStop Color="#FF46738A"/>
+                                </LinearGradientBrush>
+                            </ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                        </ToggleSwitch:HorizontalToggleSwitch>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
