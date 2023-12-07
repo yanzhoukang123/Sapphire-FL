@@ -13,7 +13,7 @@ namespace Azure.UpdateConfig
     class Program
     {
         //private static readonly string _CompanyName = "Azure Biosystems";
-        //private static readonly string _ApplicationName = "Sapphire";222
+        //private static readonly string _ApplicationName = "Sapphire";
         private static string _InstallationType = string.Empty;
         private static string _InstallationModule = string.Empty;
         private static string _ConfigXmlPath = string.Empty;
