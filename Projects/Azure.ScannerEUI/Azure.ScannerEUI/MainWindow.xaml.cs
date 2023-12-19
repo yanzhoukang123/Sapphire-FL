@@ -139,28 +139,14 @@ namespace Azure.ScannerEUI
             Workspace.This.ProductVersion = productVersion;
             if (!SettingsManager.ConfigSettings.IsSimulationMode)
             {
-                InitSplashScreen();
+                //InitSplashScreen();
+                Workspace.This.OpticalModulePowerMonitor = true;
+                Workspace.This.OpticalModulePowerStatus = true;
             }
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
             //Workspace.This.IsAuthenticated = true;
             //Workspace.This.MotorIsAlive = true;
-            //Workspace.This.MotorVM.InitMotorControls();
-            #region Read personalization parameters
-            if (!SettingsManager.ConfigSettings.IsSimulationMode)
-            {
-                if (Workspace.This.EthernetController.GetDeviceProperties() == false)
-                {
-                    Log.Error(this, "Failed to read personalization parameters!");
-                }
-                else
-                {
-                    //Workspace.This.MotorVM.LimitsXPlus= Workspace.This.MotorVM.LimitsXPlus- Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance;
-                    Workspace.This.MotorVM.AbsZPos = Workspace.This.EthernetController.DeviceProperties.ZFocusPosition;
-                    Workspace.This.MotorVM.AbsXPos = Workspace.This.EthernetController.DeviceProperties.LogicalHomeX;
-                    Workspace.This.MotorVM.AbsYPos = Workspace.This.EthernetController.DeviceProperties.LogicalHomeY;
-                }
-            }
-            #endregion
+            //Workspace.This.MotorVM.InitMotorControls(); 
         }
         /// <summary>
         /// ProgressValue And string Red,string Black And Message
@@ -257,6 +243,10 @@ namespace Azure.ScannerEUI
                         //获取所有通道激光信息
                         //Get all channel laser information
                         Workspace.This.EthernetController.GetAllLaserModulseInfo();
+                        Workspace.This.EthernetController.GetIVSystemVersions();//Ge IV Software Version Number
+                        Workspace.This.EthernetController.GetIVOpticalModuleSerialNumber(); //IV Optical Module Serial Number
+                        Workspace.This.EthernetController.GetLaserSystemVersions(); //Get Laser Software Version Number
+                        Workspace.This.EthernetController.GetLaserOpticalModuleSerialNumber(); //Laser Optical Module Serial Number
                     }
                     ProgressValueAndMessage(100, "Black", "Please Wait For System Preparation…");
                     Thread.Sleep(4000);
@@ -287,7 +277,7 @@ namespace Azure.ScannerEUI
         {
             AbnormalTimer = new DispatcherTimer();
             AbnormalTimer.Tick += OnTimeLoadData;
-            AbnormalTimer.Interval = new TimeSpan(0, 0, 5);//1 sec
+            AbnormalTimer.Interval = new TimeSpan(0, 0, 2);//1 sec
 
         }
 
@@ -433,7 +423,8 @@ namespace Azure.ScannerEUI
             catch
             {
             }
-
+            //Setting the fan level
+            Workspace.This.EthernetController.SetIncrustationFan(1, Workspace.This.NewParameterVM.ShellFanDefaultSpeed);
             SettingsManager.OnExit();
         }
 

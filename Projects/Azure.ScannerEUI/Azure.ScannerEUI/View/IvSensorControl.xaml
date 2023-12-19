@@ -194,39 +194,40 @@
             <Label Content="Wavelength(nm)" Style="{StaticResource MyLabelHeaderStyle}" Width="122" Margin="0" />
         </StackPanel>
 
-        <StackPanel   Grid.Row="8"  Orientation="Horizontal"  HorizontalAlignment="Center" Margin="4,0,5,0" Width="119" Grid.Column="1">
+        <Grid   Grid.Row="8"  HorizontalAlignment="Center" Width="121" Grid.Column="1">
             <TextBox x:Name="_WL1"
-                        Width="111"
+                        Width="27"
                         Height="25"
                         FontSize="14"
                         FontWeight="SemiBold"
                         VerticalContentAlignment="Center"
                         IsReadOnly="{Binding Path=IsReadOnly}"
                         BorderBrush="{x:Null}" BorderThickness="0"
-                        Text="{Binding Path=WL1, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,2"/>
-        </StackPanel>
-        <StackPanel Grid.Column="3"   Grid.Row="8"  Orientation="Horizontal"  HorizontalAlignment="Center" Margin="5,0,3,0" Width="116">
+                        Text="{Binding Path=WL1, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,2,94,2" />
+            <Label Content="{Binding WL1Sign}" FontSize="14"  FontWeight="SemiBold" Margin="23,1,6,2"/>
+        </Grid>
+        <Grid Grid.Column="3"   Grid.Row="8" HorizontalAlignment="Center" Width="117">
             <TextBox x:Name="_WR1"
-                       Width="111"
-                        Height="25"
+                        Width="27"
                         FontSize="14"
                         FontWeight="SemiBold"
                         VerticalContentAlignment="Center"
                         BorderBrush="{x:Null}" BorderThickness="0"
                         IsReadOnly="{Binding Path=IsReadOnly}"
-                        Text="{Binding Path=WR1, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,2"/>
-        </StackPanel>
-        <StackPanel Grid.Column="5"   Grid.Row="8"  Orientation="Horizontal"  HorizontalAlignment="Center" Margin="6,0,86,0" Width="115">
+                        Text="{Binding Path=WR1, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="1,2,89,2" />
+            <Label Content="{Binding Path=WR1Sign}" FontSize="14"  FontWeight="SemiBold" Margin="24,1,-5,2"/>
+        </Grid>
+        <Grid Grid.Column="5"   Grid.Row="8" HorizontalAlignment="Center"  Width="115" Margin="8,0,90,0">
             <TextBox x:Name="_WR2"
-                        Width="111"
-                        Height="25"
+                        Width="27"
                         FontSize="14"
                         FontWeight="SemiBold"
                         VerticalContentAlignment="Center"
                         IsReadOnly="{Binding Path=IsReadOnly}"
                         BorderBrush="{x:Null}" BorderThickness="0"
-                        Text="{Binding Path=WR2, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,2"/>
-        </StackPanel>
+                        Text="{Binding Path=WR2, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="1,2,87,2"/>
+            <Label Content="{Binding Path=WR2Sign}" FontSize="14"  FontWeight="SemiBold" Margin="24,1,-1,2"/>
+        </Grid>
         <!--PGA-->
 
         <StackPanel Grid.Column="0"  Grid.Row="14"  Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,0,29,0" Width="120">

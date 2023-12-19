@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Azure.ScannerEUI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,7 @@ namespace Azure.ScannerEUI.View
             if (int.TryParse(txtBox2.Text, out Result))
             {
                 txtBox2.Text = (Result + 1).ToString();
+                Workspace.This.PixelX = Result + 1;
             }
            
         }
@@ -41,6 +43,7 @@ namespace Azure.ScannerEUI.View
             if (int.TryParse(txtBox2.Text, out Result))
             {
                 txtBox2.Text = (Result - 1).ToString();
+                Workspace.This.PixelX = Result - 1;
             }
 
         }
@@ -50,6 +53,7 @@ namespace Azure.ScannerEUI.View
             if (int.TryParse(txtBox3.Text, out Result))
             {
                 txtBox3.Text = (Result + 1).ToString();
+                Workspace.This.PixelY = Result + 1;
             }
         }
 
@@ -59,6 +63,7 @@ namespace Azure.ScannerEUI.View
             if (int.TryParse(txtBox3.Text, out Result))
             {
                 txtBox3.Text = (Result - 1).ToString();
+                Workspace.This.PixelY = Result - 1;
             }
         }
 

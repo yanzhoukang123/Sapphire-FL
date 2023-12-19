@@ -303,4 +303,14 @@
     <HighSignalStepdownLevel Position="6" />
   </AutoScan>
 
+  <!--ShellFan -->
+  <ShellFanModules>
+    <ShellFanModule ShellFan="InternalLowTemperature" Value="22"/>
+    <ShellFanModule ShellFan="InternalModerateTemperature" Value="25"/>
+    <ShellFanModule ShellFan="InternalHighTemperature" Value="27"/>
+    <ShellFanModule ShellFan="ModuleLowTemperature" Value="3"/>
+    <ShellFanModule ShellFan="ModuleModerateTemperature" Value="5"/>
+    <ShellFanModule ShellFan="ModuleHighTemperature" Value="7"/>
+  </ShellFanModules>
+
 </Config>

@@ -27,7 +27,7 @@ namespace Azure.ScannerEUI.ViewModel
     }
 
     class ApdViewModel : ViewModelBase
-    {        
+    {
         #region Private data...
 
         int _ApdAGain = 100;
@@ -48,6 +48,12 @@ namespace Azure.ScannerEUI.ViewModel
         int _RunningMode = 0;
 
         bool? _LIDIsOpen = null;
+        bool? _TopCoverLock = null;      //Top cover lock status（FW Version 1.1.0.0）   顶盖锁状态(硬件版本V1.1)
+        bool? _TopMagneticState = null;  // Top cover magnetic suction status （FW Version 1.1.0.0） 顶盖磁吸状态(硬件版本V1.1)
+        bool? _OpticalModulePowerStatus = null; //Optical module power status （FW Version 1.1.0.0）  光学模块电源状态(硬件版本V1.1)
+        bool? _OpticalModulePowerMonitor = null; //Optical module power status （FW Version 1.1.0.0）  光学模块电源状态(硬件版本V1.1)
+        bool? _ShutdownDuringScanStatus = null;
+        bool? _DevicePowerStatus = null;
 
         private ObservableCollection<APDGainType> _APDGainOptions = null;
         private APDGainType _SelectedApdAGain = null;
@@ -74,7 +80,160 @@ namespace Azure.ScannerEUI.ViewModel
         public int _TempR2PMTValue = 0;
         public int _TempPMTValueSinge = 0;
         #endregion
+        //Top cover lock status（FW Version 1.1.0.0）   顶盖锁状态(硬件版本V1.1)
+        public bool? TopCoverLock
+        {
+            get
+            {
+                return _TopCoverLock;
+            }
+            set
+            {
+                if (_TopCoverLock != value)
+                {
+                    _TopCoverLock = value;
+                    Workspace.This.TopCoverLockStatus = (bool)_TopCoverLock;
+                }
+            }
+        }
+        // Front lid lock status （FW Version 1.1.0.0） 前盖锁状态(硬件版本V1.1)
+        public bool? TopMagneticState
+        {
+            get
+            {
+                return _TopMagneticState;
+            }
+            set
+            {
+                if (_TopMagneticState != value)
+                {
+                    _TopMagneticState = value;
+                    Workspace.This.TopMagneticStatus = (bool)_TopMagneticState;
+                }
+            }
+        }
+        //Optical module power status （FW Version 1.1.0.0）  光学模块电源状态(硬件版本V1.1)
+        public bool? OpticalModulePowerStatus
+        {
+            get
+            {
+                return _OpticalModulePowerStatus;
+            }
+            set
+            {
+                if (_OpticalModulePowerStatus != value)
+                {
+                    _OpticalModulePowerStatus = value;
+                    Workspace.This.OpticalModulePowerStatus = (bool)value;
+                }
+            }
+        }
+        //State when pressing the front panel button while scanning images  （FW Version 1.1.0.0）  //扫描图像时按下前面板按钮时的状态
+        public bool? ShutdownDuringScanStatus
+        {
+            get
+            {
+                return _ShutdownDuringScanStatus;
+            }
+            set
+            {
+                if (_ShutdownDuringScanStatus != value)
+                {
+                    _ShutdownDuringScanStatus = value;
+                    if ((bool)value)
+                    {
+                        //If the firmware version is 1.1.0.0 and the LED version number is "254.255.255.255", perform the following operation
+                        if (Workspace.This.ScannerVM.LEDVersion == Workspace.This.NewParameterVM.Str16Code)
+                        {
+                            Workspace.This.Owner.Dispatcher.BeginInvoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "connection fail！\n", "warning");
+                                Workspace.This.CloseAppliction();
+                            });
+                        }
+                        else
+                        {
+                            ShutdownDuringScanWindow();
+                        }
+                    }
+                }
+            }
+        }
+        //Front panel power status during non scanning （FW Version 1.1.0.0）  非扫图时前面板电源状态
+        public bool? DevicePowerStatus
+        {
+            get
+            {
+                return _DevicePowerStatus;
+            }
+            set
+            {
+                if (_DevicePowerStatus != value)
+                {
+                    _DevicePowerStatus = value;
+                    if (!(bool)value)
+                    {
+                        //If the firmware version is 1.1.0.0 and the LED version number is "254.255.255.255", perform the following operation
+                        if (Workspace.This.ScannerVM.LEDVersion == Workspace.This.NewParameterVM.Str16Code)
+                        {
+                            Workspace.This.Owner.Dispatcher.BeginInvoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "connection fail！\n", "warning");
+                                Workspace.This.CloseAppliction();
+                            });
+                        }
+                        else
+                        {
+                            Workspace.This.MotorIsAlive = false;
+                            Workspace.This.ScanIsAlive = false;
+                            Workspace.This.DisconnectDeviceEnable = false;
+                            Workspace.This.EthernetController.SetLedBarMarquee(LEDBarChannel.LEDBarGreen, 9, false);
+                            MessageBox.Show("System is detected power off, please power on the system and restart the GUI software");
+                            Workspace.This.Owner.Dispatcher.BeginInvoke((Action)delegate
+                            {
+                                Workspace.This.CloseAppliction();
+                            });
+                        }
+                    }
+                }
+            }
+        }
 
+        //Optical module power monitoring （FW Version 1.1.0.0）  光学模块电源监测(硬件版本V1.1)
+        public bool? OpticalModulePowerMonitor
+        {
+            get
+            {
+                return _OpticalModulePowerMonitor;
+            }
+            set
+            {
+                if (_OpticalModulePowerMonitor != value)
+                {
+                    _OpticalModulePowerMonitor = value;
+                    Workspace.This.OpticalModulePowerMonitor = (bool)value;
+
+                    if (value == true)  // optical module power is on
+                    {
+                        // let LED bar to beep
+                        Workspace.This.EthernetController.SetBuzzer(1, 20);
+                    }
+                    else        // optical module power is off
+                    {
+                        // let LED bar to flow and beep
+                        // If the firmware version is 1.1.0.0 and the LED version number is "254.255.255.255", perform the following operation
+                        if (Workspace.This.ScannerVM.LEDVersion != Workspace.This.NewParameterVM.Str16Code)
+                        {
+                            Workspace.This.EthernetController.SetLedBarProgress(0);
+                            Workspace.This.EthernetController.SetLedBarMarquee(LEDBarChannel.LEDBarGreen, 9, true);
+                        }
+                        Workspace.This.EthernetController.SetBuzzer(1, 20);
+                    }
+                }
+            }
+        }
         /// <summary>
         /// The state of the door
         /// </summary>
@@ -258,7 +417,7 @@ namespace Azure.ScannerEUI.ViewModel
                 {
                     _SelectedAPDPgaB = value;
                     ApdBPga = _SelectedAPDPgaB.Value;
-                    RaisePropertyChanged("SelectedAPDPgaB"); 
+                    RaisePropertyChanged("SelectedAPDPgaB");
                 }
             }
         }
@@ -407,7 +566,7 @@ namespace Azure.ScannerEUI.ViewModel
                 if (_ApdAPga != value)
                 {
                     _ApdAPga = value;
-                   // _EthernetController.SetIvPga(IVChannels.ChannelA, (ushort)value);
+                    // _EthernetController.SetIvPga(IVChannels.ChannelA, (ushort)value);
                     //if (_APDTransfer.APDTransferIsAlive)
                     //{
                     //    _APDTransfer.APDPgaSetA(_ApdAPga);
@@ -424,7 +583,7 @@ namespace Azure.ScannerEUI.ViewModel
                 if (_ApdBPga != value)
                 {
                     _ApdBPga = value;
-                   // _EthernetController.SetIvPga(IVChannels.ChannelB, (ushort)value);
+                    // _EthernetController.SetIvPga(IVChannels.ChannelB, (ushort)value);
                     //if (_APDTransfer.APDTransferIsAlive)
                     //{
                     //    _APDTransfer.APDPgaSetB(_ApdBPga);
@@ -441,7 +600,7 @@ namespace Azure.ScannerEUI.ViewModel
                 if (_ApdCPga != value)
                 {
                     _ApdCPga = value;
-                   // _EthernetController.SetIvPga(IVChannels.ChannelC, (ushort)value);
+                    // _EthernetController.SetIvPga(IVChannels.ChannelC, (ushort)value);
                     //if (_APDTransfer.APDTransferIsAlive)
                     //{
                     //    _APDTransfer.APDPgaSetC(_ApdCPga);
@@ -520,7 +679,7 @@ namespace Azure.ScannerEUI.ViewModel
         public void DynamicScanMode(int quality)
         {
             //_APDTransfer.APDLaserScanQualitySet(quality);
-         }
+        }
         public void StaticScanMode(int dataRate, int lineCounts)
         {
             //_APDTransfer.APDLaserScanDataRateSet(dataRate);
@@ -567,6 +726,47 @@ namespace Azure.ScannerEUI.ViewModel
         }
 
         #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ShutdownDuringScanWindow()
+        {
+            void msgSend()
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    Window window = new Window();
+                    window.Topmost = true;
+                    MessageBoxResult boxResult = MessageBoxResult.None;
+                    boxResult = MessageBox.Show(window, "Imaging is in processing, do you want to stop imaging and power off the system ?", "Warning", MessageBoxButton.YesNo);
+                    if (boxResult == MessageBoxResult.Yes)
+                    {
+                        //重置扫描时前面板按钮状态  Reset the status of the front panel buttons during scanning
+                        Workspace.This.EthernetController.ShutdownDuringScanStatus = false;
+                        if (Workspace.This.IsScanning)
+                        {
+                            string caption = "Scanning Mode";
+                            string message = "Please hold the front button to power off the system”。";
+                            ScannerViewModel viewModel = Workspace.This.ScannerVM;
+                            viewModel.ExecuteStopScanCommand(null);
+                            MessageBox.Show(message);
+                        }
+                        else
+                        {
+                            Workspace.This.CloseAppliction();
+                        }
+                    }
+                    else
+                    {
+                        //重置扫描时前面板按钮状态  Reset the status of the front panel buttons during scanning
+                        Workspace.This.EthernetController.ShutdownDuringScanStatus = false;
+                    }
+                });
+            }
+            Thread td_msg = new Thread(msgSend);
+            td_msg.Start();
+        }
     }
-
 }
+
+

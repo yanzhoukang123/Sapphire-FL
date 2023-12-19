@@ -24,6 +24,7 @@ using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
+using System.Management;
 
 namespace Azure.ScannerEUI.ViewModel
 {
@@ -50,7 +51,7 @@ namespace Azure.ScannerEUI.ViewModel
         private int _RemainingTime = 0;
         private int _DataRate = 25;
         private int _LineCounts = 1000;
-        private int _XHomecoefficient = 0;
+        private int XHomecoefficient = 0;
         private enum ScanChannel
         { A,B,C,D}
         private ScanChannel _NowShowImage;
@@ -98,6 +99,7 @@ namespace Azure.ScannerEUI.ViewModel
         String _NowChannel = null;
         string _FPGAVersion = null;
         string _HWversion = null;
+        string _LEDVersion = null;
         private const string LaserSetErrorMessage = "Laser Power should be set to 0 or above 5 mW";
         private int _Spenttime= 1;
         private string _SelectedChannel = null;   //Channel
@@ -124,6 +126,8 @@ namespace Azure.ScannerEUI.ViewModel
         public double _RangeDy = 0;
         private bool ycompenSationBitAt = false;
 		private string ROIWarning = string.Empty;
+        private int _CurrentScanWorkIndex = 0;
+        private bool _ClickScanWork = false;
         #endregion
 
         #region Constructors...
@@ -181,6 +185,7 @@ namespace Azure.ScannerEUI.ViewModel
         public event SetScanRegionEvent OnScanRegionReceived;
         public delegate void SetScanEnabledRegionEvent(bool isEnable);
         public event SetScanEnabledRegionEvent OnScanEnbledRegionReceived;
+        //Total number of multi region tasks
         public int ScanWorkCount 
         {
             get { return _ScanWorkCount; }
@@ -192,6 +197,31 @@ namespace Azure.ScannerEUI.ViewModel
                 }
             }
         }
+        //Current scan work index
+        public int CurrentScanWorkIndex
+        {
+            get { return _CurrentScanWorkIndex; }
+            set
+            {
+                if (_CurrentScanWorkIndex != value)
+                {
+                    _CurrentScanWorkIndex = value;
+                }
+            }
+        }
+
+        public bool ClickScanWork
+        {
+            get { return _ClickScanWork; }
+            set
+            {
+                if (_ClickScanWork != value)
+                {
+                    _ClickScanWork = value;
+                }
+            }
+        }
+
         public int SpentTime
         {
             get { return _Spenttime; }
@@ -231,7 +261,18 @@ namespace Azure.ScannerEUI.ViewModel
                 RaisePropertyChanged("FPGAVersion");
             }
         }
-
+        //LED HW
+        public string LEDVersion
+        {
+            get
+            {
+                return _LEDVersion;
+            }
+            set
+            {
+                _LEDVersion = value;
+            }
+        }
         public String NowChannel
         {
             get
@@ -370,22 +411,35 @@ namespace Azure.ScannerEUI.ViewModel
             }
             set
             {
-                if (((double)_ScanX0 / (double)_XMotorSubdivision) != value)
+                //No need to calculate whether or not to pop-up reminders when selecting tasks
+                if (ClickScanWork)
                 {
-                    if (value >= 0 && value <= (_XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)))
+                    if ((double)(_ScanX0 / (double)_XMotorSubdivision) != value)
                     {
                         _ScanX0 = (int)(value * _XMotorSubdivision);
+                        RaisePropertyChanged("ScanX0");
+                        OnScanRegionReceived("ScanX0");
                     }
-                    else
+                }
+                else
+                {
+                    if (((double)_ScanX0 / (double)_XMotorSubdivision) != value)
                     {
-                        _ScanX0 = (int)((_XHomecoefficient - (int)Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance) * _XMotorSubdivision);
-                        ScanDynamicScopeString = String.Format("you should type value 0-{0}", _XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance));
-                        ScanDynamicScopeStringType = "Error";
-                        //Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("you should type value 0-{0}", 310 - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)), "Error");
-                        //System.Windows.Forms.MessageBox.Show(String.Format("you should type value 0-{0}", 310 - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)), "Error");
+                        if (value >= 0 && value <= (XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)))
+                        {
+                            _ScanX0 = (int)(value * _XMotorSubdivision);
+                        }
+                        if (value + (_ScanDeltaX / _XMotorSubdivision) > (XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)))
+                        {
+                            _ScanX0 = (int)(value * _XMotorSubdivision);
+                            ScanDynamicScopeString = String.Format("The X should be 0=<X0+DX<={0}", XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance));
+                            ScanDynamicScopeStringType = "Error";
+                            //Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("you should type value 0-{0}", 310 - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)), "Error");
+                            //System.Windows.Forms.MessageBox.Show(String.Format("you should type value 0-{0}", 310 - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)), "Error");
+                        }
+                        RaisePropertyChanged("ScanX0");
+                        OnScanRegionReceived("ScanX0");
                     }
-                    RaisePropertyChanged("ScanX0");
-                    OnScanRegionReceived("ScanX0");
                 }
             }
         }
@@ -403,23 +457,38 @@ namespace Azure.ScannerEUI.ViewModel
             }
             set
             {
-                if ((double)(_ScanY0 / (double)_YMotorSubdivision) != value)
+                //No need to calculate whether or not to pop-up reminders when selecting tasks
+                if (ClickScanWork)
                 {
-                    if (value >= 0 && value <= ((double)_YMaxValue / (double)_YMotorSubdivision) - 10)
+                    if ((double)(_ScanY0 / (double)_YMotorSubdivision) != value)
                     {
                         _ScanY0 = (int)(value * _YMotorSubdivision);
+                        RaisePropertyChanged("ScanY0");
+                        OnScanRegionReceived("ScanY0");
                     }
-                    else
-                    {
-                        _ScanY0 = (int)((((double)_YMaxValue / (double)_YMotorSubdivision) - 10) * _YMotorSubdivision);
-                        ScanDynamicScopeString = String.Format("you should type value 0-{0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 10);
-                        ScanDynamicScopeStringType = "Error";
-                        //Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("you should type value 0-{0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 10), "Error");
-                        //System.Windows.Forms.MessageBox.Show(String.Format("you should type value 0-{0}", ((double)_YMaxValue / (double)_YMotorSubdivision)-10), "Error");
-                    }
-                    RaisePropertyChanged("ScanY0");
-                    OnScanRegionReceived("ScanY0");
                 }
+                else
+                {
+                    if ((double)(_ScanY0 / (double)_YMotorSubdivision) != value)
+                    {
+                        if (value >= 0 && value <= ((double)_YMaxValue / (double)_YMotorSubdivision) - 10)
+                        {
+                            _ScanY0 = (int)(value * _YMotorSubdivision);
+                        }
+                        if (value + (_ScanDeltaY / _YMotorSubdivision) > ((double)_YMaxValue / (double)_YMotorSubdivision) - 5)
+                        {
+                            _ScanY0 = (int)(value * _YMotorSubdivision);
+                            //ScanDynamicScopeString = String.Format("you should type value 0-{0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 10);
+                            ScanDynamicScopeString = String.Format("The Y should be 0=<Y0+DY<={0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 5);
+                            ScanDynamicScopeStringType = "Error";
+                            //Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("you should type value 0-{0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 10), "Error");
+                            //System.Windows.Forms.MessageBox.Show(String.Format("you should type value 0-{0}", ((double)_YMaxValue / (double)_YMotorSubdivision)-10), "Error");
+                        }
+                        RaisePropertyChanged("ScanY0");
+                        OnScanRegionReceived("ScanY0");
+                    }
+                }
+
             }
         }
 
@@ -436,22 +505,36 @@ namespace Azure.ScannerEUI.ViewModel
             }
             set
             {
-                if ((double)_ScanZ0 / (double)_ZMotorSubdivision != value)
+                //No need to calculate whether or not to pop-up reminders when selecting tasks
+                if (ClickScanWork)
                 {
-                    if (value >= 0 && value <= ((double)_ZMaxValue / (double)_ZMotorSubdivision))
+                    if ((double)(_ScanZ0 / (double)_ZMotorSubdivision) != value)
                     {
                         _ScanZ0 = (int)(value * _ZMotorSubdivision);
+                        RaisePropertyChanged("ScanZ0");
+                        OnScanRegionReceived("ScanZ0");
                     }
-                    else
+                }
+                else
+                {
+                    if ((double)_ScanZ0 / (double)_ZMotorSubdivision != value)
                     {
-                        _ScanZ0 = _ZMaxValue;
-                        ScanDynamicScopeString = String.Format("you should type value 0-{0}", (double)_ZMaxValue / (double)_ZMotorSubdivision);
-                        ScanDynamicScopeStringType = "Error";
-                        //Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("you should type value 0-{0}", (double)_ZMaxValue / (double)_ZMotorSubdivision), "Error");
-                        //System.Windows.Forms.MessageBox.Show(String.Format("you should type value 0-{0}", (double)_ZMaxValue / (double)_ZMotorSubdivision), "Error");
+                        if (value >= 0 && value <= ((double)_ZMaxValue / (double)_ZMotorSubdivision))
+                        {
+                            _ScanZ0 = (int)(value * _ZMotorSubdivision);
+                        }
+                        if (value + (_ScanDeltaZ / _ZMotorSubdivision) > (double)_ZMaxValue / (double)_ZMotorSubdivision)
+                        {
+                            _ScanZ0 = (int)(value * _ZMotorSubdivision);
+                            //ScanDynamicScopeString = String.Format("The Z you should type value 0-{0}", (double)_ZMaxValue / (double)_ZMotorSubdivision);
+                            ScanDynamicScopeString = String.Format("The Z should be 0=<Z0+DZ<={0}", (double)_ZMaxValue / (double)_ZMotorSubdivision);
+                            ScanDynamicScopeStringType = "Error";
+                            //Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("you should type value 0-{0}", (double)_ZMaxValue / (double)_ZMotorSubdivision), "Error");
+                            //System.Windows.Forms.MessageBox.Show(String.Format("you should type value 0-{0}", (double)_ZMaxValue / (double)_ZMotorSubdivision), "Error");
+                        }
+                        RaisePropertyChanged("ScanZ0");
+                        OnScanRegionReceived("ScanZ0");
                     }
-                    RaisePropertyChanged("ScanZ0");
-                    OnScanRegionReceived("ScanZ0");
                 }
             }
         }
@@ -470,6 +553,8 @@ namespace Azure.ScannerEUI.ViewModel
             }
             set
             {
+                /**/
+                ;
                 if ((_ScanDeltaX / _XMotorSubdivision) != value)
                 {
                     double SDValue = value;
@@ -477,10 +562,10 @@ namespace Azure.ScannerEUI.ViewModel
                     {
                         SDValue += Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance;
                     }
-                    if (SDValue < 0 || SDValue > 300)
+                    if (SDValue < 0 || SDValue > XHomecoefficient)
                     {
                         indexDeltaX++;
-                        value = 300 - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance);
+                        value = XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance);
                         if (indexDeltaX != 2)
                         {
                             ScanDynamicScopeString = "The DX ranges from 0 to " + (int)value;
@@ -494,7 +579,7 @@ namespace Azure.ScannerEUI.ViewModel
                             indexDeltaX = 0;
                         }
                     }
-                    if (value >= 0 && ((value + ScanX0) <= _XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)))
+                    if (value >= 0 && ((value + ScanX0) <= XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)))
                     {
                         _ScanDeltaX = value * _XMotorSubdivision;
                         Width = (int)((ScanDeltaX * 1000) / SelectedResolution.Value);
@@ -502,7 +587,8 @@ namespace Azure.ScannerEUI.ViewModel
                     else
                     {
                         _ScanDeltaX = 0;
-                        ScanDynamicScopeString = String.Format("The DX should be 0=<X0+DX<={0}", _XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance));
+                        //ScanDynamicScopeString = String.Format("The DX should be 0=<X0+DX<={0}", XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance));
+                        ScanDynamicScopeString = String.Format("The X should be 0=<X0+DX<={0}", XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance));
                         ScanDynamicScopeStringType = "Error";
                         //Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("The DX should be 0=<X0+DX<={0}", 310 - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)), "Error");
                         //System.Windows.Forms.MessageBox.Show(String.Format("The DX should be 0=<X0+DX<={0}", 310 - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)), "Error");
@@ -535,7 +621,8 @@ namespace Azure.ScannerEUI.ViewModel
                     else
                     {
                         _ScanDeltaY = 0;
-                        ScanDynamicScopeString = String.Format("The DY should be 0=<Y0+DY<={0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 5);
+                        //ScanDynamicScopeString = String.Format("The DY should be 0=<Y0+DY<={0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 5);
+                        ScanDynamicScopeString = String.Format("The Y should be 0=<Y0+DY<={0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 5);
                         ScanDynamicScopeStringType = "Error";
                         // Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("The DY should be 0=<Y0+DY<={0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 10), "Error");
                         //System.Windows.Forms.MessageBox.Show(String.Format("The DY should be 0=<Y0+DY<={0}", ((double)_YMaxValue / (double)_YMotorSubdivision)-10), "Error");
@@ -573,7 +660,8 @@ namespace Azure.ScannerEUI.ViewModel
                     else
                     {
                         _ScanDeltaZ = 0;
-                        ScanDynamicScopeString = String.Format("The DZ should be 0=<Z0+DZ<={0}", (double)_ZMaxValue / (double)_ZMotorSubdivision);
+                        //ScanDynamicScopeString = String.Format("The DZ should be 0=<Z0+DZ<={0}", (double)_ZMaxValue / (double)_ZMotorSubdivision);
+                        ScanDynamicScopeString = String.Format("The Z should be 0=<Z0+DZ<={0}", (double)_ZMaxValue / (double)_ZMotorSubdivision);
                         ScanDynamicScopeStringType = "Error";
                         //Xceed.Wpf.Toolkit.MessageBox.Show(String.Format("The DZ should be 0=<Z0+DZ<={0}", (double)_ZMaxValue / (double)_ZMotorSubdivision), "Error");
                         //System.Windows.Forms.MessageBox.Show(String.Format("The DZ should be 0=<Z0+DZ<={0}", (double)_ZMaxValue / (double)_ZMotorSubdivision), "Error");
@@ -1202,23 +1290,31 @@ namespace Azure.ScannerEUI.ViewModel
                 RaisePropertyChanged("SelectedQuality");
             }
             OnSpentTimeInit();//SpentTime
-                        _XHomecoefficient = 310;
+            XHomecoefficient = 310;
             try
             {
                 if (Workspace.This != null)
                 {
-                    if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 13)
+                    if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 11)
                     {
-                        _XHomecoefficient = 310;
+                        XHomecoefficient = 311;
                     }
-                    else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 14)
+                    else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 12)
                     {
-                        _XHomecoefficient = 311;
+                        XHomecoefficient = 312;
                     }
-                    else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 15)
+                    else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 13)
                     {
-                        _XHomecoefficient = 312;
+                        XHomecoefficient = 313;
                     }
+                    //else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 14)
+                    //{
+                    //    _XHomecoefficient = 314;
+                    //}
+                    //else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 15)
+                    //{
+                    //    _XHomecoefficient = 315;
+                    //}
                 }
 
             }
@@ -1260,7 +1356,12 @@ namespace Azure.ScannerEUI.ViewModel
                 Thread.Sleep(200);
                 if (ScanDynamicScopeString != "" && ScanDynamicScopeStringType != "")
                 {
-                    MessageBox.Show(ScanDynamicScopeString, ScanDynamicScopeStringType);
+                    Workspace.This.Owner.Dispatcher.BeginInvoke((Action)delegate
+                    {
+                        Window window = new Window();
+                        MessageBox.Show(window, ScanDynamicScopeString, ScanDynamicScopeStringType);
+                    });
+                    Thread.Sleep(200);
                     ScanDynamicScopeString = "";
                     ScanDynamicScopeStringType = "";
                 }
@@ -1317,6 +1418,14 @@ namespace Azure.ScannerEUI.ViewModel
         {
             //选择ROI扫描或者水平扫描，或者Z-Stack扫描
             //Multi-area scanning and Z-stacking scanning and horizontal scanning
+            //Calculate the scanning range of X and Y, and if it exceeds the range, do not proceed further
+            //计算X和Y的扫描范围，如果超出范围就不往下执行了
+            bool IsScanScopelimitations = false;
+            ScanScopelimitations(ref IsScanScopelimitations);
+            if (!IsScanScopelimitations)
+            {
+                return;
+            }
             if (ScanWorkCount > 0 || Workspace.This.ZAutomaticallyFocalVM.SelectedFocus == "Z-Stacking"&& ScanDeltaX > 0 && ScanDeltaY > 0)
             {
                 _StackNum = 0;
@@ -1458,14 +1567,21 @@ namespace Azure.ScannerEUI.ViewModel
                 Xceed.Wpf.Toolkit.MessageBox.Show(message, caption, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
-
-            Workspace.This.NewParameterVM.ExecuteParametersReadCommand(null);
             CurrentScanDirection();
             Width = (int)Math.Ceiling(ScanDeltaX * 1000.0 / SelectedResolution.Value);
             Height = (int)(ScanDeltaY * 1000.0 / SelectedResolution.Value);
             Time = (int)(_Height * SelectedQuality.Value / 2.0);
             ScanParameterStruct scanParameter = new ScanParameterStruct();  //Set scan parameter
             scanParameter.Height = Height;
+            long? SysMemory = GetMemoryAvailable();
+            long? ImageMemory = GetImageMemory(Width, Height);
+            if (ImageMemory > SysMemory)
+            {
+                string message = "Out of memory";
+                Window window = new Window();
+                MessageBox.Show(window, message);
+                return;
+            }
             if (SettingsManager.ConfigSettings.AllModuleProcessing)
             {
                 Time *= 2;
@@ -1574,6 +1690,8 @@ namespace Azure.ScannerEUI.ViewModel
             _ScanningProcess.Start();
             Workspace.This.MotorIsAlive = false;
             Workspace.This.IsScanning = true;
+            //Optical module button disabled
+            Workspace.This.DisconnectDeviceEnable = false;  
         }
         private void _ScanningProcess_OnSpentTimeScanDataReceived()
         {
@@ -1637,7 +1755,6 @@ namespace Azure.ScannerEUI.ViewModel
                 Workspace.This.IsPreparing = false;
                 //Enable Motor control
                 Workspace.This.MotorIsAlive = true;
-
                 ScanProcessing scannedThread = (sender as ScanProcessing);
 
                 if (exitState == ThreadBase.ThreadExitStat.None)
@@ -1645,42 +1762,125 @@ namespace Azure.ScannerEUI.ViewModel
                     // Capture successful
 
                     scannedThread = (sender as ScanProcessing);
-                    ImageInfo imageInfo = scannedThread.ImageInfo;
-
-                    if (imageInfo != null)
+                    //Three ImageInfos need to be applied for. Previously, applying for only one ImageInfo would result in the values of other channels being cloned as well. Only ENU GUI
+                    //需要申请三个ImageInfo，之前只申请一个ImageInfo时会导致其它通道的值也被克隆了，只需要更改ENU GUI
+                    ImageInfo imageInfoL = null;
+                    ImageInfo imageInfoR1 = null;
+                    ImageInfo imageInfoR2 = null;
+                    if (scannedThread.ImageInfo != null)
+                    {
+                        imageInfoL = (ImageInfo)scannedThread.ImageInfo.Clone();
+                        imageInfoR1 = (ImageInfo)scannedThread.ImageInfo.Clone();
+                        imageInfoR2 = (ImageInfo)scannedThread.ImageInfo.Clone();
+                    }
+                    if (imageInfoL != null)
                     {
                         Log.Info(this, "Set imageInfo…");
-                        imageInfo.LaserAIntensity = (Workspace.This.IVVM.IsLaserL1Selected) ? LaserAIntensity : 0;
-                        imageInfo.LaserBIntensity = (Workspace.This.IVVM.IsLaserR1Selected) ? LaserBIntensity : 0;
-                        imageInfo.LaserCIntensity = (Workspace.This.IVVM.IsLaserR2Selected) ? LaserCIntensity : 0;
+                        imageInfoL.LaserAIntensity = (Workspace.This.IVVM.IsLaserL1Selected) ? LaserAIntensity : 0;
+                        imageInfoL.LaserBIntensity = (Workspace.This.IVVM.IsLaserR1Selected) ? LaserBIntensity : 0;
+                        imageInfoL.LaserCIntensity = (Workspace.This.IVVM.IsLaserR2Selected) ? LaserCIntensity : 0;
                         //imageInfo.LaserDIntensity = (IsLaserDSelected) ? LaserDIntensity : 0;
                         if (Workspace.This.IVVM.SensorML1 == IvSensorType.APD)//C
                         {
-                            imageInfo.ApdCGain = (Workspace.This.IVVM.IsLaserL1Selected) ? Workspace.This.IVVM.SelectedGainComModuleL1.Value : 0;
+                            imageInfoL.ApdCGain = (Workspace.This.IVVM.IsLaserL1Selected) ? Workspace.This.IVVM.SelectedGainComModuleL1.Value : 0;
                         }
                         else
                         {
-                            imageInfo.ApdCGain = (Workspace.This.IVVM.IsLaserL1Selected) ? Workspace.This.IVVM.GainTxtModuleL1 : 0;
+                            imageInfoL.ApdCGain = (Workspace.This.IVVM.IsLaserL1Selected) ? Workspace.This.IVVM.GainTxtModuleL1 : 0;
                         }
                         if (Workspace.This.IVVM.SensorMR1 == IvSensorType.APD)//A
                         {
-                            imageInfo.ApdAGain = (Workspace.This.IVVM.IsLaserR1Selected) ? Workspace.This.IVVM.SelectedGainComModuleR1.Value : 0;
+                            imageInfoL.ApdAGain = (Workspace.This.IVVM.IsLaserR1Selected) ? Workspace.This.IVVM.SelectedGainComModuleR1.Value : 0;
                         }
                         else
                         {
-                            imageInfo.ApdAGain = (Workspace.This.IVVM.IsLaserR1Selected) ? Workspace.This.IVVM.GainTxtModuleR1 : 0;
+                            imageInfoL.ApdAGain = (Workspace.This.IVVM.IsLaserR1Selected) ? Workspace.This.IVVM.GainTxtModuleR1 : 0;
                         }
                         if (Workspace.This.IVVM.SensorMR2 == IvSensorType.APD)//B
                         {
-                            imageInfo.ApdBGain = (Workspace.This.IVVM.IsLaserR2Selected) ? Workspace.This.IVVM.SelectedGainComModuleR2.Value : 0;
+                            imageInfoL.ApdBGain = (Workspace.This.IVVM.IsLaserR2Selected) ? Workspace.This.IVVM.SelectedGainComModuleR2.Value : 0;
                         }
                         else
                         {
-                            imageInfo.ApdBGain = (Workspace.This.IVVM.IsLaserR2Selected) ? Workspace.This.IVVM.GainTxtModuleR2 : 0;
+                            imageInfoL.ApdBGain = (Workspace.This.IVVM.IsLaserR2Selected) ? Workspace.This.IVVM.GainTxtModuleR2 : 0;
                         }
-                        imageInfo.ScanZ0 = (int)Workspace.This.MotorVM.CurrentZPos;
-                        imageInfo.SoftwareVersion = Workspace.This.ProductVersion;
-                        imageInfo.FWVersion = Workspace.This.ScannerVM.FPGAVersion;
+                        imageInfoL.ScanZ0 = (int)Workspace.This.MotorVM.CurrentZPos;
+                        imageInfoL.SoftwareVersion = Workspace.This.ProductVersion;
+                        imageInfoL.FpgaFirmware = Workspace.This.ScannerVM.FPGAVersion;
+                    }
+
+
+                    if (imageInfoR1 != null)
+                    {
+                        Log.Info(this, "Set imageInfo…");
+                        imageInfoR1.LaserAIntensity = (Workspace.This.IVVM.IsLaserL1Selected) ? LaserAIntensity : 0;
+                        imageInfoR1.LaserBIntensity = (Workspace.This.IVVM.IsLaserR1Selected) ? LaserBIntensity : 0;
+                        imageInfoR1.LaserCIntensity = (Workspace.This.IVVM.IsLaserR2Selected) ? LaserCIntensity : 0;
+                        //imageInfo.LaserDIntensity = (IsLaserDSelected) ? LaserDIntensity : 0;
+                        if (Workspace.This.IVVM.SensorML1 == IvSensorType.APD)//C
+                        {
+                            imageInfoR1.ApdCGain = (Workspace.This.IVVM.IsLaserL1Selected) ? Workspace.This.IVVM.SelectedGainComModuleL1.Value : 0;
+                        }
+                        else
+                        {
+                            imageInfoR1.ApdCGain = (Workspace.This.IVVM.IsLaserL1Selected) ? Workspace.This.IVVM.GainTxtModuleL1 : 0;
+                        }
+                        if (Workspace.This.IVVM.SensorMR1 == IvSensorType.APD)//A
+                        {
+                            imageInfoR1.ApdAGain = (Workspace.This.IVVM.IsLaserR1Selected) ? Workspace.This.IVVM.SelectedGainComModuleR1.Value : 0;
+                        }
+                        else
+                        {
+                            imageInfoR1.ApdAGain = (Workspace.This.IVVM.IsLaserR1Selected) ? Workspace.This.IVVM.GainTxtModuleR1 : 0;
+                        }
+                        if (Workspace.This.IVVM.SensorMR2 == IvSensorType.APD)//B
+                        {
+                            imageInfoR1.ApdBGain = (Workspace.This.IVVM.IsLaserR2Selected) ? Workspace.This.IVVM.SelectedGainComModuleR2.Value : 0;
+                        }
+                        else
+                        {
+                            imageInfoR1.ApdBGain = (Workspace.This.IVVM.IsLaserR2Selected) ? Workspace.This.IVVM.GainTxtModuleR2 : 0;
+                        }
+                        imageInfoR1.ScanZ0 = (int)Workspace.This.MotorVM.CurrentZPos;
+                        imageInfoR1.SoftwareVersion = Workspace.This.ProductVersion;
+                        imageInfoR1.FpgaFirmware = Workspace.This.ScannerVM.FPGAVersion;
+                    }
+
+
+                    if (imageInfoR2 != null)
+                    {
+                        Log.Info(this, "Set imageInfo…");
+                        imageInfoR2.LaserAIntensity = (Workspace.This.IVVM.IsLaserL1Selected) ? LaserAIntensity : 0;
+                        imageInfoR2.LaserBIntensity = (Workspace.This.IVVM.IsLaserR1Selected) ? LaserBIntensity : 0;
+                        imageInfoR2.LaserCIntensity = (Workspace.This.IVVM.IsLaserR2Selected) ? LaserCIntensity : 0;
+                        //imageInfo.LaserDIntensity = (IsLaserDSelected) ? LaserDIntensity : 0;
+                        if (Workspace.This.IVVM.SensorML1 == IvSensorType.APD)//C
+                        {
+                            imageInfoR2.ApdCGain = (Workspace.This.IVVM.IsLaserL1Selected) ? Workspace.This.IVVM.SelectedGainComModuleL1.Value : 0;
+                        }
+                        else
+                        {
+                            imageInfoR2.ApdCGain = (Workspace.This.IVVM.IsLaserL1Selected) ? Workspace.This.IVVM.GainTxtModuleL1 : 0;
+                        }
+                        if (Workspace.This.IVVM.SensorMR1 == IvSensorType.APD)//A
+                        {
+                            imageInfoR2.ApdAGain = (Workspace.This.IVVM.IsLaserR1Selected) ? Workspace.This.IVVM.SelectedGainComModuleR1.Value : 0;
+                        }
+                        else
+                        {
+                            imageInfoR2.ApdAGain = (Workspace.This.IVVM.IsLaserR1Selected) ? Workspace.This.IVVM.GainTxtModuleR1 : 0;
+                        }
+                        if (Workspace.This.IVVM.SensorMR2 == IvSensorType.APD)//B
+                        {
+                            imageInfoR2.ApdBGain = (Workspace.This.IVVM.IsLaserR2Selected) ? Workspace.This.IVVM.SelectedGainComModuleR2.Value : 0;
+                        }
+                        else
+                        {
+                            imageInfoR2.ApdBGain = (Workspace.This.IVVM.IsLaserR2Selected) ? Workspace.This.IVVM.GainTxtModuleR2 : 0;
+                        }
+                        imageInfoR2.ScanZ0 = (int)Workspace.This.MotorVM.CurrentZPos;
+                        imageInfoR2.SoftwareVersion = Workspace.This.ProductVersion;
+                        imageInfoR2.FpgaFirmware = Workspace.This.ScannerVM.FPGAVersion;
                     }
 
                     if (scannedThread.ScanType == ScanTypes.Horizontal)
@@ -1735,43 +1935,16 @@ namespace Azure.ScannerEUI.ViewModel
                             //Add image to Gallery
                             if (Workspace.This.IVVM.WL1 > 0)
                             {
-                                imageInfo.ChannelRemark = "L";
+                                //Record which bin the current image is in, so that even if merged into RGB, we can still distinguish which bin the image belongs to
+                                //记录当前图像是哪个仓位，这样即使合并成RGB我们也能分别出图像来是哪个仓位
+                                imageInfoL.ChannelRemark = "L";
                                 double APower = Workspace.This.IVVM.LaserAPower;
                                 if (!Workspace.This.IVVM.IsLaserL1Selected)
                                 {
                                     APower = 0;
                                 }
-                                string LimageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WL1, "L", APower,
+                                string LimageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WL1 + Workspace.This.IVVM.WL1Sign, "L", APower,
                                        _LGain, Workspace.This.IVVM.SelectedMModuleL1.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //if (!SettingsManager.ConfigSettings.AllModuleProcessing)//全部通道做图像处理（比如100um取平均为50um）
-                                //{
-                                //    if (SettingsManager.ConfigSettings.PhosphorModuleProcessing)//只处理PhosphorModule
-                                //    {
-                                //        if (Workspace.This.IVVM.SensorML1 == IvSensorType.PMT)//PMT通道
-                                //        {
-                                //            bool IsPhosphorLaserModule = false;
-                                //            for (int i = 0; i < SettingsManager.ConfigSettings.PhosphorLaserModules.Count; i++)//判断当前模块是不是PhosphorModule
-                                //            {
-                                //                if (SettingsManager.ConfigSettings.PhosphorLaserModules[i].DisplayName == Workspace.This.IVVM.WL1.ToString())
-                                //                {
-                                //                    IsPhosphorLaserModule = true;
-                                //                }
-                                //            }
-                                //            if (IsPhosphorLaserModule)
-                                //            {
-                                //                LimageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WL1, "L", APower,
-                                //                _LGain, Workspace.This.IVVM.SelectedMModuleL1.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //            }
-                                //        }
-
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    LimageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WL1, "L", APower,
-                                //    _LGain, Workspace.This.IVVM.SelectedMModuleL1.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //}
-                               
 
                                 if (Workspace.This.IVVM.WR1 > 0)
                                 {
@@ -1780,7 +1953,7 @@ namespace Azure.ScannerEUI.ViewModel
                                     {
                                         R1Power = 0;
                                     }
-                                    LimageSet += string.Format("_{0}-{1}-{2}mW", "R1", Workspace.This.IVVM.WR1, R1Power);
+                                    LimageSet += string.Format("_{0}-{1}-{2}mW", "R1", Workspace.This.IVVM.WR1 + Workspace.This.IVVM.WR1Sign, R1Power);
                                 }
 
                                 if (Workspace.This.IVVM.WR2 > 0)
@@ -1790,132 +1963,38 @@ namespace Azure.ScannerEUI.ViewModel
                                     {
                                         R2Power = 0;
                                     }
-                                    LimageSet += string.Format("_{0}-{1}-{2}mW", "R2", Workspace.This.IVVM.WR2, R2Power);
+                                    LimageSet += string.Format("_{0}-{1}-{2}mW", "R2", Workspace.This.IVVM.WR2 + Workspace.This.IVVM.WR2Sign, R2Power);
                                 }
-                                if (_RangeNum>=0&& ScanWorkCount>0)
+                                if (_RangeNum >= 0 && ScanWorkCount > 0)
                                 {
                                     int tempRangeNum = _RangeNum + 1;
                                     LimageSet += string.Format("_ROI{0}", tempRangeNum);
                                 }
                                 if (Workspace.This.ZAutomaticallyFocalVM.SelectedFocus != "None" && Workspace.This.ZAutomaticallyFocalVM.Ofimages <= Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList.Count)//
                                 {
-                                    LimageSet += string.Format("_Focus{0}", Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList[_StackNum].Value- (int)Workspace.This.EthernetController.DeviceProperties.ZFocusPosition);
+                                    double focus = Workspace.This.EthernetController.DeviceProperties.ZFocusPosition +
+                                        (Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList[_StackNum].Value - Workspace.This.EthernetController.DeviceProperties.ZFocusPosition);
+                                    LimageSet += string.Format("_Focus{0}", Math.Round(focus, 2));
                                 }
                                 if (Workspace.This.IVVM.IsCaptrueL1Selected)
                                 {
-                                    Workspace.This.NewDocument(_ChannelCImage, imageInfo, LimageSet+"_Date"+ timeNow, false, true, true);
-                                }
-                            }
-                            if (Workspace.This.IVVM.WR2 > 0)
-                            {
-                                imageInfo.ChannelRemark = "R2";
-                                double CPower = Workspace.This.IVVM.LaserCPower;
-                                if (!Workspace.This.IVVM.IsLaserR2Selected)
-                                {
-                                    CPower = 0;
-                                }
-                                string R2imageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WR2, "R2", CPower,
-                                _R2Gain, Workspace.This.IVVM.SelectedMModuleR2.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //if (!SettingsManager.ConfigSettings.AllModuleProcessing)//全部通道做图像处理（比如100um取平均为50um）
-                                //{
-                                //    if (SettingsManager.ConfigSettings.PhosphorModuleProcessing)//只处理PhosphorModule
-                                //    {
-                                //        if (Workspace.This.IVVM.SensorMR2 == IvSensorType.PMT)//PMT通道
-                                //        {
-                                //            bool IsPhosphorLaserModule = false;
-                                //            for (int i = 0; i < SettingsManager.ConfigSettings.PhosphorLaserModules.Count; i++)//判断当前模块是不是PhosphorModule
-                                //            {
-                                //                if (SettingsManager.ConfigSettings.PhosphorLaserModules[i].DisplayName == Workspace.This.IVVM.WR2.ToString())
-                                //                {
-                                //                    IsPhosphorLaserModule = true;
-                                //                }
-                                //            }
-                                //            if (IsPhosphorLaserModule)
-                                //            {
-                                //                R2imageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WR2, "R2", CPower,
-                                //                _R2Gain, Workspace.This.IVVM.SelectedMModuleR2.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //            }
-                                //        }
-
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    R2imageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WR2, "R2", CPower,
-                                //    _R2Gain, Workspace.This.IVVM.SelectedMModuleR2.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //}
-                                if (Workspace.This.IVVM.WR1 > 0)
-                                {
-                                    double R1Power = Workspace.This.IVVM.LaserBPower;
-                                    if (!Workspace.This.IVVM.IsLaserR1Selected)
-                                    {
-                                        R1Power = 0;
-                                    }
-                                    R2imageSet += string.Format("_{0}-{1}-{2}mW", "R1", Workspace.This.IVVM.WR1, R1Power);
-                                }
-
-                                if (Workspace.This.IVVM.WL1 > 0)
-                                {
-                                    double LPower = Workspace.This.IVVM.LaserAPower;
-                                    if (!Workspace.This.IVVM.IsLaserL1Selected)
-                                    {
-                                        LPower = 0;
-                                    }
-                                    R2imageSet += string.Format("_{0}-{1}-{2}mW", "L", Workspace.This.IVVM.WL1, LPower);
-                                }
-                                if (_RangeNum>=0 && ScanWorkCount > 0)
-                                {
-                                    int tempRangeNum = _RangeNum + 1;
-                                    R2imageSet += string.Format("_ROI{0}", tempRangeNum);
-                                }
-                                if (Workspace.This.ZAutomaticallyFocalVM.SelectedFocus != "None" && Workspace.This.ZAutomaticallyFocalVM.Ofimages <= Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList.Count)//
-                                {
-                                    R2imageSet += string.Format("_Focus{0}", Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList[_StackNum].Value - (int)Workspace.This.EthernetController.DeviceProperties.ZFocusPosition);
-                                }
-                                if (Workspace.This.IVVM.IsCaptrueR2Selected)
-                                {
-                                    Workspace.This.NewDocument(_ChannelBImage, imageInfo, R2imageSet + "_Date" + timeNow, false, true, true);
+                                    Workspace.This.NewDocument(_ChannelCImage, imageInfoL, LimageSet + "_Date" + timeNow, false, true, true);
                                 }
                             }
                             if (Workspace.This.IVVM.WR1 > 0)
                             {
-                                imageInfo.ChannelRemark = "R1";
+                                //Record which bin the current image is in, so that even if merged into RGB, we can still distinguish which bin the image belongs to
+                                //记录当前图像是哪个仓位，这样即使合并成RGB我们也能分别出图像来是哪个仓位
+                                imageInfoR1.ChannelRemark = "R1";
                                 double BPower = Workspace.This.IVVM.LaserBPower;
                                 if (!Workspace.This.IVVM.IsLaserR1Selected)
                                 {
                                     BPower = 0;
                                 }
 
-                                string R1imageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WR1, "R1", BPower,
+                                string R1imageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WR1 + Workspace.This.IVVM.WR1Sign, "R1", BPower,
                                   _R1Gain, Workspace.This.IVVM.SelectedMModuleR1.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //if (!SettingsManager.ConfigSettings.AllModuleProcessing)//全部通道做图像处理（两行取平均在赋值给两行）
-                                //{
-                                //    if (SettingsManager.ConfigSettings.PhosphorModuleProcessing)//只处理PhosphorModule
-                                //    {
-                                //        if (Workspace.This.IVVM.SensorMR1 == IvSensorType.PMT)//PMT通道
-                                //        {
-                                //            bool IsPhosphorLaserModule = false;
-                                //            for (int i = 0; i < SettingsManager.ConfigSettings.PhosphorLaserModules.Count; i++)//判断当前模块是不是PhosphorModule
-                                //            {
-                                //                if (SettingsManager.ConfigSettings.PhosphorLaserModules[i].DisplayName == Workspace.This.IVVM.WR1.ToString())
-                                //                {
-                                //                    IsPhosphorLaserModule = true;
-                                //                }
-                                //            }
-                                //            if (IsPhosphorLaserModule)
-                                //            {
-                                //                R1imageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um}", Workspace.This.IVVM.WR1, "R1", BPower,
-                                //                _R1Gain, Workspace.This.IVVM.SelectedMModuleR1.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //            }
-                                //        }
 
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    R1imageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WR1, "R1", BPower,
-                                //    _R1Gain, Workspace.This.IVVM.SelectedMModuleR1.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
-                                //}
                                 if (Workspace.This.IVVM.WL1 > 0)
                                 {
                                     double LPower = Workspace.This.IVVM.LaserAPower;
@@ -1923,7 +2002,7 @@ namespace Azure.ScannerEUI.ViewModel
                                     {
                                         LPower = 0;
                                     }
-                                    R1imageSet += string.Format("_{0}-{1}-{2}mW", "L", Workspace.This.IVVM.WL1, LPower);
+                                    R1imageSet += string.Format("_{0}-{1}-{2}mW", "L", Workspace.This.IVVM.WL1 + Workspace.This.IVVM.WL1Sign, LPower);
                                 }
 
                                 if (Workspace.This.IVVM.WR2 > 0)
@@ -1933,23 +2012,74 @@ namespace Azure.ScannerEUI.ViewModel
                                     {
                                         R2Power = 0;
                                     }
-                                    R1imageSet += string.Format("_{0}-{1}-{2}mW", "R2", Workspace.This.IVVM.WR2, R2Power);
+                                    R1imageSet += string.Format("_{0}-{1}-{2}mW", "R2", Workspace.This.IVVM.WR2 + Workspace.This.IVVM.WR2Sign, R2Power);
                                 }
-                                if (_RangeNum >=0 && ScanWorkCount > 0)
+                                if (_RangeNum >= 0 && ScanWorkCount > 0)
                                 {
                                     int tempRangeNum = _RangeNum + 1;
                                     R1imageSet += string.Format("_ROI{0}", tempRangeNum);
                                 }
                                 if (Workspace.This.ZAutomaticallyFocalVM.SelectedFocus != "None" && Workspace.This.ZAutomaticallyFocalVM.Ofimages <= Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList.Count)//
                                 {
-                                    R1imageSet += string.Format("_Focus{0}", Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList[_StackNum].Value - (int)Workspace.This.EthernetController.DeviceProperties.ZFocusPosition);
+                                    double focus = Workspace.This.EthernetController.DeviceProperties.ZFocusPosition +
+                                        (Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList[_StackNum].Value - Workspace.This.EthernetController.DeviceProperties.ZFocusPosition);
+                                    R1imageSet += string.Format("_Focus{0}", Math.Round(focus, 2));
                                 }
                                 if (Workspace.This.IVVM.IsCaptrueR1Selected)
                                 {
-                                    Workspace.This.NewDocument(_ChannelAImage, imageInfo, R1imageSet + "_Date" + timeNow, false, true, true);
+                                    Workspace.This.NewDocument(_ChannelAImage, imageInfoR1, R1imageSet + "_Date" + timeNow, false, true, true);
                                 }
 
                             }
+                            if (Workspace.This.IVVM.WR2 > 0)
+                            {
+                                //Record which bin the current image is in, so that even if merged into RGB, we can still distinguish which bin the image belongs to
+                                //记录当前图像是哪个仓位，这样即使合并成RGB我们也能分别出图像来是哪个仓位
+                                imageInfoR2.ChannelRemark = "R2";
+                                double CPower = Workspace.This.IVVM.LaserCPower;
+                                if (!Workspace.This.IVVM.IsLaserR2Selected)
+                                {
+                                    CPower = 0;
+                                }
+                                string R2imageSet = string.Format("{0}_{1}_{2}mw_Gain{3}_PGA{4}_Quality{5}_{6}um", Workspace.This.IVVM.WR2 + Workspace.This.IVVM.WR2Sign, "R2", CPower,
+                                _R2Gain, Workspace.This.IVVM.SelectedMModuleR2.DisplayName, Workspace.This.ScannerVM.SelectedQuality.Value, Workspace.This.ScannerVM.SelectedResolution.Value);
+
+                                if (Workspace.This.IVVM.WR1 > 0)
+                                {
+                                    double R1Power = Workspace.This.IVVM.LaserBPower;
+                                    if (!Workspace.This.IVVM.IsLaserR1Selected)
+                                    {
+                                        R1Power = 0;
+                                    }
+                                    R2imageSet += string.Format("_{0}-{1}-{2}mW", "R1", Workspace.This.IVVM.WR1 + Workspace.This.IVVM.WR1Sign, R1Power);
+                                }
+
+                                if (Workspace.This.IVVM.WL1 > 0)
+                                {
+                                    double LPower = Workspace.This.IVVM.LaserAPower;
+                                    if (!Workspace.This.IVVM.IsLaserL1Selected)
+                                    {
+                                        LPower = 0;
+                                    }
+                                    R2imageSet += string.Format("_{0}-{1}-{2}mW", "L", Workspace.This.IVVM.WL1 + Workspace.This.IVVM.WL1Sign, LPower);
+                                }
+                                if (_RangeNum >= 0 && ScanWorkCount > 0)
+                                {
+                                    int tempRangeNum = _RangeNum + 1;
+                                    R2imageSet += string.Format("_ROI{0}", tempRangeNum);
+                                }
+                                if (Workspace.This.ZAutomaticallyFocalVM.SelectedFocus != "None" && Workspace.This.ZAutomaticallyFocalVM.Ofimages <= Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList.Count)//
+                                {
+                                    double focus = Workspace.This.EthernetController.DeviceProperties.ZFocusPosition +
+                                        (Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList[_StackNum].Value - Workspace.This.EthernetController.DeviceProperties.ZFocusPosition);
+                                    R2imageSet += string.Format("_Focus{0}", Math.Round(focus, 2));
+                                }
+                                if (Workspace.This.IVVM.IsCaptrueR2Selected)
+                                {
+                                    Workspace.This.NewDocument(_ChannelBImage, imageInfoR2, R2imageSet + "_Date" + timeNow, false, true, true);
+                                }
+                            }
+
                             // Oh oh something went wrong - handle the error
                             if (_ChannelAImage != null || _ChannelBImage != null || _ChannelCImage != null)
                             {
@@ -2045,8 +2175,8 @@ namespace Azure.ScannerEUI.ViewModel
                                     ChannelA.SetXYMapping(p => p);
                                     ChannelB.SetXYMapping(p => p);
                                     ChannelC.SetXYMapping(p => p);
-                                    Workspace.This.SelectedTabIndex = (int)ApplicationTabType.ScanChart; // Switch to ScanChart tab
                                 }
+                                Workspace.This.SelectedTabIndex = (int)ApplicationTabType.ScanChart; // Switch to ScanChart tab
                             }
 
                         }
@@ -2095,7 +2225,7 @@ namespace Azure.ScannerEUI.ViewModel
                 }
                 else if (Workspace.This.ZAutomaticallyFocalVM.SelectedFocus == "None" && ScanWorkCount > 0)// Only multi-area scanning is selected
                 {
-                
+
                     _RangeNum++;
                     ScanCommondList(_StackNum, _RangeNum);
                     if (_RangeNum >= ScanWorkCount)
@@ -2109,7 +2239,7 @@ namespace Azure.ScannerEUI.ViewModel
                 {
                     _StackNum++;
                     ScanCommondList(_StackNum, _RangeNum);
-                    if (_StackNum >= Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList.Count&& _RangeNum < ScanWorkCount)
+                    if (_StackNum >= Workspace.This.ZAutomaticallyFocalVM._FocusOptionsList.Count && _RangeNum < ScanWorkCount)
                     {
                         _StackNum = 0;
                         _RangeNum++;
@@ -2127,9 +2257,16 @@ namespace Azure.ScannerEUI.ViewModel
                 {
                     // The scan is complete
                     WorkDone();
-                    Workspace.This.SelectedTabIndex = (int)ApplicationTabType.Gallery;   // Switch to gallery tab
+                    if (scannedThread.ScanType == ScanTypes.Static || scannedThread.ScanType == ScanTypes.Vertical || scannedThread.ScanType == ScanTypes.XAxis)
+                    {
+                        Workspace.This.SelectedTabIndex = (int)ApplicationTabType.ScanChart;
+                    }
+                    else
+                    {
+                        Workspace.This.SelectedTabIndex = (int)ApplicationTabType.Gallery;   // Switch to gallery tab
+                    }
                 }
-
+                Workspace.This.DisconnectDeviceEnable = true;  //Optical module button enable
             });
         }
         /// <summary>
@@ -2294,12 +2431,22 @@ namespace Azure.ScannerEUI.ViewModel
                 WorkDone();
                 //Enable Motor control
                 Workspace.This.MotorIsAlive = true;
+                //光学模块按钮启用  Optical module button enable
+                Workspace.This.DisconnectDeviceEnable = true; 
                 _ScanningProcess.Abort();  // Abort the scanning thread
                 if (Workspace.This.MotorVM.IsNewFirmware)
                 {
                     Workspace.This.MotorVM.MotionController.SetStart(EthernetCommLib.MotorTypes.X | EthernetCommLib.MotorTypes.Y | EthernetCommLib.MotorTypes.Z,
                         new bool[] { false, false, false });
                 }
+            }
+            else
+            { //终止当前扫描
+                //Terminate the current scan
+                WorkDone();
+                //Enable Motor control
+                Workspace.This.MotorIsAlive = true;
+                Workspace.This.DisconnectDeviceEnable = true; //光学模块按钮启用  Optical module button enable
             }
         }
         public bool CanExecuteStopScanCommand(object parameter)
@@ -2856,6 +3003,67 @@ namespace Azure.ScannerEUI.ViewModel
             Workspace.This.ZAutomaticallyFocalVM.IsFoucsEnabled = true;
         }
         #endregion
+
+        public void ScanScopelimitations(ref bool value)
+        {
+            value = true;
+            ScanDynamicScopeString = "";
+            ScanDynamicScopeStringType = "";
+            if ((_ScanX0 + _ScanDeltaX) / _XMotorSubdivision > (XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance)))
+            {
+                ExecuteStopScanCommand(null);
+                value = false;
+                string message = String.Format("The X should be 0=<X0+DX<={0}", XHomecoefficient - (Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance));
+                Window window = new Window();
+                MessageBox.Show(window, message);
+                return;
+            }
+            if ((_ScanY0 + _ScanDeltaY) / (double)_YMotorSubdivision > ((double)_YMaxValue / (double)_YMotorSubdivision) - 5)
+            {
+                ExecuteStopScanCommand(null);
+                value = false;
+                string message = String.Format("The Y should be 0=<Y0+DY<={0}", ((double)_YMaxValue / (double)_YMotorSubdivision) - 5);
+                Window window = new Window();
+                MessageBox.Show(window, message);
+                return;
+            }
+            if ((_ScanZ0 + _ScanDeltaZ) / (double)_ZMotorSubdivision > ((double)_ZMaxValue / (double)_ZMotorSubdivision))
+            {
+                ExecuteStopScanCommand(null);
+                value = false;
+                string message = String.Format("The Z should be 0=<Z0+DZ<={0}", (double)_ZMaxValue / (double)_ZMotorSubdivision);
+                Window window = new Window();
+                MessageBox.Show(window, message);
+                return;
+            }
+        }
+
+        #region unit conversion
+
+        private const int KbDiv = 1024;
+        private const int MbDiv = 1024 * 1024;
+        private const int GbDiv = 1024 * 1024 * 1024;
+
+        #endregion
+
+        /// <summary>
+        ///     MemoryAvailable
+        /// </summary>
+        internal static long? GetMemoryAvailable()
+        {
+            long availablebytes = 0;
+            var managementClassOs = new ManagementClass("Win32_OperatingSystem");
+            foreach (var managementBaseObject in managementClassOs.GetInstances())
+                if (managementBaseObject["FreePhysicalMemory"] != null)
+                    availablebytes = 1024 * long.Parse(managementBaseObject["FreePhysicalMemory"].ToString());
+            return availablebytes / MbDiv;
+        }
+        internal static long? GetImageMemory(int width, int height)
+        {
+
+            return (((width * height) * 3) / MbDiv) + 100;  //3 channel  Accumulate the image space calculation by 100M to avoid the same memory space
+
+        }
     }
 
     /*public class ResolutionType

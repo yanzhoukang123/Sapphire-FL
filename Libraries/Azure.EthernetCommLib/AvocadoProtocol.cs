@@ -3448,7 +3448,33 @@ namespace Azure.EthernetCommLib
 
             return _SendingFrame.GetBytes();
         }
-        
+        public static byte[] SetWavelength(LaserChannels channel, double Wavelength)
+        {
+            _SendingFrame.Command = CommandTypes.Write;
+            SubSys sys = SubSys.Default;
+            switch (channel)
+            {
+                case LaserChannels.ChannelA:
+                    sys = SubSys.LaserChA;
+                    break;
+                case LaserChannels.ChannelB:
+                    sys = SubSys.LaserChB;
+                    break;
+                case LaserChannels.ChannelC:
+                    sys = SubSys.LaserChC;
+                    break;
+                default:
+                    return null;
+            }
+            _SendingFrame.System = sys;
+            _SendingFrame.StartingProperty = Properties.LaserWaveLength;
+            _SendingFrame.PropertyNums = 1;
+            _SendingFrame.DataLength = 4;
+            _SendingFrame.DataField = new List<byte>(BitConverter.GetBytes((int)(Wavelength)));
+
+            return _SendingFrame.GetBytes();
+        }
+
         public static byte[] SetTECMaximumCurrent(LaserChannels channel, double current)
         {
             _SendingFrame.Command = CommandTypes.Write;

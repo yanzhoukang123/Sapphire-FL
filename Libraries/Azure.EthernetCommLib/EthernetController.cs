@@ -1155,6 +1155,11 @@ namespace Azure.EthernetCommLib
             byte[] cmd = AvocadoProtocol.SetTECControlTemperature(channel, current);
             return SendBytes(cmd);
         }
+        public bool SetWavelength(LaserChannels channel, int Wavelength)
+        {
+            byte[] cmd = AvocadoProtocol.SetWavelength(channel, Wavelength);
+            return SendBytes(cmd);
+        }
         public bool SetTECMaximumCurrent(LaserChannels channel, double current)
         {
             byte[] cmd = AvocadoProtocol.SetTECMaximumCurrent(channel, current);

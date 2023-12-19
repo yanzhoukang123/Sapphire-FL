@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="60" Width="140">
+             mc:Ignorable="d" Width="132" Height="133">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -22,17 +21,54 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
+    <Grid>
+        <Grid VerticalAlignment="Center">
+            <StackPanel   Visibility="{Binding OldVesionVisFlag}">
+                <Label  Content="Door" Style="{StaticResource MyLabelHeaderStyle}"/>
+                <Label Background="LightGray"
+                MinWidth="68"
+                Height="28"
+                FontSize="14"
+                FontWeight="SemiBold"
+                HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{Binding Path=DoorStatus}"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal">
-        <Label Grid.Row="0"  Content="Door" Style="{StaticResource MyLabelHeaderStyle}" Height="30" Width="45"/>
-        <Label Background="LightGray"
-               Width="80"
-               Height="28"
-               FontSize="14"
-               FontWeight="SemiBold"
-               HorizontalAlignment="Center"
-               HorizontalContentAlignment="Center"
-               VerticalContentAlignment="Center"
-               Content="{Binding Path=DoorStatus}" Padding="0" />
-        </StackPanel>
+            <StackPanel   Visibility="{Binding VesionVisFlag}">
+                <Label Grid.Row="0"  Content="Top Lid" Style="{StaticResource MyLabelHeaderStyle}"/>
+                <Ellipse Height="23"  VerticalAlignment="Center" Margin="50,0">
+                    <Ellipse.Style>
+                        <Style TargetType="{x:Type Ellipse}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TopCoverLockStatus}" Value="True">
+                                    <Setter Property="Fill" Value="Red"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TopCoverLockStatus}" Value="False">
+                                    <Setter Property="Fill" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>
+                <Label  Content="Front Door" Style="{StaticResource MyLabelHeaderStyle}"/>
+                <Ellipse Height="22"  VerticalAlignment="Center" Margin="50,0">
+                    <Ellipse.Style>
+                        <Style TargetType="Ellipse">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TopMagneticStatus}" Value="True">
+                                    <Setter Property="Shape.Fill" Value="Red"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TopMagneticStatus}" Value="False">
+                                    <Setter Property="Shape.Fill" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </UserControl>

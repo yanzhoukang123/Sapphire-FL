@@ -1382,6 +1382,21 @@ namespace Azure.ScannerEUI.ViewModel
             UpdateMotorHomed();
 
             Workspace.This.ApdVM.LIDIsOpen = Workspace.This.EthernetController.LidIsOpen;
+            if (Workspace.This.ScannerVM.HWversion == Workspace.This.DefaultHWversion)
+            {
+                //TopCoverLock 顶盖状态(硬件版本V1.1)                         Top cover status (hardware version V1.1)
+                //TopMagneticState 前盖状态(硬件版本V1.1)                     Front cover status (hardware version V1.1)
+                //OpticalModulePowerStatus 光学模块电源状态(硬件版本V1.1)     Optical module power status (hardware version V1.1)
+                //DevicePowerStatus 非扫图时前面板电源状态                            Front panel power status during non scanning
+                //OpticalModulePowerMonitor  光学模块电源监测                 Optical module power monitoring （FW Version 1.1.0.0）  
+                Workspace.This.ApdVM.TopCoverLock = Workspace.This.EthernetController.TopCoverLock;
+                Workspace.This.ApdVM.TopMagneticState = Workspace.This.EthernetController.TopMagneticState;
+                Workspace.This.ApdVM.OpticalModulePowerStatus = Workspace.This.EthernetController.OpticalModulePowerStatus;
+                Workspace.This.ApdVM.DevicePowerStatus = Workspace.This.EthernetController.DevicePowerStatus; //False=device powered off, true=device powered on
+                Workspace.This.ApdVM.OpticalModulePowerMonitor = Workspace.This.EthernetController.OpticalModulePowerMonitor;
+            }
+            //State when pressing the front panel button while scanning images  （FW Version 1.1.0.0）  //扫描图像时按下前面板按钮时的状态
+            Workspace.This.ApdVM.ShutdownDuringScanStatus = Workspace.This.EthernetController.ShutdownDuringScanStatus;
         }
 
         public MotionController MotionController

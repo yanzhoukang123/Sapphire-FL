@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Azure.EthernetCommLib
 {
-    //新增加的属性值，必须添加到最后，不允许在起始和中间位置增加新的属性
-    //Newly added attribute values must be added to the end, and adding new attributes at the beginning and middle positions is not allowed
+    //新增加的字段，必须添加到最后，不允许在起始和中间位置添加
+    //Newly added fields must be added to the end and are not allowed to be added at the beginning or middle positions
     [Serializable]
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1, Size = 256)]  // aligned by 1 byte
     public struct AvocadoDeviceProperties

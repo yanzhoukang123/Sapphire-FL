@@ -97,7 +97,8 @@
                         <StackPanel Orientation="Horizontal" Margin="3,0,1,5">
                             <local:ScannerModePanel x:Name="_ScannerModePanel"
                                 VerticalAlignment="Top"
-                                Visibility="{Binding Path=IsImagingMode, Converter={StaticResource boolToVisibilityConverter}}" />
+                                Visibility="{Binding Path=IsImagingMode, Converter={StaticResource boolToVisibilityConverter}}"
+                                IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.MotorIsAlive}"/>
                             <local:ScanWorkUserControl x:Name="_ScannerWorkPanel"
                                 Margin="0,30,0,0"
                                 BorderThickness="0.5"
@@ -138,16 +139,29 @@
                             Grid.ColumnSpan="2" />
                     </ScrollViewer>
                     
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <!--<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,0,5,0">
-                            <!--<TextBlock Text="Data Receiving Rate(KB/Sec)" Margin="5"/>
+                            --><!--<TextBlock Text="Data Receiving Rate(KB/Sec)" Margin="5"/>
                             <TextBlock Text="{Binding Path=EthernetDataRate}" Margin="5"/>-->
-                            <!--IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.MotorIsAlive}"-->
+                            <!--IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.MotorIsAlive}"--><!--
                             <local:DoorStatusControl HorizontalAlignment="Left" Margin="5,4,0,4" />
                             <local:VersionsAndOtheSettings HorizontalAlignment="Left" Margin="4,0,4,4" />
                         </StackPanel>
-                        <!--ScanAndSpentTimeAndRemaining-->
+                        --><!--ScanAndSpentTimeAndRemaining--><!--
                         <local:UsScanContorlSpentTimeAndRemaining />
+                    </StackPanel>-->
+
+                    <StackPanel  HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <local:VersionsAndOtheSettings IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.MotorIsAlive}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <local:DoorStatusControl/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <local:UsScanContorlSpentTimeAndRemaining IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ScanIsAlive}"/>
+                            <local:DisconnectDevice HorizontalAlignment="Right"></local:DisconnectDevice >
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
 

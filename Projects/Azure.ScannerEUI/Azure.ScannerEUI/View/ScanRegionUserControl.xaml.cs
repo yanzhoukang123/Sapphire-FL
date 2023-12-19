@@ -119,6 +119,14 @@ namespace Azure.ScannerEUI.View
         // When the mouse moves away from the current ROI, change its style and load its parameters
         public void GridPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            //Calculate the scanning range of X and Y, and if it exceeds the range, do not proceed further
+            //计算X和Y的扫描范围，如果超出范围就不往下执行了
+            bool IsScanScopelimitations = false;
+            Workspace.This.ScannerVM.ScanScopelimitations(ref IsScanScopelimitations);
+            if (!IsScanScopelimitations)
+            {
+                return;
+            }
             BackColor = "#006EB3";
             ForeColor = "#FFEFEFEF";
             _ScanStr.Foreground= (SolidColorBrush)bc.ConvertFrom(ForeColor);

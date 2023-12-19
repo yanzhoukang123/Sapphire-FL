@@ -498,6 +498,7 @@ namespace Azure.Image.Processing
         }
 
         // Scanner image info
+        public string FpgaFirmware { get; set; }
         public string FWVersion { get; set; } = string.Empty;
         public int ApdAGain { get; set; }
         public int ApdBGain { get; set; }
