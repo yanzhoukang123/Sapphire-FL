@@ -22,7 +22,7 @@ namespace Azure.ScannerEUI.View
     {
         public DisconnectDevice()
         {
-            //这是个测试行
+            //这是个测试行1111
             InitializeComponent();
         }
     }
