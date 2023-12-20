@@ -23,6 +23,7 @@ namespace Azure.ScannerEUI.View
         public NewParameterSetup()
         {
             InitializeComponent();
+            Workspace.This.NewParameterVM.IsShowParameterWindow = true;
             DataContext = Workspace.This.NewParameterVM;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -35,7 +36,12 @@ namespace Azure.ScannerEUI.View
             //窗体加载时加载一般个性化参数
             //The general personalization parameters are loaded when the form loads
             if (Workspace.This.NewParameterVM != null)
-                Workspace.This.NewParameterVM.ExecuteParametersReadCommand(null);  
+                Workspace.This.NewParameterVM.ExecuteParametersReadCommand(null);
+            if (Workspace.This.ScannerVM.HWversion == Workspace.This.DefaultHWversion && Workspace.This.ScannerVM.LEDVersion != Workspace.This.NewParameterVM.Str16Code)
+            {
+                oldVesion_lalSerialNumber.Visibility = Visibility.Hidden;
+                oldVesion_txtSerialNumber.Visibility = Visibility.Hidden;
+            }
         }
         private static bool IsTextAllowed(string text)
         {
@@ -46,6 +52,11 @@ namespace Azure.ScannerEUI.View
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Workspace.This.NewParameterVM.IsShowParameterWindow = false;
         }
     }
 }

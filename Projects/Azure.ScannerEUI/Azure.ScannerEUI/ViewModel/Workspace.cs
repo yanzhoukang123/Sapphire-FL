@@ -155,6 +155,22 @@ namespace Azure.ScannerEUI.ViewModel
         private Visibility _WorkIndexTitleVisBility = Visibility.Hidden;
         private EthernetController _EthernetController;
         private double _EthernetTransactionRate;
+        private bool _ScanIsAlive = false;
+        //（FW Version 1.1.0.0） If the firmware version is 1.1, the added UI for "Optical Module Power Down Button", "Top Cover Lock Status", "Top Cover Magnet Status", and "Optical Module Power Status" will be displayed, while the UI for "Optical Module Power Status" will be hidden
+        //如何固件版本是1.1则将增加的“光学模块下电按钮”和“顶盖锁状态”和“顶盖磁吸状态”和“光学模块电源状态”UI显示，相反则隐藏
+        private Visibility _VesionVisFlag = Visibility.Visible;   //当硬件版本是1.1时显示光学模块下电按钮和相应的功能，When the hardware version is 1.1, the optical module power-off button and corresponding functions are displayed
+        private Visibility _OldVesionVisFlag = Visibility.Visible;   //隐藏或者显示版本1.0.0.0中对应的UI和功能 Hide or display the corresponding UI and functions in version 1.0.0.0
+        private Visibility _LEDVesionVisFlag = Visibility.Visible;   //当硬件版本是1.1，并且LED版本是0.0.0.0则隐藏光学模块下电按钮 When the hardware version is 1.1, the optical module power-off button is displayed, and the LED version is 0.0.0.0, the optical module power-off button is hidden
+        private bool _DisconnectDeviceEnable = true; //光学模块按钮启用状态  Optical module button activation status （FW Version 1.1.0.0）
+        private bool _TopCoverLockStatus;             //顶盖锁状态(硬件版本V1.1)  monitor Top cover lock status（FW Version 1.1.0.0）
+        private bool _TopMagneticStatus;         //顶盖磁吸状态(硬件版本V1.1)            monitor Top cover magnetic suction status （FW Version 1.1.0.0）
+        private bool _OpticalModulePowerStatus;   //光学模块下电状态 False下电，True上电  Optical module power-off status False power-off, True power-off （FW Version 1.1.0.0）
+        private bool _OpticalModulePowerMonitor;   //光学模块电源监测 Optical module power monitoring  False下电，True上电  Optical module power-off status False power-off, True power-off （FW Version 1.1.0.0）
+        //Indicates the device status, while Fasle indicates that the optical module power off button has been manually pressed. At this time, the software pop-up reminds the device that it has been powered off and needs to restart the software. The software is always set to gray and is not allowed to be used
+        //表示设备状态，Fasle表示手动按下了光学模块下电按钮，此时软件弹框提醒设备已经下电请重启软件，软件始终置为灰色不允许使用
+        private string _DefaultHWversion = "1.1.0.0";
+        private double _AmbientTemperatureCH1 = 0;
+        private double _AmbientTemperatureCH2 = 0;
         #endregion
 
         #region Constructors...
@@ -335,6 +351,1706 @@ namespace Azure.ScannerEUI.ViewModel
         }
 
         //public bool IsStartUpInCameraMode { get; set; }
+
+        #region 
+        public bool DeviceStatus
+        {
+            get
+            {
+                return DeviceStatus;
+            }
+            set
+            {
+                DeviceStatus = value;
+            }
+        }
+
+        //（FW Version 1.1.0.0）
+        public string DefaultHWversion
+        {
+            get
+            {
+                return _DefaultHWversion;
+            }
+            set
+            {
+                _DefaultHWversion = value;
+            }
+        }
+        //Hide or display the Scan button Stop button Remaining Spent UI
+        //扫描区域UI("Scan buttion  Stop buttion Remaining Spent")隐藏或显示
+        public bool ScanIsAlive
+        {
+            get
+            {
+                return _ScanIsAlive;
+            }
+            set
+            {
+                _ScanIsAlive = value;
+                RaisePropertyChanged("ScanIsAlive");
+            }
+        }
+
+        //If the firmware version is 1.1, the added UI for "Optical Module Power Down Button", "Top Cover Lock Status", "Top Cover Magnet Status", and "Optical Module Power Status" will be displayed, while the UI for "Optical Module Power Status" will be hidden
+        //如果固件版本是1.1则将增加的“光学模块下电按钮”和“顶盖锁状态”和“顶盖磁吸状态”和“光学模块电源状态”UI显示，相反则隐藏
+        public Visibility VesionVisFlag
+        {
+            get
+            {
+                return _VesionVisFlag;
+
+            }
+            set
+            {
+                if (_VesionVisFlag != value)
+                {
+                    _VesionVisFlag = value;
+                    RaisePropertyChanged("VesionVisFlag");
+                }
+            }
+        }
+        public Visibility OldVesionVisFlag
+        {
+            get
+            {
+                return _OldVesionVisFlag;
+
+            }
+            set
+            {
+                if (_OldVesionVisFlag != value)
+                {
+                    _OldVesionVisFlag = value;
+                    RaisePropertyChanged("OldVesionVisFlag");
+                }
+            }
+        }
+        //当硬件版本是1.1，并且LED版本是0.0.0.0则隐藏光学模块下电按钮 When the hardware version is 1.1, the optical module power-off button is displayed, and the LED version is 0.0.0.0, the optical module power-off button is hidden
+        public Visibility LEDVesionVisFlag
+        {
+            get
+            {
+                return _LEDVesionVisFlag;
+
+            }
+            set
+            {
+                if (_LEDVesionVisFlag != value)
+                {
+                    _LEDVesionVisFlag = value;
+                    RaisePropertyChanged("LEDVesionVisFlag");
+                }
+            }
+        }
+        //光学模块按钮启动状态  Optical module button activation status （FW Version 1.1.0.0）
+        public bool DisconnectDeviceEnable
+        {
+            get
+            {
+                return _DisconnectDeviceEnable;
+
+            }
+            set
+            {
+                if (_DisconnectDeviceEnable != value)
+                {
+                    _DisconnectDeviceEnable = value;
+                    RaisePropertyChanged("DisconnectDeviceEnable");
+                }
+            }
+        }
+        //Top cover  status（FW Version 1.1.0.0）   顶盖状态(硬件版本V1.1)
+        public bool TopCoverLockStatus
+        {
+            get { return _TopCoverLockStatus; }
+            set
+            {
+                if (_TopCoverLockStatus != value)
+                {
+                    _TopCoverLockStatus = value;
+                    RaisePropertyChanged("TopCoverLockStatus");
+                }
+            }
+        }
+        // Front cover status （FW Version 1.1.0.0） 前盖状态(硬件版本V1.1)
+        private bool IsTopMagneticOpen = false;
+        private bool IsTopMagneticClose = false;
+        public bool TopMagneticStatus
+        {
+            get { return _TopMagneticStatus; }
+            set
+            {
+                if (_TopMagneticStatus != value)
+                {
+                    _TopMagneticStatus = value;
+                    //After the optical module is powered off
+                    if (OpticalModulePowerStatus == false)
+                    {
+                        if (value)
+                        {
+                            IsTopMagneticOpen = true;
+                        }
+                        else
+                        {
+                            IsTopMagneticClose = true;
+                        }
+                    }
+                    RaisePropertyChanged("TopMagneticStatus");
+                }
+            }
+        }
+        //Rear panel fan 1  （FW Version 1.1.0.0） 
+        public double AmbientTemperatureCH1
+        {
+            get { return _AmbientTemperatureCH1; }
+            set
+            {
+                if (_AmbientTemperatureCH1 != value)
+                {
+                    _AmbientTemperatureCH1 = value;
+                    RaisePropertyChanged("AmbientTemperatureCH1");
+                }
+            }
+        }
+        //Rear panel fan 2 （FW Version 1.1.0.0）
+        public double AmbientTemperatureCH2
+        {
+            get { return _AmbientTemperatureCH2; }
+            set
+            {
+                if (_AmbientTemperatureCH2 != value)
+                {
+                    _AmbientTemperatureCH2 = value;
+                    RaisePropertyChanged("AmbientTemperatureCH2");
+                }
+            }
+        }
+        //Optical module power Monitor （FW Version 1.1.0.0）  光学模块电源监测(硬件版本V1.1)
+        public bool OpticalModulePowerMonitor
+        {
+
+            get { return _OpticalModulePowerMonitor; }
+            set
+            {
+                if (_OpticalModulePowerMonitor != value)
+                {
+                    _OpticalModulePowerMonitor = value;
+                }
+            }
+        }
+
+        //首次打开软件 Opening the software for the first time
+        private bool OneLoadInitSplashScreen = false;
+        //Optical module power status （FW Version 1.1.0.0）  光学模块电源状态(硬件版本V1.1)
+        public bool OpticalModulePowerStatus
+        {
+
+            get { return _OpticalModulePowerStatus; }
+            set
+            {
+                if (_OpticalModulePowerStatus != value)
+                {
+                    _OpticalModulePowerStatus = value;
+                    if (_OpticalModulePowerStatus == true)
+                    {
+                        //When opening the software for the first time OneLoadInitSplashScreen==false
+                        //首次打开软件时 OneLoadInitSplashScreen==false
+                        if (!OneLoadInitSplashScreen)
+                        {
+                            //进入登录界面并输入密码后在跳转到MainWindow
+                            //After entering the login interface and entering the password, jump to MainWindow
+                            LoadInitSplashScreen();
+                        }
+                        else
+                        {
+                            // Open the document in a different thread
+                            NoShowLoadInit();
+
+                        }
+                        //After successfully opening the software for the first time, set OneLoadInitSplashScreen==true
+                        //首次打开软件成功后将 OneLoadInitSplashScreen==true
+                        OneLoadInitSplashScreen = true;
+                        //After successfully opening the software or powering on the optical module, retrieve the information of the IV board and Laser module again
+                        //每次软件打开成功后或者光学模块上电成功后，重新获取一次IV板子信息和Laser模块信息
+
+                        //Get "OtherSettings" parameter
+                        Workspace.This.NewParameterVM.GetOtherSetting();
+                        if (Workspace.This.EthernetController.OpticalModulePowerStatus)
+                        {
+                            This.MotorVM.AbsZPos = This.EthernetController.DeviceProperties.ZFocusPosition;
+                            This.MotorVM.AbsXPos = This.EthernetController.DeviceProperties.LogicalHomeX;
+                            This.MotorVM.AbsYPos = This.EthernetController.DeviceProperties.LogicalHomeY;
+                            Workspace.This.IVVM.SensorML1 = EthernetController.IvSensorTypes[IVChannels.ChannelC];//C代表L通道     Enumeration C represents an L channel 
+                            Workspace.This.IVVM.SensorMR1 = EthernetController.IvSensorTypes[IVChannels.ChannelA];//A代表R1通道    Enumeration A represents an R1 channel
+                            Workspace.This.IVVM.SensorMR2 = EthernetController.IvSensorTypes[IVChannels.ChannelB];//B代表R2通道    Enumeration B represents an R2 channel
+                            Workspace.This.IVVM.SensorSNL1 = EthernetController.IvSensorSerialNumbers[IVChannels.ChannelC].ToString("X8");//C代表L通道 Enumeration C represents an L channel 
+                            Workspace.This.IVVM.SensorSNR1 = EthernetController.IvSensorSerialNumbers[IVChannels.ChannelA].ToString("X8");//A代表R1通道  Enumeration A represents an R1 channel
+                            Workspace.This.IVVM.SensorSNR2 = EthernetController.IvSensorSerialNumbers[IVChannels.ChannelB].ToString("X8");//B代表R2通道 Enumeration B represents an R2 channel
+                            Workspace.This.IVVM.LaserSNL1 = EthernetController.LaserSerialNumbers[LaserChannels.ChannelC].ToString("X8");//C代表L通道 Enumeration C represents an L channel 
+                            Workspace.This.IVVM.LaserSNR1 = EthernetController.LaserSerialNumbers[LaserChannels.ChannelA].ToString("X8");//A代表R1通道 Enumeration A represents an R1 channel
+                            Workspace.This.IVVM.LaserSNR2 = EthernetController.LaserSerialNumbers[LaserChannels.ChannelB].ToString("X8");//B代表R2通道  Enumeration B represents an R2 channel
+                            Workspace.This.IVVM.WL1 = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelC];//C代表L通道 Enumeration C represents an L channel 
+                            Workspace.This.IVVM.WR1 = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelA];//A代表R1通道 Enumeration A represents an R1 channel
+                            Workspace.This.IVVM.WR2 = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelB];//B代表R2通道  Enumeration B represents an R2 channel
+                            Workspace.This.IVVM.SensorRadTemperaTureR2 = 0;
+                            Workspace.This.IVVM.SensorTemperatureR2 = "0";
+                            Workspace.This.IVVM.SensorRadTemperaTureR1 = 0;
+                            Workspace.This.IVVM.SensorTemperatureR1 = "0";
+                            Workspace.This.IVVM.SensorRadTemperaTureL1 = 0;
+                            Workspace.This.IVVM.SensorTemperatureL1 = "0";
+                            //Reset PGA and Gain
+                            Workspace.This.IVVM.ResetPGAandGain();
+                            Workspace.This.IVVM.VisbleAndEnable();
+                            // Work has completed. You can now interact with the UI
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                StopWaitAnimation();
+                                Workspace.This.MotorIsAlive = true;
+                                ScanIsAlive = true;
+                                DisconnectDeviceEnable = true;
+                                _IsLoading = false;
+                            });
+                            //If the firmware version is 1.1.0.0 and the LED version number is "254.255.255.255", perform the following operation
+                            if (Workspace.This.ScannerVM.LEDVersion == Workspace.This.NewParameterVM.Str16Code)
+                            {
+                                Workspace.This.LEDVesionVisFlag = Visibility.Hidden;
+                                Workspace.This.NewParameterVM.LEDVesionVisFlag = Visibility.Hidden;
+                            }
+                            Workspace.This.OldVesionVisFlag = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            if (Workspace.This.ScannerVM.HWversion == "1.0.0.0")
+                            {
+                                Workspace.This.NewParameterVM.VesionVisFlag = Visibility.Hidden;
+                                Workspace.This.VesionVisFlag = Visibility.Hidden;
+                                Workspace.This.OldVesionVisFlag = Visibility.Visible;
+                                Workspace.This.MotorIsAlive = true;
+                                ScanIsAlive = true;
+                            }
+                            else
+                            {
+                                IsTopMagneticOpen = false;
+                                IsTopMagneticClose = false;
+                                Workspace.This.OldVesionVisFlag = Visibility.Hidden;
+                                ScanIsAlive = false;
+                                this.MotorIsAlive = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Get "OtherSettings" parameter
+                        //Workspace.This.NewParameterVM.GetOtherSetting();
+                        if (Workspace.This.ScannerVM.HWversion == "1.0.0.0")
+                        {
+                            Workspace.This.NewParameterVM.VesionVisFlag = Visibility.Hidden;
+                            Workspace.This.VesionVisFlag = Visibility.Hidden;
+                            Workspace.This.OldVesionVisFlag = Visibility.Visible;
+                            Workspace.This.MotorIsAlive = true;
+                            ScanIsAlive = true;
+                        }
+                        else
+                        {
+                            //If the firmware version is 1.1.0.0 and the LED version number is "254.255.255.255", perform the following operation
+                            if (Workspace.This.ScannerVM.LEDVersion == Workspace.This.NewParameterVM.Str16Code)
+                            {
+                                Workspace.This.Owner.Dispatcher.BeginInvoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "connection fail！\n", "warning");
+                                    Workspace.This.CloseAppliction();
+                                });
+                            }
+                            else
+                            {
+                                IsTopMagneticOpen = false;
+                                IsTopMagneticClose = false;
+                                Workspace.This.OldVesionVisFlag = Visibility.Hidden;
+                                ScanIsAlive = false;
+                                this.MotorIsAlive = false;
+                                //The front panel buttons are in a powered on state, and only the power down operation has been performed on the software
+                                //前面板按钮是通电状态，只在软件上操作了下电操作
+                                if (Workspace.This.EthernetController.DevicePowerStatus)
+                                {
+                                    Application.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        StartWaitAnimation("Please wait ...");
+                                        _IsLoading = true;
+                                    });
+                                    MonitorOpticalModule();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // The software is opened for the first time, with a Progress bar 
+        private ProgressDialogHelper _ProgressDialogHelper = null;
+        private int _temp = 0;
+        /// <summary>
+        /// ProgressValue And string Red,string Black And Message
+        /// </summary>
+        /// <param name="ProgressValue"></param>
+        /// <param name="Message"></param>
+        private void ProgressValueAndMessage(int Value, string Color, string Message)
+        {
+            _ProgressDialogHelper.SetMessage(Color, Message);
+            for (; _temp < Value; _temp++)
+            {
+                System.Threading.Thread.Sleep(50);
+                _ProgressDialogHelper.SetValue(Value);
+            }
+        }
+        private void LoadInitSplashScreen()
+        {
+            try
+            {
+                Owner.Dispatcher.Invoke((Action)delegate
+                {
+
+                    bool _tempCurrent = true;
+                    _ProgressDialogHelper = new ProgressDialogHelper();
+                    _ProgressDialogHelper.Show(() =>
+                    {
+                        ProgressValueAndMessage(10, "Black", "System Initializing…");
+
+                        //首次打开软件 Opening the software for the first time
+                        if (!Workspace.This.ConnectEthernetSlave())
+                        {
+                            ProgressValueAndMessage(30, "Red", "Failed to connect to the main board.\n" + Workspace.This.EthernetController.ErrorMessage);
+                            Log.Fatal(this, "Failed to connect to the main board.…");
+                            return;
+                        }
+                        Workspace.This.MotorVM.IsNewFirmware = true;//isconnect
+                        ProgressValueAndMessage(40, "Black", "Connect to Mainboard… Succeeded…");
+                        if (!Workspace.This.EthernetController.GetSystemVersions())
+                        {
+                            ProgressValueAndMessage(40, "Red", "SystemVersions…Failed…");
+                            Log.Fatal(this, "SystemVersions…Failed.…");
+                            return;
+                        }
+                        Workspace.This.ScannerVM.FPGAVersion = Workspace.This.EthernetController.FWVersion;
+                        Workspace.This.ScannerVM.HWversion = Workspace.This.EthernetController.HWVersion;
+                        //硬件版本是1.0.0.0时 不支持读取当前的顶部锁状态和顶部磁吸状态，光学模块下电状态 （FW Version 1.1.0.0）
+                        if (Workspace.This.ScannerVM.HWversion == DefaultHWversion)
+                        {
+                            //只有主板是1.1.0.0时获取LED版本号，如果获取LED版本号失败就默认使用老版本PC的功能。
+                            //Only when the motherboard is 1.1.0.0, obtain the LED version number. If obtaining the LED version number fails, it defaults to using the functionality of the old version PC.
+                            if (!Workspace.This.EthernetController.GetLEDVersions())
+                            {
+                                Workspace.This.ScannerVM.LEDVersion = Workspace.This.NewParameterVM.Str16Code;
+                                //ProgressValueAndMessage(45, "Red", "GetLEDVersions…Failed…");
+                                //Log.Fatal(this, "GetLEDVersions…Failed.…");
+                                //return;
+                            }
+                            else
+                            {
+                                ProgressValueAndMessage(45, "Black", "GetLEDVersions… Succeeded…");
+                                Workspace.This.ScannerVM.LEDVersion = Workspace.This.EthernetController.LEDVersion;
+                            }
+                            if (Workspace.This.EthernetController.DevicePowerStatus == false)
+                            {
+                                ProgressValueAndMessage(100, "Red", "Please restart the software after the device is powered on!…");
+                                return;
+                            }
+                            ProgressValueAndMessage(50, "Black", "SystemVersions… Succeeded…");
+                            bool OpticalModulePowerStatus = Workspace.This.EthernetController.OpticalModulePowerStatus;
+                            if (!OpticalModulePowerStatus)
+                            {
+                                //If the firmware version is 1.1.0.0 and the LED version number is "254.255.255.255", perform the following operation
+                                if (Workspace.This.ScannerVM.LEDVersion == Workspace.This.NewParameterVM.Str16Code)
+                                {
+                                    ProgressValueAndMessage(100, "Red", "Please restart the software after the device is powered on!…");
+                                    return;
+                                }
+                                else
+                                {
+                                    ProgressValueAndMessage(100, "Black", "The Optical module is not powered on…");
+                                    //删除多余用来创建GIF的图像
+                                    //Remove unnecessary images used to create GIFs
+                                    Workspace.This.ImageRotatingPrcessVM.DirectoryUpdate();
+                                    _ProgressDialogHelper.CloseProgressDialog();
+                                    Workspace.This.MotorIsAlive = false;
+                                    ScanIsAlive = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                        Workspace.This.MotorVM.InitMotionController();
+                        //软件启动XYZ电机回到原点
+                        //Software starts XYZ motor back to Home
+                        if (SettingsManager.ConfigSettings.HomeMotionsAtLaunchTime)
+                        {
+                            if (!Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.X].AtHome ||
+                               !Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.Y].AtHome ||
+                               !Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.Z].AtHome)
+                            {
+                                ProgressValueAndMessage(60, "Black", "Home Motion X, Y and Z…");
+                                if (!Workspace.This.MotorVM.HomeXYZmotor())
+                                {
+                                    ProgressValueAndMessage(50, "Red", "Home Motion X, Y and Z…Failed…");
+                                    return;
+                                }
+                                while (_tempCurrent)
+                                {
+                                    Thread.Sleep(500);
+
+                                    if (Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.X].AtHome &&
+                                  Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.Y].AtHome &&
+                                  Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.Z].AtHome)
+                                    {
+                                        _tempCurrent = false;
+                                        ProgressValueAndMessage(70, "Black", "Home Motion X, Y and Z…Succeeded…");
+                                    }
+                                    else
+                                    {
+                                        _tempCurrent = true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                _tempCurrent = false;
+                            }
+                        }
+                        else
+                        {
+                            _tempCurrent = false;
+                        }
+                        //获取所有IV板子的信息
+                        //Get information about all IV boards
+                        ProgressValueAndMessage(80, "Black", "Identify Optic Modules A, B and C…Succeeded…");
+                        Workspace.This.EthernetController.GetAllIvModulesInfo();
+                        ProgressValueAndMessage(90, "Black", "LaserModulseInfo…Succeeded…");
+                        //获取所有通道激光信息
+                        //Get all channel laser information
+                        Workspace.This.EthernetController.GetAllLaserModulseInfo();
+                        Thread.Sleep(1000);
+                        ProgressValueAndMessage(100, "Black", "Please Wait For System Preparation…");
+                        Thread.Sleep(3000);
+                        if (!_tempCurrent)
+                        {
+                            //删除多余用来创建GIF的图像
+                            //Remove unnecessary images used to create GIFs
+                            Workspace.This.ImageRotatingPrcessVM.DirectoryUpdate();
+                            _ProgressDialogHelper.CloseProgressDialog();
+                        }
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                ProgressValueAndMessage(0, "Red", " Error   ProgressDialog…");
+                _ProgressDialogHelper.CloseProgressDialog();
+                _ProgressDialogHelper.WorkerThreadAbort();
+            }
+        }
+        //Retrieve module information after powering on the optical module
+        //光学模块上电后重新获取模块信息（FW Version 1.1.0.0）
+        private void NoShowLoadInit()
+        {
+            try
+            {
+                if (This.MotorVM.IsNewFirmware)
+                {
+                    //Reconnect Socket
+                    EthernetController.Disconnect();
+                    if (!Workspace.This.ReConnectEthernetSlave())
+                    {
+                        Log.Fatal(this, "Failed to connect to the main board.…");
+                        return;
+                    }
+                    Thread.Sleep(10000);
+                    //获取所有IV板子的信息
+                    //Get information about all IV boards
+                    Workspace.This.EthernetController.GetAllIvModulesInfo();
+                    //获取所有通道激光信息
+                    //Get all channel laser information
+                    Workspace.This.EthernetController.GetAllLaserModulseInfo();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        //关闭程序 Close program （FW Version 1.1.0.0）
+        public void CloseAppliction()
+        {
+            if (This.IsPreparing)
+            {
+                ScannerViewModel viewModel = This.ScannerVM;
+                viewModel.ExecuteStopScanCommand(null);
+            }
+            if (This.IsScanning)
+            {
+                ScannerViewModel viewModel = This.ScannerVM;
+                viewModel.ExecuteStopScanCommand(null);
+            }
+            CloseAll();
+            SettingsManager.OnExit();
+            System.Environment.Exit(0);
+        }
+        //Monitor whether the current optical module has been successfully powered down
+        private void MonitorOpticalModule()
+        {
+            void msgSend()
+            {
+                int index = 0;
+                //状态如果不一样，光学模块下电失败 (They should always keep the same state) 
+                // If the status is inconsistent within 5 seconds, it indicates that the optical module has failed to power down, which may be a hardware issue
+                while (Workspace.This.EthernetController.OpticalModulePowerStatus != Workspace.This.EthernetController.OpticalModulePowerMonitor)
+                {
+                    Thread.Sleep(500);
+                    index++;
+                    if (index == 10)
+                    {
+                        break;
+                    }
+                }
+                if (index == 10)
+                {
+                    Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        StopWaitAnimation();
+                        _IsLoading = false;
+                        string message = "Optical module power fail. Please turn off the device power and try again!";
+                        Window window = new Window();
+                        MessageBox.Show(window, message);
+                        _EthernetController.SetShutdown(0);  //上电 Optical module Power up
+                        Thread.Sleep(1000);
+                        if (Workspace.This.IsScanning)
+                        {
+                            ScannerViewModel viewModel = Workspace.This.ScannerVM;
+                            viewModel.ExecuteStopScanCommand(null);
+                        }
+                        Workspace.This.Owner.Dispatcher.BeginInvoke((Action)delegate
+                        {
+                            Workspace.This.CloseAppliction();
+                        });
+                    });
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        StopWaitAnimation();
+                        _IsLoading = false;
+                    });
+                    DisconnectDevice();
+                }
+            }
+            Thread td_msg = new Thread(msgSend);
+            td_msg.Start();
+        }
+        //Pop up a message pop-up message box without interrupting program execution （FW Version 1.1.0.0）
+        private void DisconnectDevice()
+        {
+            void msgSend()
+            {
+                MessageBoxResult boxResult = MessageBoxResult.None;
+                //The optical module is powered on
+                if (_EthernetController.OpticalModulePowerStatus)
+                {
+                    Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        Window window = new Window();
+                        boxResult = MessageBox.Show(window, "Do you want to replace/install/uninstall the optical modules ?", "Warning", MessageBoxButton.YesNo);
+                        if (boxResult == MessageBoxResult.Yes)
+                        {
+                            StartWaitAnimation("Please wait X Y and Z be Home…");
+                            _IsLoading = true;
+                            DisconnectDeviceEnable = false;
+                            bool _tempCurrent = true;
+                            //软件下电启动XYZ电机回到原点，方便换模块
+                            //Software starts XYZ motor back to Home ，Convenient replace optical modules
+                            if (!Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.X].AtHome ||
+                                                 !Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.Y].AtHome ||
+                                                 !Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.Z].AtHome)
+                            {
+                                if (!Workspace.This.MotorVM.HomeXYZmotor())
+                                {
+                                    return;
+                                }
+                                while (_tempCurrent)
+                                {
+                                    Thread.Sleep(500);
+
+                                    if (Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.X].AtHome &&
+                                  Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.Y].AtHome &&
+                                  Workspace.This.MotorVM.MotionController.CrntState[EthernetCommLib.MotorTypes.Z].AtHome)
+                                    {
+                                        _tempCurrent = false;
+                                    }
+                                    else
+                                    {
+                                        _tempCurrent = true;
+                                    }
+                                }
+                            }
+                            Workspace.This.IVVM.TurnOffAllLasers();//关闭所有激光器 Turn off all lasers
+                            //for (int i = 0; i < 10; i++)
+                            //{
+                            //    Thread.Sleep(500);
+                            //    Console.WriteLine("下电之前状态:"+Workspace.This.EthernetController.OpticalModulePowerStatus + "-" + "控制:"+Workspace.This.EthernetController.OpticalModulePowerMonitor);
+                            //}
+                            _EthernetController.SetShutdown(1);  //下电 optical module Power Down
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                        }
+                    });
+
+                }
+                else
+                {
+                    //The optical module is powered off
+                    Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        Window window = new Window();
+                        window.Topmost = true;
+                        boxResult = MessageBox.Show(window, "Please open the front door and replace/install/uninstall the optical modules. Done ?", "Warning", MessageBoxButton.YesNo);
+                        if (boxResult == MessageBoxResult.Yes)
+                        {
+                            //Manually open and close the front door of the device when the module is powered down
+                            //在模块下电过程中，您操作了前门开和关，这是换模块必须要执行的操作
+                            if (TopMagneticStatus)    //The front door is open
+                            {
+                                Window window1 = new Window();
+                                window1.Topmost = true;
+                                boxResult = MessageBox.Show(window1, "Power on with the front door not closed ?", "Warning", MessageBoxButton.YesNo);
+                                if (boxResult == MessageBoxResult.Yes)
+                                {
+                                    Application.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        StartWaitAnimation("Please wait System Initializing…");
+                                        _IsLoading = true;
+                                    });
+                                    _EthernetController.SetShutdown(0);  //上电 Optical module Power up
+                                }
+                                else
+                                {
+                                    DisconnectDevice();
+                                }
+                            }
+                            else if (IsTopMagneticOpen && IsTopMagneticClose)  //Open the front door and close it again  打开前门再关上
+                            {
+                                //The front door is closed
+                                if (!TopMagneticStatus)
+                                {
+                                    Application.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        StartWaitAnimation("Please wait System Initializing…");
+                                        _IsLoading = true;
+                                    });
+                                    _EthernetController.SetShutdown(0);  //上电 Optical module Power up
+                                }
+                            }
+                            else if (!IsTopMagneticOpen || !IsTopMagneticClose)  //There is no operation on the front door    前门没有任何操作
+                            {
+                                //The front door is closed
+                                if (!TopMagneticStatus)
+                                {
+                                    Window window2 = new Window();
+                                    window2.Topmost = true;
+                                    boxResult = MessageBox.Show(window2, "optical module  successfully replace ?", "Warning", MessageBoxButton.YesNo);
+                                    if (boxResult == MessageBoxResult.Yes)
+                                    {
+                                        Application.Current.Dispatcher.Invoke((Action)delegate
+                                        {
+                                            StartWaitAnimation("Please wait System Initializing…");
+                                            _IsLoading = true;
+                                        });
+                                        _EthernetController.SetShutdown(0);  //上电 Optical module Power up
+                                    }
+                                    else
+                                    {
+                                        DisconnectDevice(); //
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            //The front panel buttons are in a powered on state, and only the power down operation has been performed on the software
+                            //前面板按钮是通电状态，只在软件上操作了下电操作
+                            if (Workspace.This.EthernetController.DevicePowerStatus)
+                            {
+                                DisconnectDevice();
+                            }
+                        }
+                    });
+                }
+            }
+            Thread td_msg = new Thread(msgSend);
+            td_msg.Start();
+        }
+
+        //获取othe Setting中的三个仓位参数  Obtain the three bin parameters in the Other Setting 
+        public void PreloadModuleInformation()
+        {
+
+            StartWaitAnimation("Loading...");
+            This.NewParameterVM.OtherSettingBtnIsEnable = false;
+            _IsLoading = true;
+            BackgroundWorker worker = new BackgroundWorker();
+            // Open the document in a different thread
+            worker.DoWork += (o, ea) =>
+            {
+                This.NewParameterVM.LIVFirmwareVersionSN = "NaN";
+                This.NewParameterVM.LIVFirmwareSN = "NaN";
+                This.NewParameterVM.LWavelength = 0;
+                This.NewParameterVM.LTEControlTemperature = 0;
+                This.NewParameterVM.LTECMaximumCoolingCurrent = 0;
+                This.NewParameterVM.LOpticalPowerLessThanOrEqual15mWKp = 0;
+                This.NewParameterVM.LOpticalPowerLessThanOrEqual15mWKi = 0;
+                This.NewParameterVM.LOpticalPowerLessThanOrEqual15mWKd = 0;
+                This.NewParameterVM.LOpticalPowerGreaterThan15mWKp = 0;
+                This.NewParameterVM.LOpticalPowerGreaterThan15mWKi = 0;
+                This.NewParameterVM.LOpticalPowerGreaterThan15mWKd = 0;
+                This.NewParameterVM.LLaserMaxCurrent = 0;
+                This.NewParameterVM.LLaserMinCurrent = 0;
+                This.NewParameterVM.LTECControlKp = 0;
+                This.NewParameterVM.LTECControlKi = 0;
+                This.NewParameterVM.LTECControlKd = 0;
+
+
+                This.NewParameterVM.R1IVFirmwareVersionSN = "NaN";
+                This.NewParameterVM.R1IVFirmwareSN = "NaN";
+                This.NewParameterVM.R1Wavelength = 0;
+                This.NewParameterVM.R1TEControlTemperature = 0;
+                This.NewParameterVM.R1TECMaximumCoolingCurrent = 0;
+                This.NewParameterVM.R1OpticalPowerLessThanOrEqual15mWKp = 0;
+                This.NewParameterVM.R1OpticalPowerLessThanOrEqual15mWKi = 0;
+                This.NewParameterVM.R1OpticalPowerLessThanOrEqual15mWKd = 0;
+                This.NewParameterVM.R1OpticalPowerGreaterThan15mWKp = 0;
+                This.NewParameterVM.R1OpticalPowerGreaterThan15mWKi = 0;
+                This.NewParameterVM.R1OpticalPowerGreaterThan15mWKd = 0;
+                This.NewParameterVM.R1LaserMaxCurrent = 0;
+                This.NewParameterVM.R1LaserMinCurrent = 0;
+                This.NewParameterVM.R1TECControlKp = 0;
+                This.NewParameterVM.R1TECControlKi = 0;
+                This.NewParameterVM.R1TECControlKd = 0;
+
+
+                This.NewParameterVM.R2IVFirmwareVersionSN = "NaN";
+                This.NewParameterVM.R2IVFirmwareSN = "NaN";
+                This.NewParameterVM.R2Wavelength = 0;
+                This.NewParameterVM.R2TEControlTemperature = 0;
+                This.NewParameterVM.R2TECMaximumCoolingCurrent = 0;
+                This.NewParameterVM.R2OpticalPowerLessThanOrEqual15mWKp = 0;
+                This.NewParameterVM.R2OpticalPowerLessThanOrEqual15mWKi = 0;
+                This.NewParameterVM.R2OpticalPowerLessThanOrEqual15mWKd = 0;
+                This.NewParameterVM.R2OpticalPowerGreaterThan15mWKp = 0;
+                This.NewParameterVM.R2OpticalPowerGreaterThan15mWKi = 0;
+                This.NewParameterVM.R2OpticalPowerGreaterThan15mWKd = 0;
+                This.NewParameterVM.R2LaserMaxCurrent = 0;
+                This.NewParameterVM.R2LaserMinCurrent = 0;
+                This.NewParameterVM.R2TECControlKp = 0;
+                This.NewParameterVM.R2TECControlKi = 0;
+                This.NewParameterVM.R2TECControlKd = 0;
+
+                EthernetController.IVOpticalModuleSerialNumber[IVChannels.ChannelA] = "0";
+                EthernetController.IVOpticalModuleSerialNumber[IVChannels.ChannelB] = "0";
+                EthernetController.IVOpticalModuleSerialNumber[IVChannels.ChannelC] = "0";
+
+                EthernetController.IVEstimatedVersionNumberBoard[IVChannels.ChannelA] = "0";
+                EthernetController.IVEstimatedVersionNumberBoard[IVChannels.ChannelB] = "0";
+                EthernetController.IVEstimatedVersionNumberBoard[IVChannels.ChannelC] = "0";
+
+                EthernetController.LaserWaveLengths[LaserChannels.ChannelA] = 0;
+                EthernetController.LaserWaveLengths[LaserChannels.ChannelB] = 0;
+                EthernetController.LaserWaveLengths[LaserChannels.ChannelC] = 0;
+
+                EthernetController.TECControlTemperature[LaserChannels.ChannelA] = 0;
+                EthernetController.TECControlTemperature[LaserChannels.ChannelB] = 0;
+                EthernetController.TECControlTemperature[LaserChannels.ChannelC] = 0;
+
+                EthernetController.TECMaximumCurrent[LaserChannels.ChannelA] = 0;
+                EthernetController.TECMaximumCurrent[LaserChannels.ChannelB] = 0;
+                EthernetController.TECMaximumCurrent[LaserChannels.ChannelC] = 0;
+
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelA] = 0;
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelB] = 0;
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelC] = 0;
+
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKi[LaserChannels.ChannelA] = 0;
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKi[LaserChannels.ChannelB] = 0;
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKi[LaserChannels.ChannelC] = 0;
+
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKd[LaserChannels.ChannelA] = 0;
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKd[LaserChannels.ChannelB] = 0;
+                EthernetController.AllOpticalPowerLessThanOrEqual15mWKd[LaserChannels.ChannelC] = 0;
+
+                EthernetController.AllOpticalPowerGreaterThan15mWKp[LaserChannels.ChannelA] = 0;
+                EthernetController.AllOpticalPowerGreaterThan15mWKp[LaserChannels.ChannelB] = 0;
+                EthernetController.AllOpticalPowerGreaterThan15mWKp[LaserChannels.ChannelC] = 0;
+
+                EthernetController.AllOpticalPowerGreaterThan15mWKi[LaserChannels.ChannelA] = 0;
+                EthernetController.AllOpticalPowerGreaterThan15mWKi[LaserChannels.ChannelB] = 0;
+                EthernetController.AllOpticalPowerGreaterThan15mWKi[LaserChannels.ChannelC] = 0;
+
+                EthernetController.AllOpticalPowerGreaterThan15mWKd[LaserChannels.ChannelA] = 0;
+                EthernetController.AllOpticalPowerGreaterThan15mWKd[LaserChannels.ChannelB] = 0;
+                EthernetController.AllOpticalPowerGreaterThan15mWKd[LaserChannels.ChannelC] = 0;
+
+                EthernetController.AllGetLaserMaximumCurrent[LaserChannels.ChannelA] = 0;
+                EthernetController.AllGetLaserMaximumCurrent[LaserChannels.ChannelB] = 0;
+                EthernetController.AllGetLaserMaximumCurrent[LaserChannels.ChannelC] = 0;
+
+                EthernetController.AllGetLaserMinimumCurrent[LaserChannels.ChannelA] = 0;
+                EthernetController.AllGetLaserMinimumCurrent[LaserChannels.ChannelB] = 0;
+                EthernetController.AllGetLaserMinimumCurrent[LaserChannels.ChannelC] = 0;
+
+                EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelA] = 0;
+                EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelB] = 0;
+                EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelC] = 0;
+
+                EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelA] = 0;
+                EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelB] = 0;
+                EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelC] = 0;
+
+                EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelA] = 0;
+                EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelB] = 0;
+                EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelC] = 0;
+                int sleeptime = 200;
+                //获取所有通道激光信息
+                //Get all channel laser information
+                Workspace.This.EthernetController.GetAllLaserModulseInfo();
+                Thread.Sleep(sleeptime);
+                This.NewParameterVM.LWavelength = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelC];
+                This.NewParameterVM.R1Wavelength = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelA];
+                This.NewParameterVM.R2Wavelength = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelB];
+                Workspace.This.IVVM.WL1 = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelC];//C代表L通道 Enumeration C represents an L channel 
+                Workspace.This.IVVM.WR1 = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelA];//A代表R1通道 Enumeration A represents an R1 channel
+                Workspace.This.IVVM.WR2 = (int)EthernetController.LaserWaveLengths[LaserChannels.ChannelB];//B代表R2通道  Enumeration B represents an R2 channel
+                for (int i = 0; i < 2; i++)
+                {
+                    if (This.IVVM.WL1 != 0 && Workspace.This.IVVM.WL1 != Workspace.This.NewParameterVM.Uint16Code)
+                    {
+                        //Laser 板子固件版本号
+                        //Laser board firmware version number
+                        if (!This.EthernetController.GetLaserSystemVersions(LaserChannels.ChannelC))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetLaserSystemVersions failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        if (!This.EthernetController.GetLaserOpticalModuleSerialNumber(LaserChannels.ChannelC))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetLaserOpticalModuleSerialNumber failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC 控制温度
+                        //TEC control temperature
+                        if (!This.EthernetController.GetAllTECControlTTemperatures(LaserChannels.ChannelC))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllTECControlTTemperatures failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC 最大制冷电流
+                        //TEC maximum cooling current
+                        if (!This.EthernetController.GetAllTECMaximumCoolingCurrentValue(LaserChannels.ChannelC))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllTECMaximumCoolingCurrentValue failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC控制kp
+                        //TEC control kp
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKp(LaserChannels.ChannelC))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKp failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC控制ki
+                        //TEC control ki
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKi(LaserChannels.ChannelC))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKi failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC控制kd
+                        //TEC control kd
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKd(LaserChannels.ChannelC))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKd failed.");
+                            });
+                            return;
+                        }
+                        if (This.IVVM.WL1 == 532)
+                        {
+                            //光功率(<=15mW)控制kp
+                            ////Optical power (<=15mW) control kp
+                            Thread.Sleep(sleeptime);
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKp(LaserChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKp failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //光功率(<=15mW)控制ki
+                            //Optical power (<=15mW) control ki
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKi(LaserChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKi failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //光功率(<=15mW)控制kd
+                            //Optical power (<=15mW) control kd
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKd(LaserChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKd failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制kp
+                            //Optical power (>15mW) control kp
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKp(LaserChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKp failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制ki
+                            //Optical power (>15mW) control ki
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKi(LaserChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKi failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制kd
+                            //Optical power (>15mW) control kd
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKd(LaserChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKd failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //激光器最大电流
+                            //Laser maximum current
+                            if (!This.EthernetController.GetAllLaserMaximumCurrent(LaserChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllLaserMaximumCurrent failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //激光器最小电流
+                            //Laser minimum current
+                            if (!This.EthernetController.GetAllLaserMinimumCurrent(LaserChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllLaserMinimumCurrent failed.");
+                                });
+                                return;
+                            }
+                        }
+                        Thread.Sleep(sleeptime);
+
+                    }
+
+                    if (This.IVVM.WR1 != 0 && Workspace.This.IVVM.WR1 != Workspace.This.NewParameterVM.Uint16Code)
+                    {
+                        //Laser 板子固件版本号
+                        //Laser board firmware version number
+                        if (!This.EthernetController.GetLaserSystemVersions(LaserChannels.ChannelA))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetLaserSystemVersions failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //Laser 板子软件版本号
+                        //Software versioning of board Laser
+                        if (!This.EthernetController.GetLaserOpticalModuleSerialNumber(LaserChannels.ChannelA))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetLaserOpticalModuleSerialNumber failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC 控制温度
+                        //TEC control temperature
+                        if (!This.EthernetController.GetAllTECControlTTemperatures(LaserChannels.ChannelA))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllTECControlTTemperatures failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC 最大制冷电流
+                        //TEC maximum cooling current
+                        if (!This.EthernetController.GetAllTECMaximumCoolingCurrentValue(LaserChannels.ChannelA))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllTECMaximumCoolingCurrentValue failed.");
+                            });
+                            return;
+                        }
+
+                        Thread.Sleep(sleeptime);
+                        //TEC控制kp
+                        //TEC control kp
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKp(LaserChannels.ChannelA))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKp failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC控制ki
+                        //TEC control ki
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKi(LaserChannels.ChannelA))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKi failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC控制kd
+                        //TEC control kd
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKd(LaserChannels.ChannelA))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKd failed.");
+                            });
+                            return;
+                        }
+                        if (This.IVVM.WR1 == 532)
+                        {
+                            //光功率(<=15mW)控制kp
+                            //Optical power (<=15mW) control kp
+                            Thread.Sleep(sleeptime);
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKp(LaserChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKp failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //光功率(<=15mW)控制ki
+                            //Optical power (<=15mW) control ki
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKi(LaserChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKi failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //光功率(<=15mW)控制kd
+                            //Optical power (<=15mW) control kd
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKd(LaserChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKd failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制kp
+                            //Optical power (>15mW) control kp
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKp(LaserChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKp failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制ki
+                            //Optical power (>15mW) control ki
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKi(LaserChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKi failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制kd
+                            //Optical power (>15mW) control kd
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKd(LaserChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKd failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //激光器最大电流
+                            //Laser maximum current
+                            if (!This.EthernetController.GetAllLaserMaximumCurrent(LaserChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllLaserMaximumCurrent failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //激光器最小电流
+                            //Laser minimum current
+                            if (!This.EthernetController.GetAllLaserMinimumCurrent(LaserChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllLaserMinimumCurrent failed.");
+                                });
+                                return;
+                            }
+                        }
+                        Thread.Sleep(sleeptime);
+                    }
+
+                    if (This.IVVM.WR2 != 0 && Workspace.This.IVVM.WR2 != Workspace.This.NewParameterVM.Uint16Code)
+                    {
+                        //Laser 板子固件版本号
+                        //Laser board firmware version number
+                        if (!This.EthernetController.GetLaserSystemVersions(LaserChannels.ChannelB))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetLaserSystemVersions failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //Laser 板子软件版本号
+                        //Software versioning of board Laser
+                        if (!This.EthernetController.GetLaserOpticalModuleSerialNumber(LaserChannels.ChannelB))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetLaserOpticalModuleSerialNumber failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC 控制温度
+                        //TEC control temperature
+                        if (!This.EthernetController.GetAllTECControlTTemperatures(LaserChannels.ChannelB))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllTECControlTTemperatures failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC 最大制冷电流
+                        //TEC maximum cooling current
+                        if (!This.EthernetController.GetAllTECMaximumCoolingCurrentValue(LaserChannels.ChannelB))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllTECMaximumCoolingCurrentValue failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC控制kp
+                        //TEC control kp
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKp(LaserChannels.ChannelB))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKp failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC控制ki
+                        //TEC control ki
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKi(LaserChannels.ChannelB))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKi failed.");
+                            });
+                            return;
+                        }
+                        Thread.Sleep(sleeptime);
+                        //TEC控制kd
+                        //TEC control kd
+                        if (!This.EthernetController.GetAllCurrentTECRefrigerationControlParameterKd(LaserChannels.ChannelB))
+                        {
+                            This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                            StopWaitAnimation();
+                            _IsLoading = false;
+                            Application.Current.Dispatcher.Invoke((Action)delegate
+                            {
+                                Window window = new Window();
+                                MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKd failed.");
+                            });
+                            return;
+                        }
+                        if (This.IVVM.WR2 == 532)
+                        {
+                            Thread.Sleep(sleeptime);
+                            //光功率(<=15mW)控制kp
+                            //Optical power (<=15mW) control kp
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKp(LaserChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKp failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //光功率(<=15mW)控制ki
+                            //Optical power (<=15mW) control ki
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKi(LaserChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKi failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //光功率(<=15mW)控制kd
+                            //Optical power (<=15mW) control kd
+                            if (!This.EthernetController.GetOpticalPowerLessThanOrEqual15mWKd(LaserChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetOpticalPowerLessThanOrEqual15mWKd failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制kp
+                            //Optical power (>15mW) control kp
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKp(LaserChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKp failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制ki
+                            //Optical power (>15mW) control ki
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKi(LaserChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKi failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //   光功率(>15mW)控制kd
+                            //Optical power (>15mW) control kd
+                            if (!This.EthernetController.GetAllOpticalPowerGreaterThan15mWKd(LaserChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllOpticalPowerGreaterThan15mWKd failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //激光器最大电流
+                            //Laser maximum current
+                            if (!This.EthernetController.GetAllLaserMaximumCurrent(LaserChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllLaserMaximumCurrent failed.");
+                                });
+                                return;
+                            }
+                            Thread.Sleep(sleeptime);
+                            //激光器最小电流
+                            //Laser minimum current
+                            if (!This.EthernetController.GetAllLaserMinimumCurrent(LaserChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllLaserMinimumCurrent failed.");
+                                });
+                                return;
+                            }
+
+                        }
+                        Thread.Sleep(sleeptime);
+                    }
+
+                }
+                if (This.IVVM.WL1 == 0 && This.IVVM.WR1 == 0 && This.IVVM.WR2 == 0)
+                {
+                    Thread.Sleep(3000);
+                }
+            };
+            worker.RunWorkerCompleted += (o, ea) =>
+            {
+                // Work has completed. You can now interact with the UI
+                StopWaitAnimation();
+                _IsLoading = false;
+
+                if (Workspace.This.IVVM.WL1 != 0 && Workspace.This.IVVM.WL1 != Workspace.This.NewParameterVM.Uint16Code) //  Determine if the module wavelength exists
+                {
+                    This.NewParameterVM.LIVFirmwareVersionSN = EthernetController.IVOpticalModuleSerialNumber[IVChannels.ChannelC];
+                    This.NewParameterVM.LIVFirmwareSN = EthernetController.IVEstimatedVersionNumberBoard[IVChannels.ChannelC];
+                    This.NewParameterVM.LTEControlTemperature = EthernetController.TECControlTemperature[LaserChannels.ChannelC];
+                    This.NewParameterVM.LTECMaximumCoolingCurrent = EthernetController.TECMaximumCurrent[LaserChannels.ChannelC];
+                    This.NewParameterVM.LTECControlKp = EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelC];
+                    This.NewParameterVM.LTECControlKi = EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelC];
+                    This.NewParameterVM.LTECControlKd = EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelC];
+
+                    if (Workspace.This.IVVM.WL1 == 532)
+                    {
+                        This.NewParameterVM.LOpticalPowerLessThanOrEqual15mWKp = EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelC];
+                        This.NewParameterVM.LOpticalPowerLessThanOrEqual15mWKi = EthernetController.AllOpticalPowerLessThanOrEqual15mWKi[LaserChannels.ChannelC];
+                        This.NewParameterVM.LOpticalPowerLessThanOrEqual15mWKd = EthernetController.AllOpticalPowerLessThanOrEqual15mWKd[LaserChannels.ChannelC];
+
+                        This.NewParameterVM.LOpticalPowerGreaterThan15mWKp = EthernetController.AllOpticalPowerGreaterThan15mWKp[LaserChannels.ChannelC];
+                        This.NewParameterVM.LOpticalPowerGreaterThan15mWKi = EthernetController.AllOpticalPowerGreaterThan15mWKi[LaserChannels.ChannelC];
+                        This.NewParameterVM.LOpticalPowerGreaterThan15mWKd = EthernetController.AllOpticalPowerGreaterThan15mWKd[LaserChannels.ChannelC];
+
+                        This.NewParameterVM.LLaserMaxCurrent = EthernetController.AllGetLaserMaximumCurrent[LaserChannels.ChannelC];
+                        This.NewParameterVM.LLaserMinCurrent = EthernetController.AllGetLaserMinimumCurrent[LaserChannels.ChannelC];
+                    }
+                }
+                if (Workspace.This.IVVM.WR1 != 0 && Workspace.This.IVVM.WR1 != Workspace.This.NewParameterVM.Uint16Code)
+                {
+                    This.NewParameterVM.R1IVFirmwareVersionSN = EthernetController.IVOpticalModuleSerialNumber[IVChannels.ChannelA];
+                    This.NewParameterVM.R1IVFirmwareSN = EthernetController.IVEstimatedVersionNumberBoard[IVChannels.ChannelA];
+                    This.NewParameterVM.R1TEControlTemperature = EthernetController.TECControlTemperature[LaserChannels.ChannelA];
+                    This.NewParameterVM.R1TECMaximumCoolingCurrent = EthernetController.TECMaximumCurrent[LaserChannels.ChannelA];
+                    This.NewParameterVM.R1TECControlKp = EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelA];
+                    This.NewParameterVM.R1TECControlKi = EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelA];
+                    This.NewParameterVM.R1TECControlKd = EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelA];
+                    if (Workspace.This.IVVM.WR1 == 532)
+                    {
+                        This.NewParameterVM.R1OpticalPowerLessThanOrEqual15mWKp = EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelA];
+                        This.NewParameterVM.R1OpticalPowerLessThanOrEqual15mWKi = EthernetController.AllOpticalPowerLessThanOrEqual15mWKi[LaserChannels.ChannelA];
+                        This.NewParameterVM.R1OpticalPowerLessThanOrEqual15mWKd = EthernetController.AllOpticalPowerLessThanOrEqual15mWKd[LaserChannels.ChannelA];
+
+                        This.NewParameterVM.R1OpticalPowerGreaterThan15mWKp = EthernetController.AllOpticalPowerGreaterThan15mWKp[LaserChannels.ChannelA];
+                        This.NewParameterVM.R1OpticalPowerGreaterThan15mWKi = EthernetController.AllOpticalPowerGreaterThan15mWKi[LaserChannels.ChannelA];
+                        This.NewParameterVM.R1OpticalPowerGreaterThan15mWKd = EthernetController.AllOpticalPowerGreaterThan15mWKd[LaserChannels.ChannelA];
+
+                        This.NewParameterVM.R1LaserMaxCurrent = EthernetController.AllGetLaserMaximumCurrent[LaserChannels.ChannelA];
+                        This.NewParameterVM.R1LaserMinCurrent = EthernetController.AllGetLaserMinimumCurrent[LaserChannels.ChannelA];
+
+                    }
+                }
+
+                if (Workspace.This.IVVM.WR2 != 0 && Workspace.This.IVVM.WR1 != Workspace.This.NewParameterVM.Uint16Code)
+                {
+                    This.NewParameterVM.R2IVFirmwareVersionSN = EthernetController.IVOpticalModuleSerialNumber[IVChannels.ChannelB];
+                    This.NewParameterVM.R2IVFirmwareSN = EthernetController.IVEstimatedVersionNumberBoard[IVChannels.ChannelB];
+                    This.NewParameterVM.R2TEControlTemperature = EthernetController.TECControlTemperature[LaserChannels.ChannelB];
+                    This.NewParameterVM.R2TECMaximumCoolingCurrent = EthernetController.TECMaximumCurrent[LaserChannels.ChannelB];
+                    This.NewParameterVM.R2TECControlKp = EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelB];
+                    This.NewParameterVM.R2TECControlKi = EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelB];
+                    This.NewParameterVM.R2TECControlKd = EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelB];
+
+                    if (Workspace.This.IVVM.WR2 == 532)
+                    {
+                        This.NewParameterVM.R2OpticalPowerLessThanOrEqual15mWKp = EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelB];
+                        This.NewParameterVM.R2OpticalPowerLessThanOrEqual15mWKi = EthernetController.AllOpticalPowerLessThanOrEqual15mWKi[LaserChannels.ChannelB];
+                        This.NewParameterVM.R2OpticalPowerLessThanOrEqual15mWKd = EthernetController.AllOpticalPowerLessThanOrEqual15mWKd[LaserChannels.ChannelB];
+
+                        This.NewParameterVM.R2OpticalPowerGreaterThan15mWKp = EthernetController.AllOpticalPowerGreaterThan15mWKp[LaserChannels.ChannelB];
+                        This.NewParameterVM.R2OpticalPowerGreaterThan15mWKi = EthernetController.AllOpticalPowerGreaterThan15mWKi[LaserChannels.ChannelB];
+                        This.NewParameterVM.R2OpticalPowerGreaterThan15mWKd = EthernetController.AllOpticalPowerGreaterThan15mWKd[LaserChannels.ChannelB];
+
+                        This.NewParameterVM.R2LaserMaxCurrent = EthernetController.AllGetLaserMaximumCurrent[LaserChannels.ChannelB];
+                        This.NewParameterVM.R2LaserMinCurrent = EthernetController.AllGetLaserMinimumCurrent[LaserChannels.ChannelB];
+
+                    }
+                }
+                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+            };
+
+            worker.RunWorkerAsync();
+
+        }
+
+        #region DisconnectDeviceCommand   （FW Version 1.1.0.0）
+        private RelayCommand _DisconnectDeviceCommand = null;
+        public ICommand DisconnectDeviceCommand
+        {
+            get
+            {
+                if (_DisconnectDeviceCommand == null)
+                {
+                    _DisconnectDeviceCommand = new RelayCommand(ExecuteDisconnectDeviceCommand, CanExecuteDisconnectDeviceCommand);
+                }
+
+                return _DisconnectDeviceCommand;
+            }
+        }
+        public void ExecuteDisconnectDeviceCommand(object parameter)
+        {
+            DisconnectDevice();
+        }
+
+        public bool CanExecuteDisconnectDeviceCommand(object parameter)
+        {
+            return true;
+        }
+        #endregion
+
+        #endregion
 
         #region ActiveDocument
 
@@ -517,31 +2233,6 @@ namespace Azure.ScannerEUI.ViewModel
                                     LGifImageTitle.Clear();
                                 }
                             }
-                            //if (!SettingsManager.ConfigSettings.AllModuleProcessing)//全部通道做图像处理（两行取平均在赋值给两行）
-                            //{
-                            //    if (SettingsManager.ConfigSettings.PhosphorModuleProcessing)//只处理PhosphorModule
-                            //    {
-                            //        if (Workspace.This.IVVM.SensorML1== IvSensorType.PMT)//PMT通道
-                            //        {
-                            //            bool IsPhosphorLaserModule = false;
-                            //            for (int i = 0; i < SettingsManager.ConfigSettings.PhosphorLaserModules.Count; i++)//判断当前模块是不是PhosphorModule
-                            //            {
-                            //                if (SettingsManager.ConfigSettings.PhosphorLaserModules[i].DisplayName == Workspace.This.IVVM.WL1.ToString())
-                            //                {
-                            //                    IsPhosphorLaserModule = true;
-                            //                }
-                            //            }
-                            //            if (IsPhosphorLaserModule) 
-                            //            {
-                            //                FileViewModel.CoupletAverageProcessing(ref image);
-                            //            }
-                            //        }
-                                
-                            //    }
-                            //}
-                            //else {
-                            //    FileViewModel.CoupletAverageProcessing(ref image);
-                            //}
                         }
                         break;
                     case "R1":
@@ -603,32 +2294,6 @@ namespace Azure.ScannerEUI.ViewModel
                                     R1GifImageTitle.Clear();
                                 }
                             }
-                            //if (!SettingsManager.ConfigSettings.AllModuleProcessing)//全部通道做图像处理（两行取平均为在同时赋值给两行）
-                            //{
-                            //    if (SettingsManager.ConfigSettings.PhosphorModuleProcessing)//只处理PhosphorModule
-                            //    {
-                            //        if (Workspace.This.IVVM.SensorMR1 == IvSensorType.PMT)//PMT通道
-                            //        {
-                            //            bool IsPhosphorLaserModule = false;
-                            //            for (int i = 0; i < SettingsManager.ConfigSettings.PhosphorLaserModules.Count; i++)//判断当前模块是不是PhosphorModule
-                            //            {
-                            //                if (SettingsManager.ConfigSettings.PhosphorLaserModules[i].DisplayName == Workspace.This.IVVM.WR1.ToString())
-                            //                {
-                            //                    IsPhosphorLaserModule = true;
-                            //                }
-                            //            }
-                            //            if (IsPhosphorLaserModule)
-                            //            {
-                            //                FileViewModel.CoupletAverageProcessing(ref image);
-                            //            }
-                            //        }
-
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    FileViewModel.CoupletAverageProcessing(ref image);
-                            //}
                         }
                         break;
                     case "R2":
@@ -682,32 +2347,6 @@ namespace Azure.ScannerEUI.ViewModel
                                     R2GifImageTitle.Clear();
                                 }
                             }
-                            //if (!SettingsManager.ConfigSettings.AllModuleProcessing)//全部通道做图像处理（比如100um取平均为50um）
-                            //{
-                            //    if (SettingsManager.ConfigSettings.PhosphorModuleProcessing)//只处理PhosphorModule
-                            //    {
-                            //        if (Workspace.This.IVVM.SensorMR2 == IvSensorType.PMT)//PMT通道
-                            //        {
-                            //            bool IsPhosphorLaserModule = false;
-                            //            for (int i = 0; i < SettingsManager.ConfigSettings.PhosphorLaserModules.Count; i++)//判断当前模块是不是PhosphorModule
-                            //            {
-                            //                if (SettingsManager.ConfigSettings.PhosphorLaserModules[i].DisplayName == Workspace.This.IVVM.WR2.ToString())
-                            //                {
-                            //                    IsPhosphorLaserModule = true;
-                            //                }
-                            //            }
-                            //            if (IsPhosphorLaserModule)
-                            //            {
-                            //                FileViewModel.CoupletAverageProcessing(ref image);
-                            //            }
-                            //        }
-
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    FileViewModel.CoupletAverageProcessing(ref image);
-                            //}
                         }
                         break;
                 }
@@ -1342,6 +2981,11 @@ namespace Azure.ScannerEUI.ViewModel
                 relativePoint = Owner.ImageViewerContainer.TransformToAncestor(Owner).Transform(new Point(0, 0));
                 width = Owner.ImageViewerContainer.ActualWidth;
                 height = Owner.ImageViewerContainer.ActualHeight;
+            }
+            if (Workspace.This.NewParameterVM.IsShowParameterWindow) //otheSetting Window Open
+            {
+                width = Owner.ActualWidth;
+                height = Owner.ActualHeight;
             }
             //var location = element.PointToScreen(new Point(0, 0));
             //var location = new Point(element.Top, element.Left);
@@ -2603,6 +4247,8 @@ namespace Azure.ScannerEUI.ViewModel
                     {
                         return;
                     }
+                    //When manually moving vertically or horizontally in RGB color 3 channels, ChannelRemake needs to be used to distinguish which bin the current moving channel is in
+                    //当在RGB彩色3通道手动垂直移动或者水平移动时，需要用到ChannelRemake来区分当前移动的通道是哪个仓位的。
                     if (PixelRedX != 0 || PixelRedY != 0 || PixelBlueX != 0 || PixelBlueY != 0 || PixelGreenX != 0 || PixelGreenY != 0)
                     {
                         string[] split = ChannelRemake.Split(new Char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
@@ -2623,32 +4269,17 @@ namespace Azure.ScannerEUI.ViewModel
                             This.NewParameterVM.Pixel_10_L_DX = PixelBlueX;
                             This.NewParameterVM.Pixel_10_L_DY = PixelBlueY;
                         }
-                        //if (split[0] == "Red" && split[1] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelRedX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelRedY;
-                        //}
-                        //if (split[0] == "Green" && split[1] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelGreenX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelGreenY;
-                        //}
-                        //if (split[0] == "Blue" && split[1] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelBlueX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelBlueY;
-                        //}
-                        if (split[0] == "Red" && split[1] == "R2")
+                        if (split[0] == "Red" && split[1] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelRedX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelRedY;
                         }
-                        if (split[0] == "Green" && split[1] == "R2")
+                        if (split[0] == "Green" && split[1] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelGreenX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelGreenY;
                         }
-                        if (split[0] == "Blue" && split[1] == "R2")
+                        if (split[0] == "Blue" && split[1] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelBlueX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelBlueY;
@@ -2671,39 +4302,24 @@ namespace Azure.ScannerEUI.ViewModel
                             This.NewParameterVM.Pixel_10_L_DX = PixelBlueX;
                             This.NewParameterVM.Pixel_10_L_DY = PixelBlueY;
                         }
-                        //if (split[2] == "Red" && split[3] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelRedX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelRedY;
-                        //}
-                        //if (split[2] == "Green" && split[3] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelGreenX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelGreenY;
-                        //}
-                        //if (split[2] == "Blue" && split[3] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelBlueX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelBlueY;
-                        //}
-                        if (split[2] == "Red" && split[3] == "R2")
+                        if (split[2] == "Red" && split[3] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelRedX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelRedY;
                         }
-                        if (split[2] == "Green" && split[3] == "R2")
+                        if (split[2] == "Green" && split[3] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelGreenX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelGreenY;
                         }
-                        if (split[2] == "Blue" && split[3] == "R2")
+                        if (split[2] == "Blue" && split[3] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelBlueX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelBlueY;
                         }
                         #endregion
 
-                        #region 通道类型2
+                        #region 通道类型3
                         if (split[4] == "Red" && split[5] == "L")
                         {
                             This.NewParameterVM.Pixel_10_L_DX = PixelRedX;
@@ -2719,32 +4335,17 @@ namespace Azure.ScannerEUI.ViewModel
                             This.NewParameterVM.Pixel_10_L_DX = PixelBlueX;
                             This.NewParameterVM.Pixel_10_L_DY = PixelBlueY;
                         }
-                        //if (split[4] == "Red" && split[5] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelRedX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelRedY;
-                        //}
-                        //if (split[4] == "Green" && split[5] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelGreenX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelGreenY;
-                        //}
-                        //if (split[4] == "Blue" && split[5] == "R1")
-                        //{
-                        //    This.NewParameterVM.Pixel_10_R1_DX = PixelBlueX;
-                        //    This.NewParameterVM.Pixel_10_R1_DY = PixelBlueY;
-                        //}
-                        if (split[4] == "Red" && split[5] == "R2")
+                        if (split[4] == "Red" && split[5] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelRedX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelRedY;
                         }
-                        if (split[4] == "Green" && split[5] == "R2")
+                        if (split[4] == "Green" && split[5] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelGreenX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelGreenY;
                         }
-                        if (split[4] == "Blue" && split[5] == "R2")
+                        if (split[4] == "Blue" && split[5] == "R1")
                         {
                             This.NewParameterVM.Pixel_10_R2_DX = PixelBlueX;
                             This.NewParameterVM.Pixel_10_R2_DY = PixelBlueY;
@@ -2754,23 +4355,6 @@ namespace Azure.ScannerEUI.ViewModel
                         This.NewParameterVM.ExecuteParametersWriteCommand(null);
                     }
                 }
-
-
-                //OpenFileDialog openfiledialog = new OpenFileDialog
-                //{
-                //    Filter = "Image File|*.*|All File|*.*"
-                //};
-
-                //WriteableBitmap wb = null;
-                //if ((bool)openfiledialog.ShowDialog())
-                //{
-                //    wb = ImageProcessing.Load(openfiledialog.FileName);
-                //    ImageInfo imageInfo = new Azure.Image.Processing.ImageInfo();
-                //    imageInfo.ChannelRemark = "R2";
-                //    string LimageSet = openfiledialog.SafeFileName;
-                //    Workspace.This.NewDocument(wb, imageInfo, LimageSet, false);
-                //}
-
             }
             catch (Exception ex)
             {
@@ -2780,7 +4364,6 @@ namespace Azure.ScannerEUI.ViewModel
             {
                 IsProcessingContrast = false;
             }
-            
         }
         protected bool CanExecuteRGBSaveCommand(object parameter)
         {
@@ -4451,6 +6034,10 @@ namespace Azure.ScannerEUI.ViewModel
         internal bool ConnectEthernetSlave()
         {
             return _EthernetController.Connect(new System.Net.IPAddress(new byte[] { 192, 168, 1, 110 }), 5000, 8000, new System.Net.IPAddress(new byte[] { 192, 168, 1, 100 }));
+        }
+        internal bool ReConnectEthernetSlave()
+        {
+            return _EthernetController.ReConnect(new System.Net.IPAddress(new byte[] { 192, 168, 1, 110 }), 5000, 8000, new System.Net.IPAddress(new byte[] { 192, 168, 1, 100 }));
         }
 
         internal EthernetController EthernetController

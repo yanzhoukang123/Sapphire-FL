@@ -221,6 +221,15 @@ namespace Azure.Configuration
             public bool PhosphorModuleProcessing { get; set; }
             public bool AllModuleProcessing { get; set; }
 
+            //Control conditions for the fan speed 
+            public double InternalLowTemperature { get; set; }
+            public double InternalModerateTemperature { get; set; }
+            public double InternalHighTemperature { get; set; }
+            public double ModuleLowTemperature { get; set; }
+            public double ModuleModerateTemperature { get; set; }
+            public double ModuleHighTemperature { get; set; }
+
+
             public List<ResolutionType> ResolutionOptions
             {
                 get { return _ResolutionOptions; }

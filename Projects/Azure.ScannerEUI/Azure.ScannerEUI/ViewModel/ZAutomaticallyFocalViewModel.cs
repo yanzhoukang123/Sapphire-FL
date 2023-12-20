@@ -13,10 +13,10 @@ namespace Azure.ScannerEUI.ViewModel
     class ZAutomaticallyFocalViewModel : ViewModelBase
     {
         #region privert
-        private int ScanZ0 = 0;
+        //private int ScanZ0 = 0;
         private int _ZMaxValue = 0;
         private double _ZMotorSubdivision = 0;
-        private bool _IsCreateGif = false; 
+        private bool _IsCreateGif = false;
         private bool _IsWorkEnabled = false;
         private bool _IsFoucsEnabled = true;
         private string _SelectedFocus = null;   //Channel
@@ -25,7 +25,7 @@ namespace Azure.ScannerEUI.ViewModel
         private int _Ofimages = 0;
         private int _numberStr = 0;
         public List<FocusType> _FocusOptionsList = null;
- 
+
         #endregion
         public ZAutomaticallyFocalViewModel()
         {
@@ -35,7 +35,7 @@ namespace Azure.ScannerEUI.ViewModel
         }
         public void Initialize()
         {
-            ScanZ0 = (int)Workspace.This.EthernetController.DeviceProperties.ZFocusPosition;
+            //ScanZ0 = (int)Workspace.This.EthernetController.DeviceProperties.ZFocusPosition;
             _ZMaxValue = SettingsManager.ConfigSettings.ZMaxValue;
             _ZMotorSubdivision = SettingsManager.ConfigSettings.ZMotorSubdivision;
             _FocusOptionsList = new List<FocusType>();
@@ -60,7 +60,8 @@ namespace Azure.ScannerEUI.ViewModel
                         IsWorkEnabled = false;
                         IsCreateGif = false;
                     }
-                    else {
+                    else
+                    {
                         IsWorkEnabled = true;
                     }
                     RaisePropertyChanged(nameof(SelectedFocus));
@@ -69,10 +70,23 @@ namespace Azure.ScannerEUI.ViewModel
             }
         }
 
+        public double ScanZ0
+        {
+            get
+            {
+                double dResult = 0;
+                if (Workspace.This.ScannerVM != null)
+                {
+                    dResult = Workspace.This.ScannerVM.ScanZ0;
+                }
+                return dResult;
+            }
+        }
         public double TopImage
         {
 
-            get {
+            get
+            {
                 double dRetVal = 0;
 
                 if (_ZMotorSubdivision != 0)
@@ -102,7 +116,9 @@ namespace Azure.ScannerEUI.ViewModel
                         _TopImage = (int)(value * _ZMotorSubdivision);
                         if (DeltaFocus != 0)
                         {
-                            int _temp = (int)(value / DeltaFocus);
+                            //double _temp = (int)(value / DeltaFocus);
+                            double len = value - ScanZ0;
+                            double _temp = (int)(Math.Round(len, 1) / DeltaFocus);
                             for (int i = 0; i < _temp; i++)
                             {
                                 int j = i + 1;
@@ -114,6 +130,8 @@ namespace Azure.ScannerEUI.ViewModel
                             }
                             //将玻璃表面的焦点放到列表第一位
                             //Put the focus on the glass surface to the first place in the list
+
+                            //EL: Includes the initial position
                             FocusType ftZcan0 = new FocusType();
                             ftZcan0.DisplayName = "0";
                             ftZcan0.Value = ScanZ0;
@@ -122,7 +140,6 @@ namespace Azure.ScannerEUI.ViewModel
                         }
                         else
                         {
-
                             if (value != 0)
                             {   //将玻璃表面的焦点放到列表第一位
                                 //Put the focus on the glass surface to the first place in the list
@@ -132,7 +149,8 @@ namespace Azure.ScannerEUI.ViewModel
                                 ftZcan0.Position = 0;
                                 _FocusOptionsList.Insert(0, ftZcan0);
                             }
-                            else {
+                            else
+                            {
                                 Ofimages = 0;
                             }
 
@@ -142,7 +160,7 @@ namespace Azure.ScannerEUI.ViewModel
                     {
                         Ofimages = 0;
                         TopImage = 0;
-                        Workspace.This.ScannerVM.ScanDynamicScopeString = String.Format("The TopImage should be TopImage<={0}", ((double)(_ZMaxValue) / (double)_ZMotorSubdivision)- ScanZ0);
+                        Workspace.This.ScannerVM.ScanDynamicScopeString = String.Format("The TopImage should be TopImage<={0}", ((double)(_ZMaxValue) / (double)_ZMotorSubdivision) - ScanZ0);
                         Workspace.This.ScannerVM.ScanDynamicScopeStringType = "Warning";
                     }
                     RaisePropertyChanged("TopImage");
@@ -154,10 +172,10 @@ namespace Azure.ScannerEUI.ViewModel
 
         public double DeltaFocus
         {
-            get 
+            get
             {
 
-                return _DeltaFocus; 
+                return _DeltaFocus;
             }
             set
             {
@@ -169,8 +187,9 @@ namespace Azure.ScannerEUI.ViewModel
                         _DeltaFocus = value;
                         if (value != 0 && TopImage != 0)
                         {
-                            double tmpTopImage = Math.Round(TopImage, 1);
-                            int _temp = (int)(Math.Round(tmpTopImage, 1) / value);
+                            //double tmpTopImage = Math.Round(TopImage, 1);
+                            double len = TopImage - ScanZ0;
+                            double _temp = (int)(Math.Round(len, 1) / value);
                             for (int i = 0; i < _temp; i++)
                             {
                                 int j = i + 1;
@@ -182,6 +201,8 @@ namespace Azure.ScannerEUI.ViewModel
                             }
                             //将玻璃表面的焦点放到列表第一位
                             //Put the focus on the glass surface to the first place in the list
+
+                            //EL: Includes the initial position
                             FocusType ftZcan0 = new FocusType();
                             ftZcan0.DisplayName = "0";
                             ftZcan0.Value = ScanZ0;
@@ -191,8 +212,8 @@ namespace Azure.ScannerEUI.ViewModel
                         else
                         {
 
-                                Ofimages =0;
-                        }       
+                            Ofimages = 0;
+                        }
                     }
                     else
                     {

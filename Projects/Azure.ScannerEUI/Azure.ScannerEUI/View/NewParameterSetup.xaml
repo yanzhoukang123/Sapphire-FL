@@ -4,12 +4,14 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:Azure.ScannerEUI.ViewModel"
         xmlns:imagingsys="clr-namespace:Azure.ImagingSystem;assembly=Azure.ImagingSystem"
-        Title="PARAMETER SETUP"
-        Height="650"
-        Width="343"
+        Title="PARAMETER SETUP"         
+        Height="950.013"
+     
         WindowStyle="ToolWindow"
         WindowStartupLocation="CenterOwner"
-        Loaded="Window_Loaded">
+          Loaded="Window_Loaded"
+        Closed="Window_Closed"
+       MaxHeight="950.013" Width="1600.459">
     <!--<Window.DataContext>
         <local:ParameterSetupViewModel/>
     </Window.DataContext>-->
@@ -26,17 +28,9 @@
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
-            <Style x:Key="MyTextBoxStyle" TargetType="{x:Type TextBox}">
-                <Setter Property="Width" Value="80" />
-                <Setter Property="Height" Value="25" />
-                <Setter Property="FontSize" Value="14" />
-                <Setter Property="FontWeight" Value="SemiBold"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-            </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Grid.Column="0" Grid.Row="1" Margin="10">
+    <Grid x:Name="grid" Grid.Column="0" Grid.Row="1" Margin="29,34,11,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="4" />
@@ -45,145 +39,1201 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="4" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="4" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="4" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        <!--X, Y, Z Range-->
+        <Label Grid.Row="0" Grid.Column="0" Content="L Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="0" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=LCoefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="375 - L Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="2" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=L375Coefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="R1 Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="4" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=R1Coefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="R2 Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="6" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=R2Coefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="8" Grid.Column="0" Content="532 - R2 Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="8" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=R2532Coefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="10" Grid.Column="0" Content="R2 X logical Home(mm)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="10" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=R1XLogicalHome, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="12" Grid.Column="0" Content="R2 Y logical Home(mm)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="12" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=R1YLogicalHome, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="14" Grid.Column="0" Content="R1 -R2 Distance(mm)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="14" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=OpticalR2_R1Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="16" Grid.Column="0" Content="R1-R2 10 Pixel Distance " HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="16" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_Offset_R2_R1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="18" Grid.Column="0" Content="L -R2 Distance(mm)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="18" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=OpticalL_R1Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
 
-        <!-- Compensation Coefficients -->
-        <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Top">
-            <Label Content="L Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="375 - L Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="R1 Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="R2 Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="532 - R2 Coefficient" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
-            <TextBox 
-                Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=LCoefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,0,0,2"/>
-            <TextBox 
-                Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=L375Coefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,0,0,2"/>
-            <TextBox 
-                Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=R1Coefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,0,0,2"/>
-            <TextBox 
-                Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=R2Coefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,0,0,2"/>
-            <TextBox 
-                Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=R2532Coefficient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="0,0,0,2"/>
-        </StackPanel>
+        <Label Grid.Row="20" Grid.Column="0" Content="L-R2 10 Pixel Distance" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="20" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_Offset_L_R1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="28" Grid.Column="0" Content="Pixel 10  L   DX(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="28" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_L_DX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="30" Grid.Column="0" Content="Pixel 10  L   DY(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="30" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_L_DY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <!--<Label Grid.Row="16" Grid.Column="0" Content="Pixel 10 R1 DX(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="16" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_R1_DX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>-->
 
-        <!-- Logical home and laser module distances -->
-        <StackPanel Grid.Row="2" Grid.Column="0" VerticalAlignment="Top">
-            <Label Content="R2 X logical Home(mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="R2 Y logical Home(mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="R1 -R2 Distance(mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="R1-R2 10 Pixel Distance " HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="L -R2 Distance(mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="L-R2 10 Pixel Distance" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="Pixel 10  L   DX(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="Pixel 10  L   DY(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="Pixel 10 R1 DX(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="Pixel 10 R1 DY(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=R1XLogicalHome, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=R1YLogicalHome, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=OpticalR2_R1Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=Pixel_10_Offset_R2_R1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=OpticalL_R1Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=Pixel_10_Offset_L_R1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=Pixel_10_L_DX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=Pixel_10_L_DY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=Pixel_10_R2_DX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=Pixel_10_R2_DY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-        </StackPanel>
+        <!--<Label Grid.Row="18" Grid.Column="0" Content="Pixel 10 R1 DY(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="18" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_R1_DY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"/>-->
 
-        <StackPanel Grid.Row="4" Grid.Column="0" VerticalAlignment="Top">
-            <Label  Content="Focus Length (mm)" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="XEncoderSubdivision" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="Temperature hysteresis loops" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="Fan Start-Up Temperature" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="System Serial Number" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        </StackPanel>
-        <StackPanel Grid.Row="4" Grid.Column="2" VerticalAlignment="Center">
-            <TextBox Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=FocusLength, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox  Style="{StaticResource MyTextBoxStyle}"
-                Text="{Binding Path=XEncoderSubdivision, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox  Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=FanSwitchInterval, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox  Style="{StaticResource MyTextBoxStyle}"
-                PreviewTextInput="TextBox_PreviewTextInput"
-                Text="{Binding Path=FanReserveTemperature, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-            <TextBox  Style="{StaticResource MyTextBoxStyle}"
-                Text="{Binding Path=SystemSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
-                Margin="0,0,0,2"/>
-        </StackPanel>
+        <Label Grid.Row="32" Grid.Column="0" Content="Pixel 10 R1 DX(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="32" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_R2_DX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
 
-        <Button Name="_ParametersReadCommand" Grid.Row="6" Grid.Column="0"
-            Command="{Binding Path=ParametersReadCommand}"
-            Content="Read"
-            FontSize="14"
-            Height="30" 
-            HorizontalAlignment="Center"
-            Style="{DynamicResource BlueButton}"
-            VerticalAlignment="Center" 
-            Width="86" RenderTransformOrigin="0.602,1.667" Margin="18,2,44,4" />
-        <Button Name="_ParametersWriteCommand" Grid.Row="6" Grid.Column="2"
-            Command="{Binding Path=ParametersWriteCommand}"
-            Content="Write"
-            FontSize="14"
-            Height="30"
-            HorizontalAlignment="Center" 
-            Style="{DynamicResource BlueButton}" 
-            VerticalAlignment="Center" 
-            Width="84" Margin="2,2,2,5" />
+        <Label Grid.Row="34" Grid.Column="0" Content="Pixel 10 R1 DY(pixel)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="34" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=Pixel_10_R2_DY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+
+
+        <Label Grid.Row="36" Grid.Column="0" Content="Focus Length (mm)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="36" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=FocusLength, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="Hidden" Grid.Row="38" Grid.Column="0" Content="XEncoderSubdivision" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="38" Grid.Column="2"
+                    Visibility="Hidden"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=XEncoderSubdivision, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label Grid.Row="40" Grid.Column="0" Content="Modules Fan Hysteresis(℃)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="40" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                      PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=FanSwitchInterval, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="38" Grid.Column="0" Content="Modules Fan Operation(℃)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="38" Grid.Column="2"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                    Text="{Binding Path=FanReserveTemperature, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label x:Name="oldVesion_lalSerialNumber"  Grid.Row="42" Grid.Column="1" Content="SN" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,12,2" Width="31"/>
+        <TextBox  Grid.Row="42" Grid.Column="2"
+                    x:Name="oldVesion_txtSerialNumber"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=SystemSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
+        <Grid  Grid.Row="50" Grid.Column="1"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,11,2"  Visibility="{Binding LEDVesionVisFlag}">
+            <Label   Content="SN" Visibility="{Binding VesionVisFlag}" Margin="6,0,90,0"/>
+        </Grid>
+        <Grid  Grid.Row="50" Grid.Column="2"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,11,2"  Visibility="{Binding LEDVesionVisFlag}">
+            <TextBox
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=SystemSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="5,2" Visibility="{Binding VesionVisFlag}" />
+        </Grid>
+        <Grid  Grid.Row="42" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,4,9,4"  Visibility="{Binding LEDVesionVisFlag}">
+            <Label  Content="Back Fan Speed Level " Visibility="{Binding VesionVisFlag}"/>
+        </Grid>
+        <Grid  Grid.Row="42" Grid.Column="2" Visibility="{Binding LEDVesionVisFlag}">
+            <ComboBox x:Name="_CoefficientModule1"
+                  Visibility="{Binding VesionVisFlag}"
+                  
+                        Width="80"
+                        Height="25"
+                        Style="{StaticResource ComboBoxFlatStyle}"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        ItemsSource="{Binding IncrustationOptions}" 
+                        SelectedItem="{Binding SelectedIncrustation}"
+                        Margin="4,4,4,3" VerticalContentAlignment="Center" />
+        </Grid>
+        <Grid  Grid.Row="44" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,11,2"  Visibility="{Binding LEDVesionVisFlag}">
+            <Label Content="Default Level" Visibility="{Binding VesionVisFlag}"/>
+        </Grid>
+        <Grid  Grid.Row="44" Grid.Column="2" Visibility="{Binding LEDVesionVisFlag}">
+            <TextBox 
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                     Visibility="{Binding VesionVisFlag}"
+                    Text="{Binding Path=ShellFanDefaultSpeed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        </Grid>
+        <Grid  Grid.Row="46" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,4,9,4" Visibility="{Binding LEDVesionVisFlag}">
+            <Label  Content="Cabinet Temperature Control" Visibility="{Binding VesionVisFlag}"/>
+        </Grid>
+        <Grid Grid.Row="46" Grid.Column="2" Visibility="{Binding LEDVesionVisFlag}">
+            <ComboBox x:Name="_CH1AlertWarning"
+                  Visibility="{Binding VesionVisFlag}"
+                       Width="80"
+                    Height="25"
+                        Style="{StaticResource ComboBoxFlatStyle}"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        ItemsSource="{Binding CH1AlertWarningOptions}" 
+                        SelectedItem="{Binding SelectedCH1AlertWarning}"
+                        Margin="4,4,4,3" VerticalContentAlignment="Center" />
+        </Grid>
+        <Grid  Grid.Row="48" Grid.Column="0"  VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,11,2" Visibility="{Binding CH1AlertFlag}">
+            <Grid Visibility="{Binding LEDVesionVisFlag}">
+                <Label Content="Warning Temperature(℃)" HorizontalAlignment="Right" Visibility="{Binding VesionVisFlag}"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="48" Grid.Column="2" Visibility="{Binding CH1AlertFlag}">
+            <Grid Visibility="{Binding LEDVesionVisFlag}">
+                <TextBox
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="TextBox_PreviewTextInput"
+                     Visibility="{Binding VesionVisFlag}"
+                    Text="{Binding Path=CH1WarningTemperature, UpdateSourceTrigger=LostFocus, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+            </Grid>
+        </Grid>
+        <Label Grid.Row="0" Grid.Column="4" Content="L             All" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="0" Grid.Column="6"  IsChecked="{Binding Path=IsLCheckALL}" HorizontalAlignment="Center"></CheckBox>
+        <Label Grid.Row="2" Grid.Column="4" Content="FVN" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,2,3,2"/>
+        <TextBox Grid.Row="2" Grid.Column="6"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LIVFirmwareVersionSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
+        <Label Grid.Row="4" Grid.Column="4" Content="Firmware SN" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="4" Grid.Column="6"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LIVFirmwareSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Grid.Row="6" Grid.Column="4" Content="Wavelength" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="6" Grid.Column="7"  IsEnabled="{Binding IsEnabledL1}" IsChecked="{Binding Path=IsLWavelength}"></CheckBox>
+        <TextBox Grid.Row="6" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledL1}"
+                    Text="{Binding Path=LWavelength, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"  Margin="7,1,3,1"/>
+        <Label Grid.Row="8" Grid.Column="4" Content="TEC Control Temperature" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="8" Grid.Column="7"  IsEnabled="{Binding IsEnabledL1}" IsChecked="{Binding Path=IsLTEControlTemperature}"></CheckBox>
+        <TextBox Grid.Row="8" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledL1}"
+                    Text="{Binding Path=LTEControlTemperature,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"  Margin="7,1,3,1"/>
+        <Label Grid.Row="10" Grid.Column="4" Content="Max Cooling" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="10" Grid.Column="7" IsEnabled="{Binding IsEnabledL1}" IsChecked="{Binding Path=IsLTECMaximumCoolingCurrent}"></CheckBox>
+        <TextBox Grid.Row="10" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledL1}"
+                    Text="{Binding Path=LTECMaximumCoolingCurrent, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Grid.Row="12" Grid.Column="4" Content="TEC Kp" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="12" Grid.Column="7" IsEnabled="{Binding IsEnabledL1}" IsChecked="{Binding Path=IsLTECControlKp}"></CheckBox>
+        <TextBox Grid.Row="12" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledL1}"
+                    Text="{Binding Path=LTECControlKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Grid.Row="14" Grid.Column="4" Content="TEC  Ki" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="14" Grid.Column="7" IsEnabled="{Binding IsEnabledL1}" IsChecked="{Binding Path=IsLTECControlKi}"></CheckBox>
+        <TextBox Grid.Row="14" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledL1}"
+                    Text="{Binding Path=LTECControlKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Grid.Row="16" Grid.Column="4" Content="TEC Kd" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="16" Grid.Column="7" IsEnabled="{Binding IsEnabledL1}" IsChecked="{Binding Path=IsLTECControlKd}"></CheckBox>
+        <TextBox Grid.Row="16" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledL1}"
+                    Text="{Binding Path=LTECControlKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label  Visibility="{Binding Is532EnabledL1}" Grid.Row="18" Grid.Column="4" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="18" Grid.Column="7"  Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLLaserMaxCurrent}"></CheckBox>
+        <TextBox Grid.Row="18" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LLaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="20" Grid.Column="4" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="20" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLLaserMinCurrent}"></CheckBox>
+        <TextBox Grid.Row="20" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LLaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="28" Grid.Column="4"  Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1" />
+        <CheckBox Grid.Row="28" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
+        <TextBox Grid.Row="28" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LOpticalPowerLessThanOrEqual15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="30" Grid.Column="4" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="30" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
+        <TextBox  Grid.Row="30" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LOpticalPowerLessThanOrEqual15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="32" Grid.Column="4" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="32" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
+        <TextBox Grid.Row="32" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LOpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="34" Grid.Column="4" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="34" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKp}"></CheckBox>
+        <TextBox Grid.Row="34" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LOpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="36" Grid.Column="4" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="36" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKi}"></CheckBox>
+        <TextBox Grid.Row="36" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LOpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="38" Grid.Column="4" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="38" Grid.Column="7"  Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKd}"></CheckBox>
+        <TextBox Grid.Row="38" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LOpticalPowerGreaterThan15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="Hidden" Grid.Row="36" Grid.Column="4" Content="L-532-Optical Power(&lt;=15mW)Kp Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="36" Grid.Column="6"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LOpticalPowerControlKpUpperLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
+        <Label Visibility="Hidden" Grid.Row="38" Grid.Column="4" Content="L-532-Optical Power(&lt;=15mW)Kp Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Visibility="Hidden" Grid.Row="38" Grid.Column="6"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LOpticalPowerControlKpDownLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="Hidden" Grid.Row="40" Grid.Column="4" Content="L-532-Optical Power(&lt;=15mW)Ki Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="40" Grid.Column="6"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LOpticalPowerControlKiUpperLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
+        <Label   Visibility="Hidden" Grid.Row="42" Grid.Column="4" Content="L-532-Optical Power(&lt;=15mW)Ki Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="42" Grid.Column="6"
+                    Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LOpticalPowerControlKiDownLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label   Visibility="Hidden" Grid.Row="44" Grid.Column="4" Content="L-532-Optical Power(&gt;=15mW)Kp Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,4,3,4"/>
+        <TextBox Grid.Row="44" Grid.Column="6"
+                     Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LOpticalPowerControlKpUpperLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,4,3,4"/>
+        <Label   Visibility="Hidden" Grid.Row="46" Grid.Column="4" Content="L-532-Optical Power(&gt;=15mW)Kp Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="46" Grid.Column="6"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LOpticalPowerControlKpDownLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
+        <Label   Visibility="Hidden" Grid.Row="48" Grid.Column="4" Content="L-532-Optical Power(&gt;=15mW)Ki Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="48" Grid.Column="6"
+                    Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LOpticalPowerControlKiUpperLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label   Visibility="Hidden" Grid.Row="50" Grid.Column="4" Content="L-532-Optical Power(&gt;=15mW)Ki Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="50" Grid.Column="6"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=LOpticalPowerControlKiDownLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
+
+
+
+        <Label Grid.Row="0" Grid.Column="8" Content="R1            All" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="0" Grid.Column="10"  IsChecked="{Binding Path=IsR1CheckALL}" HorizontalAlignment="Center"></CheckBox>
+        <Label Grid.Row="2" Grid.Column="8" Content="FVN" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,2,3,2"/>
+        <TextBox Grid.Row="2" Grid.Column="10"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1IVFirmwareVersionSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label Grid.Row="4" Grid.Column="8" Content="Firmware SN" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="4" Grid.Column="10"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1IVFirmwareSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="8" Grid.Column="8" Content="TEC Control Temperature" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="8" Grid.Column="11"    IsEnabled="{Binding IsEnabledR1}" IsChecked="{Binding Path=IsR1TEControlTemperature}"></CheckBox>
+        <TextBox Grid.Row="8" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledR1}"
+                    Text="{Binding Path=R1TEControlTemperature,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="6" Grid.Column="8" Content="Wavelength" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="6" Grid.Column="11"    IsEnabled="{Binding IsEnabledR1}" IsChecked="{Binding Path=IsR1Wavelength}"></CheckBox>
+        <TextBox Grid.Row="6" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledR1}"
+                    Text="{Binding Path=R1Wavelength, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="10" Grid.Column="8" Content="Max Cooling" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="10" Grid.Column="11"    IsEnabled="{Binding IsEnabledR1}" IsChecked="{Binding Path=IsR1TECMaximumCoolingCurrent}"></CheckBox>
+        <TextBox Grid.Row="10" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledR1}"
+                    Text="{Binding Path=R1TECMaximumCoolingCurrent, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="12" Grid.Column="8" Content="TEC Kp" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="12" Grid.Column="11" IsEnabled="{Binding IsEnabledR1}" IsChecked="{Binding Path=IsR1TECControlKp}"></CheckBox>
+        <TextBox Grid.Row="12" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledR1}"
+                    Text="{Binding Path=R1TECControlKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="14" Grid.Column="8" Content="TEC Ki" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="14" Grid.Column="11"    IsEnabled="{Binding IsEnabledR1}" IsChecked="{Binding Path=IsR1TECControlKi}"></CheckBox>
+        <TextBox Grid.Row="14" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledR1}"
+                    Text="{Binding Path=R1TECControlKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Grid.Row="16" Grid.Column="8" Content="TEC Kd" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="16" Grid.Column="11"    IsEnabled="{Binding IsEnabledR1}" IsChecked="{Binding Path=IsR1TECControlKd}"></CheckBox>
+        <TextBox Grid.Row="16" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledR1}"
+                    Text="{Binding Path=R1TECControlKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="18" Grid.Column="8" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="18" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1LaserMaxCurrent}"></CheckBox>
+        <TextBox Grid.Row="18" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1LaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="20" Grid.Column="8" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="20" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1LaserMinCurrent}"></CheckBox>
+        <TextBox Grid.Row="20" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1LaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="28" Grid.Column="8" Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox  Grid.Row="28" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
+        <TextBox Grid.Row="28" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="30" Grid.Column="8" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="30" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
+        <TextBox Grid.Row="30" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="32" Grid.Column="8" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="32" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
+        <TextBox Grid.Row="32" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="34" Grid.Column="8" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="34" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKp}"></CheckBox>
+        <TextBox Grid.Row="34" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1OpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="36" Grid.Column="8" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="36" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKi}"></CheckBox>
+        <TextBox Grid.Row="36" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1OpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="38" Grid.Column="8" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="38" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKd}"></CheckBox>
+        <TextBox Grid.Row="38" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1OpticalPowerGreaterThan15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label   Visibility="Hidden" Grid.Row="36" Grid.Column="8" Content="R1-532-Optical Power(&lt;=15mW)Kp Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="36" Grid.Column="10"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1OpticalPowerControlKpUpperLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label   Visibility="Hidden" Grid.Row="38" Grid.Column="8" Content="R1-532-Optical Power(&lt;=15mW)Kp Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="38" Grid.Column="10"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1OpticalPowerControlKpDownLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label   Visibility="Hidden" Grid.Row="40" Grid.Column="8" Content="R1-532-Optical Power(&lt;=15mW)Ki Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="40" Grid.Column="10"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1OpticalPowerControlKiUpperLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label   Visibility="Hidden" Grid.Row="42" Grid.Column="8" Content="R1-532-Optical Power(&lt;=15mW)Ki Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="42" Grid.Column="10"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1OpticalPowerControlKiDownLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label   Visibility="Hidden" Grid.Row="44" Grid.Column="8" Content="R1-532-Optical Power(&gt;=15mW)Kp Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,4,3,4"/>
+        <TextBox Grid.Row="44" Grid.Column="10"
+                    Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1OpticalPowerControlKpUpperLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,4,2,4"/>
+        <Label   Visibility="Hidden" Grid.Row="46" Grid.Column="8" Content="R1-532-Optical Power(&gt;=15mW)Kp Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="46" Grid.Column="10"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1OpticalPowerControlKpDownLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label   Visibility="Hidden" Grid.Row="48" Grid.Column="8" Content="R1-532-Optical Power(&gt;=15mW)Ki Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="48" Grid.Column="10"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1OpticalPowerControlKiUpperLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label   Visibility="Hidden" Grid.Row="50" Grid.Column="8" Content="R1-532-Optical Power(&gt;=15mW)Ki Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="50" Grid.Column="10"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R1OpticalPowerControlKiDownLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+
+        <Label Grid.Row="0" Grid.Column="12" Content="R2            All" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="0" Grid.Column="15"  IsChecked="{Binding Path=IsR2CheckALL}" HorizontalAlignment="Center" Margin="40,0,29,0" Width="20"></CheckBox>
+        <Label Grid.Row="2" Grid.Column="12" Content="FVN" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,2,3,2"/>
+        <TextBox Grid.Row="2" Grid.Column="14"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2IVFirmwareVersionSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="4" Grid.Column="12" Content="Firmware SN" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="4" Grid.Column="14"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2IVFirmwareSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="6" Grid.Column="12" Content="Wavelength" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="6" Grid.Column="16"  IsEnabled="{Binding IsEnabledR2}" IsChecked="{Binding Path=IsR2Wavelength}"></CheckBox>
+        <TextBox Grid.Row="6" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledR2}"
+                    Text="{Binding Path=R2Wavelength, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty} }" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="8" Grid.Column="12" Content="TEC Control Temperature" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="8" Grid.Column="16"  IsEnabled="{Binding IsEnabledR2}" IsChecked="{Binding Path=IsR2TEControlTemperature}"></CheckBox>
+        <TextBox Grid.Row="8" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabledR2}"
+                    Text="{Binding Path=R2TEControlTemperature,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty} }" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="10" Grid.Column="12" Content="Max Cooling Current" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="10" Grid.Column="16"  IsEnabled="{Binding IsEnabledR2}" IsChecked="{Binding Path=IsR2TECMaximumCoolingCurrent}"></CheckBox>
+        <TextBox Grid.Row="10" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                  IsEnabled="{Binding IsEnabledR2}"
+                    Text="{Binding Path=R2TECMaximumCoolingCurrent, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="12" Grid.Column="12" Content="TEC Kp" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="12" Grid.Column="16"  IsEnabled="{Binding IsEnabledR2}" IsChecked="{Binding Path=IsR2TECControlKp}"></CheckBox>
+        <TextBox Grid.Row="12" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                  IsEnabled="{Binding IsEnabledR2}"
+                    Text="{Binding Path=R2TECControlKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="14" Grid.Column="12" Content="TEC Ki" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="14" Grid.Column="16"  IsEnabled="{Binding IsEnabledR2}" IsChecked="{Binding Path=IsR2TECControlKi}"></CheckBox>
+        <TextBox Grid.Row="14" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                  IsEnabled="{Binding IsEnabledR2}"
+                    Text="{Binding Path=R2TECControlKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="16" Grid.Column="12" Content="TEC Kd" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="16" Grid.Column="16"  IsEnabled="{Binding IsEnabledR2}" IsChecked="{Binding Path=IsR2TECControlKd}"></CheckBox>
+        <TextBox Grid.Row="16" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                  IsEnabled="{Binding IsEnabledR2}"
+                    Text="{Binding Path=R2TECControlKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="18" Grid.Column="12" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="18" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2LaserMaxCurrent}"></CheckBox>
+        <TextBox Grid.Row="18" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2LaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="20" Grid.Column="12" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="20" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2LaserMinCurrent}"></CheckBox>
+        <TextBox Grid.Row="20" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2LaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="28" Grid.Column="12" Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="28" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
+        <TextBox Grid.Row="28" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="30" Grid.Column="12" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="30" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
+        <TextBox Grid.Row="30" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="32" Grid.Column="12" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="32" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
+        <TextBox Grid.Row="32" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="34" Grid.Column="12" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="34" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKp}"></CheckBox>
+        <TextBox Grid.Row="34" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2OpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="36" Grid.Column="12" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="36" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKi}"></CheckBox>
+        <TextBox Grid.Row="36" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2OpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="38" Grid.Column="12" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="38" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKd}"></CheckBox>
+        <TextBox Grid.Row="38" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2OpticalPowerGreaterThan15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label   Visibility="Hidden" Grid.Row="36" Grid.Column="12" Content="R2-532-Optical Power(&lt;=15mW)Kp Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="36" Grid.Column="14"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2OpticalPowerControlKpUpperLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
+        <Label   Visibility="Hidden" Grid.Row="38" Grid.Column="12" Content="R2-532-Optical Power(&lt;=15mW)Kp Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="38" Grid.Column="14"
+                    Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2OpticalPowerControlKpDownLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label  Visibility="Hidden"  Grid.Row="40" Grid.Column="12" Content="R2-532-Optical Power(&lt;=15mW)Ki Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="40" Grid.Column="14"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2OpticalPowerControlKiUpperLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
+        <Label   Visibility="Hidden" Grid.Row="42" Grid.Column="12" Content="R2-532-Optical Power(&lt;=15mW)Ki Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="42" Grid.Column="14"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2OpticalPowerControlKiDownLimitLessThanOrEqual15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label    Visibility="Hidden" Grid.Row="44" Grid.Column="12" Content="R2-532-Optical Power(&gt;=15mW)Kp Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,4,3,4"/>
+        <TextBox Grid.Row="44" Grid.Column="14"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2OpticalPowerControlKpUpperLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,4,2,4" Grid.ColumnSpan="2"/>
+        <Label   Visibility="Hidden" Grid.Row="46" Grid.Column="12" Content="R2-532-Optical Power(&gt;=15mW)Kp Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="46" Grid.Column="14"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2OpticalPowerControlKpDownLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
+        <Label   Visibility="Hidden" Grid.Row="48" Grid.Column="12" Content="R2-532-Optical Power(&gt;=15mW)Ki Upper Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <TextBox Grid.Row="48" Grid.Column="14"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2OpticalPowerControlKiUpperLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label   Visibility="Hidden" Grid.Row="50" Grid.Column="12" Content="R2-532-Optical Power(&gt;=15mW)Ki Lower Limit" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <TextBox Grid.Row="50" Grid.Column="14"
+                   Visibility="Hidden"
+                    IsReadOnly="True"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=R2OpticalPowerControlKiDownLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
+
+
+        <Button Name="_ParametersReadCommand" Grid.Row="56" Grid.Column="6"
+                    Command="{Binding Path=ParametersReadCommand}"
+                    IsEnabled="{Binding Path=OtherSettingBtnIsEnable}"
+                    Content="Read"
+                    FontSize="14"
+                    Height="30" 
+                    HorizontalAlignment="Center"  
+                    Style="{DynamicResource BlueButton}" 
+                    VerticalAlignment="Center" 
+                    Width="86" Margin="2,3,2,4" />
+        <Button Name="_ParametersWriteCommand" Grid.Row="56" Grid.Column="8"
+                    Command="{Binding Path=ParametersWriteCommand}" 
+                    IsEnabled="{Binding Path=OtherSettingBtnIsEnable}"
+                    Content="Write" 
+                    FontSize="14" 
+                    Height="30" 
+                    HorizontalAlignment="Center" 
+                    Style="{DynamicResource BlueButton}" 
+                    VerticalAlignment="Center" 
+                    Width="84" Margin="104,2,101,5"   />
     </Grid>
 </Window>

@@ -104,6 +104,14 @@ namespace Azure.ScannerEUI.View
             {
                 return;
             }
+            bool IsScanScopelimitations = false;
+            //Calculate the scanning range of X and Y, and if it exceeds the range, do not proceed further
+            //计算X和Y的扫描范围，如果超出范围就不往下执行了
+            Workspace.This.ScannerVM.ScanScopelimitations(ref IsScanScopelimitations);
+            if (!IsScanScopelimitations)
+            {
+                return;
+            }
             index++;
             SRUl = new ScanRegionUserControl();
             SRUl.Width = 55;
@@ -150,20 +158,23 @@ namespace Azure.ScannerEUI.View
         {
             //Workspace.This.Owner.Dispatcher.BeginInvoke((Action)delegate
             //{
-                foreach (ScanRegionUserControl uc in canvas1.Children)
+            Workspace.This.ScannerVM.CurrentScanWorkIndex = Current;
+            Workspace.This.ScannerVM.ClickScanWork = true;
+            foreach (ScanRegionUserControl uc in canvas1.Children)
+            {
+                if ((int)uc.Tag != Current)
                 {
-                    if ((int)uc.Tag != Current)
-                    {
-                        uc.SetBackGrondColor();
-                    }
-                    else
-                    {
-                        OverAllRegion = uc;
-                        GetRegion();
-                        Workspace.This.CurrentScanWorkIndexTitle = OverAllRegion.NumberStr;
-                        Workspace.This.WorkIndexTitleVisBility = Visibility.Visible;
-                    }
+                    uc.SetBackGrondColor();
                 }
+                else
+                {
+                    OverAllRegion = uc;
+                    GetRegion();
+                    Workspace.This.CurrentScanWorkIndexTitle = OverAllRegion.NumberStr;
+                    Workspace.This.WorkIndexTitleVisBility = Visibility.Visible;
+                }
+            }
+            Workspace.This.ScannerVM.ClickScanWork = false;
             //});
         }
 

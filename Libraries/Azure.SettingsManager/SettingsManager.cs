@@ -1429,6 +1429,44 @@ namespace Azure.Configuration
 
                 #endregion
 
+                //Read Control conditions for the fan speed 
+                iter = xpathNav.Select("/Config/ShellFanModules/ShellFanModule");
+                while (iter.MoveNext())
+                {
+                    var nav = iter.Current;
+                    double delay = 0;
+                    string name = nav.GetAttribute("ShellFan", "");
+                    if (name == "InternalLowTemperature")
+                    {
+                        double.TryParse(nav.GetAttribute("Value", ""), out delay);
+                        configSettings.InternalLowTemperature = delay;
+                    }
+                    if (name == "InternalModerateTemperature")
+                    {
+                        double.TryParse(nav.GetAttribute("Value", ""), out delay);
+                        configSettings.InternalModerateTemperature = delay;
+                    }
+                    if (name == "InternalHighTemperature")
+                    {
+                        double.TryParse(nav.GetAttribute("Value", ""), out delay);
+                        configSettings.InternalHighTemperature = delay;
+                    }
+                    if (name == "ModuleLowTemperature")
+                    {
+                        double.TryParse(nav.GetAttribute("Value", ""), out delay);
+                        configSettings.ModuleLowTemperature = delay;
+                    }
+                    if (name == "ModuleModerateTemperature")
+                    {
+                        double.TryParse(nav.GetAttribute("Value", ""), out delay);
+                        configSettings.ModuleModerateTemperature = delay;
+                    }
+                    if (name == "ModuleHighTemperature")
+                    {
+                        double.TryParse(nav.GetAttribute("Value", ""), out delay);
+                        configSettings.ModuleHighTemperature = delay;
+                    }
+                }
                 xpathNav = null;
                 xpathDoc = null;
             }
