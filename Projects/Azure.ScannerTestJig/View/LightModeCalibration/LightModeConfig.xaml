@@ -1,0 +1,1078 @@
+﻿<UserControl x:Class="Azure.ScannerTestJig.View.LightModeCalibration.LightModeConfig"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Azure.ScannerTestJig.View.LightModeCalibration" 
+             mc:Ignorable="d" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:Borders="clr-namespace:ToggleSwitch.Borders;assembly=ToggleSwitch" xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
+             d:DesignHeight="600" Width="1100.832">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--Blue Button-->
+            <ControlTemplate x:Key="BlueButtonControl" TargetType="{x:Type Button}">
+                <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+                    <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsDefaulted" Value="False">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#0061a7" Offset="0"/>
+                                    <GradientStop Color="#007dc1" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="False" />
+                <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
+                <Setter Property="Height" Value="52"/>
+                <Setter Property="IsChecked" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CheckBox">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Height}">
+                                    <Rectangle x:Name="CheckBoxRectangle" Fill="White" Opacity="0.3" RadiusY="5" RadiusX="5"/>
+                                    <Rectangle x:Name="CheckBoxRectangleOut" Stroke="#FFABADB3" StrokeThickness="1" RadiusY="5" RadiusX="5"/>
+                                    <Grid x:Name="CheckedMark" Height="{TemplateBinding Height}" Width="{TemplateBinding Height}" Visibility="Collapsed" >
+                                        <Viewbox>
+                                            <Grid>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M1,9 L10,17" Stroke="#3553ad"/>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M8,17 L20,4" Stroke="#3553ad"/>
+                                            </Grid>
+                                        </Viewbox>
+                                    </Grid>
+                                </Grid>
+                                <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="CheckedMark" Property="Visibility" Value="Visible"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="BlueButton" TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource BlueButtonControl}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="5,2,5,2"/>
+            </Style>
+            <!--Blue Button End-->
+            <ControlTemplate x:Key="RedButtonControl" TargetType="{x:Type Button}">
+                <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+                    <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsDefaulted" Value="False">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style x:Key="RedButton" TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource RedButtonControl}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="5,2,5,2"/>
+            </Style>
+            <ControlTemplate x:Key="SimpleThumbTemplate" TargetType="Thumb">
+                <Grid Background="Transparent">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="MouseOver">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.25" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="FocusStates">
+                            <VisualState x:Name="Focused">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Unfocused"/>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="CheckStates">
+                            <VisualState x:Name="Unchecked"/>
+                            <VisualState x:Name="Checked"/>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Borders:OuterGlowBorder OuterGlowSize="4" OuterGlowOpacity="0.15" BorderThickness="0" OuterGlowColor="Black" Background="Transparent" CornerRadius="4" ShadowCornerRadius="8" IsTabStop="False" >
+                        <Grid>
+                            <Borders:ClippingBorder x:Name="Background" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" IsTabStop="False" Background="{TemplateBinding Background}"/>
+                            <Borders:ClippingBorder x:Name="BackgroundAnimation" Background="Black" Opacity="0" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Black" CornerRadius="4" IsTabStop="False"/>
+                            <Rectangle x:Name="DisabledVisualElement" Fill="White" IsHitTestVisible="false" Opacity="0" RadiusY="4" RadiusX="4"/>
+                            <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="1" Opacity="0" RadiusY="4" RadiusX="4" StrokeThickness="1"/>
+                        </Grid>
+                    </Borders:OuterGlowBorder>
+                </Grid>
+            </ControlTemplate>
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="407*"/>
+            <ColumnDefinition Width="123*"/>
+            <ColumnDefinition Width="147*"/>
+            <ColumnDefinition Width="140*"/>
+            <ColumnDefinition Width="18*"/>
+            <ColumnDefinition Width="119*"/>
+            <ColumnDefinition Width="147*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="146" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器波长:" Height="30" Width="142" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="146" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器编号:" Height="30" Width="142" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="146" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="APD/PMT编号:" Height="30" Width="142" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="200" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC控制温度:" Height="30" Width="241" />
+            </Label>
+        </Grid>
+        <!--<Grid Grid.Row="4" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="200" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器电流（单位0.1℃）:" Height="30" Width="241" />
+            </Label>
+        </Grid>-->
+        <Grid Grid.Row="4" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="200" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器电流（单位0.01mA）:" Height="30" Width="241" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="312" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="PMT补偿系数（单位0.1mV）:" Height="30" Width="332" />
+            </Label>
+            <!--<Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="245" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光电二极管电压（单位0.0001V）:" Height="30" Width="261" />
+            </Label>-->
+        </Grid>
+        <!--<Grid Grid.Row="4" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="230" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC最大制冷电流（单位mA）:" Height="30" Width="260" />
+            </Label>
+        </Grid>
+
+        <Grid Grid.Row="5
+              " Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="310" Height="33">
+                <TextBlock TextWrapping="NoWrap"
+Text="读取TEC实际温度（单位0.1℃）:" Height="30" Width="314" />
+            </Label>
+        </Grid>-->
+        <!--<Grid Grid.Row="6
+              " Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="310" Height="33">
+                <TextBlock TextWrapping="NoWrap"
+Text="读取散热器温度（单位0.1℃）:" Height="30" Width="314" />
+            </Label>
+        </Grid>-->
+        <Grid Grid.Row="6" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="312" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="IV光学模块序列号:" Height="30" Width="332" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="312" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="Laser光学模块序列号:" Height="30" Width="332" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,-2,0" VerticalAlignment="Top" FontSize="15" Width="379" Height="33">
+                <TextBlock TextWrapping="NoWrap"
+Text="RS485通讯轮询控制：" Height="30" Width="377" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="1">
+            <ComboBox x:Name="CommunicationControlComboBox" HorizontalAlignment="Right" Margin="0,4,17,0" VerticalAlignment="Top" Width="89" FontSize="25"
+                  ItemsSource="{Binding Path=CommunicationControlOptions}"
+                  SelectedItem="{Binding Path=SelectedCommunicationControl}"/>
+        </Grid>
+        <Grid Grid.Row="9" Grid.Column="0">
+            <!--<Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,-2,0" VerticalAlignment="Top" FontSize="15" Width="379" Height="33">
+                <TextBlock TextWrapping="NoWrap"
+Text="散热器温度（单位0.1℃）:" Height="30" Width="377" />
+            </Label>-->
+        </Grid>
+        <!--<Grid Grid.Row="7" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="377" Height="33">
+                <TextBlock TextWrapping="NoWrap"
+Text="(532波长)读取激光功率对应的电流值（单位0.01mA）:" Height="30" Width="376" />
+            </Label>
+        </Grid>-->
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Button x:Name="SetCurrentLaserWavaButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLaserWavaCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="5">
+            <Button x:Name="GetCurrentLaserWavaButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLaserWavaCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Button x:Name="SetCurrentLaserNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLaserNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="5">
+            <Button x:Name="GetCurrentLaserNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLaserNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Button x:Name="SetCurrentPMTNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentPMTNumbeCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="5">
+            <Button x:Name="GetCurrentPMTNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentPMTNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Button x:Name="SetCurrentTECctrlTempButton"
+            Visibility="Hidden"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Command="{Binding Path=SetCurrentTECctrlTempCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="1">
+            <Button x:Name="SetCurrentLaserPowerValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLaserPowerValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1">
+            <Button x:Name="SetCurrentPMTCompensationCoefficientButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrenttPMTCompensationCoefficientCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="5">
+            <Button x:Name="GetCurrentTECctrlTempButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECctrlTempCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="5">
+            <Button x:Name="GetCurrentLaserPowerValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="Hidden"
+            Command="{Binding Path=GetCurrentLaserPowerValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="5">
+            <Button x:Name="GetCurrentPMTCompensationCoefficientButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentPMTCompensationCoefficientCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+            <!--<Button x:Name="GetCurrentLightElectricTowVoleButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLightElectricTowVoleCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>-->
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="1" >
+            <Button x:Name="SetLaserOpticalModuleNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetLaserOpticalModuleNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="1" >
+            <Button x:Name="SetIVOpticalModuleNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetIVOpticalModuleNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1"/>
+        
+        <!--<Grid Grid.Row="4" Grid.Column="1">
+            <Button x:Name="SetCurrentTECMaxColdTempButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLightPowerCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1">
+            <Button x:Name="SetCurrentLaserPowerValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLightPowerCommand}" >
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="6" Grid.Column="1">
+            <Button x:Name="_GetCurrentLaserPowerValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLightPowerCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>-->
+        <Grid Grid.Row="6" Grid.Column="2">
+            <TextBox x:Name="SetIVOpticalModuleNumberTextBox"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetIVOpticalModuleNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}"  Margin="5,10,3,5" RenderTransformOrigin="0.439,0.442" />
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="5">
+            <Button x:Name="GetIVOpticalModuleNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetIVOpticalModuleNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="2">
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetLaserOpticalModuleNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="4,8,2,7" />
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetLaserOpticalModuleNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="5">
+            <!--<Button x:Name="GetCurrentTECActualTemperatureButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECActualTemperatureCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>-->
+        </Grid>
+        <Grid Grid.Row="9" Grid.Column="5">
+            <!--<Button x:Name="GetCurrentRadiatorTemperatureButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentRadiatorTemperatureCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>-->
+        </Grid>
+        <Grid Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Button x:Name="GenerateReportButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="光学模块报告"
+            Width="140"
+            Height="47"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="82,30,44,19"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GenerateReportCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentLaserWavaTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentLaserWavaValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="8,7,7,8" />
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentLaserWavaTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentLaserWavaValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="10,8,5,7" />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentLaserNumberTextBox"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding SetCurrentLaserNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}"  Margin="10,8,5,7" />
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="6" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="98*"/>
+                <ColumnDefinition Width="19*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="GetCurrentLaserNumberTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding GetCurrentLaserNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="11,7,4,8" Grid.ColumnSpan="2" />
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentPMTNumberTextBox"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding SetCurrentPMTNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}"  Margin="10,9,5,6" />
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentPMTNumberTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding GetCurrentPMTNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="10,9,5,6" />
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentTecTempTextBox"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Visibility="Hidden"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTecTempValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}"  Margin="10,7,5,8" />
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentLaserPowerValueTextBox"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentLaserPowerValueValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}"  Margin="10,9,5,6" />
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentPMTCompensationCoefficientTextBox"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput1"
+                            PreviewKeyDown="TextBox_PreviewKeyDown1"
+                            Text="{Binding SetCurrentPMTCompensationCoefficientValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}"  Margin="9,9,6,4" RenderTransformOrigin="0.439,0.442" />
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTecTempTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTecTempValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="12,8,3,7" />
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentLaserPowerValueTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Visibility="Hidden"
+                            Text="{Binding GetCurrentLaserPowerValueValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="12,10,3,5" />
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentPMTCompensationCoefficientTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding GetCurrentPMTCompensationCoefficientValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="13,7,2,6" />
+            <!--<TextBox x:Name="GetCurrentLightElectricTowVoleTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentLightElectricTowVoleValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="10,8,5,7" />-->
+        </Grid>
+        <!--<Grid Grid.Row="4" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentTecMaxColdTempTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTecMaxColdTempValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="10,6,5,6" />
+        </Grid>
+        <Grid  Grid.Row="5" Grid.Column="2">
+            <TextBox x:Name="SetCurrentTecTrueColdTempTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTecTrueColdTempValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="10,6,5,6" />
+        </Grid>
+        <Grid  Grid.Row="6" Grid.Column="2">
+            <TextBox x:Name="SetCurrentSholdTempTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentSholdTempValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="10,6,5,6" />
+        </Grid>-->
+        <Grid Grid.Row="6" Grid.Column="3" >
+            <!--<TextBox x:Name="SetLaserNot532PowserText"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetLaserNot532PowserValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="10,6,5,6" />-->
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="6" >
+            <TextBox x:Name="GetIVOpticalModuleNumberTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetIVOpticalModuleNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="13,7,2,6" />
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="3" >
+            <!--<TextBox x:Name="SetLaserTrue532PowserText"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetLaserTrue532PowserValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}"  Margin="10,6,5,6" />-->
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetLaserOpticalModuleNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="6" >
+            <!--<TextBox x:Name="GetCurrentTECActualTemperatureTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTECActualTemperatureValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />-->
+        </Grid>
+        <Grid Grid.Row="9" Grid.Column="6" >
+            <!--<TextBox x:Name="GetCurrentRadiatorTemperatureTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrenRadiatorTemperatureValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />-->
+        </Grid>
+    </Grid>
+</UserControl>

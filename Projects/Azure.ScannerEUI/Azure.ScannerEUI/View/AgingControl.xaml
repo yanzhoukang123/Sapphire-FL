@@ -1,0 +1,226 @@
+﻿<UserControl x:Class="Azure.ScannerEUI.View.AgingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Azure.ScannerEUI.ViewModel" xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
+             mc:Ignorable="d" d:DesignWidth="330"
+             DataContext="{Binding Path=AgingVM}" Height="139.28">
+    <UserControl.Resources>
+        <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="DarkBlue" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontFamily" Value="microsoft YaHei" />
+            <Setter Property="FontWeight" Value="Heavy" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="BlueButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="2,1"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="90"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="71*"/>
+                    <ColumnDefinition Width="154*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="totalProcessLabel" 
+                   Content="Overall progress" Style="{StaticResource MyLabelHeaderStyle}" 
+                   HorizontalAlignment="Right" Margin="0,35,-10,0" VerticalAlignment="Top" Height="28" Width="127" Grid.Column="1"/>
+                <ProgressBar HorizontalAlignment="Right" Height="20" Margin="0,62,3,0" VerticalAlignment="Top"
+                         Value="{Binding Path=TotalProcessPercent}" Grid.Column="1" Width="114"/>
+                <Label x:Name="subProcessLabel" 
+                   Content="{Binding Path=SubProcessName}" Style="{StaticResource MyLabelHeaderStyle}" 
+                   HorizontalAlignment="Center" Margin="24,87,5,0" VerticalAlignment="Top" Grid.Column="1" Height="30" Width="104"/>
+                <ProgressBar HorizontalAlignment="Right" Height="20" Margin="0,115,2,0" VerticalAlignment="Top"
+                         Value="{Binding Path=SubProcessPercent}" Grid.Column="1" Width="113"/>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger
+                            Value="False"
+                            Binding="{Binding Path=IsProcessing}">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+            </Grid>
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger
+                            Value="True"
+                            Binding="{Binding Path=IsProcessing}">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <!--//编号-->
+                <Label x:Name="deviceSNLabel" 
+                   Content="SN   " Style="{StaticResource MyLabelHeaderStyle}" 
+                   HorizontalAlignment="Right" Margin="0,42,67,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="deviceSNBox"
+                         Text="{Binding Path=DeviceSerialNum}"
+                         Width="100" Height="25" FontSize="15" Foreground="DarkBlue"
+                   HorizontalAlignment="Right" Margin="0,65,10,0" VerticalAlignment="Top"/>
+                <!--周期-->
+                <Label x:Name="testTimesLabel" 
+                   Content="Cycles" Style="{StaticResource MyLabelHeaderStyle}" 
+                   HorizontalAlignment="Right" Margin="0,88,56,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="testTimesBox"
+                         Text="{Binding Path=LoopTimes}"
+                         Width="100" Height="25" FontSize="15" Foreground="DarkBlue"
+                   HorizontalAlignment="Right" Margin="0,112,10,0" VerticalAlignment="Top"/>
+                <Label x:Name="_ParametePower" 
+                   Content="Power" Style="{StaticResource MyLabelHeaderStyle}" 
+                   HorizontalAlignment="Right" Margin="0,-6,57,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="_txtOld"
+                         Text="{Binding Path=ConfigPower}"
+                         Width="100" Height="25" FontSize="15" Foreground="DarkBlue"
+                   HorizontalAlignment="Right" Margin="0,18,11,0" VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="4">
+
+            <Button Grid.Row="0" x:Name="_NextStepButton"
+            Width="90"
+            Height="50"
+            FontSize="14"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="6,20,-6,69"
+            Command="{Binding Path=NextStepCommand}">
+                <TextBlock TextWrapping="Wrap" TextAlignment="Center">Continue</TextBlock>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger
+                            Value="False"
+                            Binding="{Binding Path=IsNextStepBtnEnabled}">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="_StartBatchProcessButton"
+            Width="90"
+            Height="50"
+            FontSize="14"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="7,80,-7,9"
+            IsEnabled="{Binding IsOldEnabled}"
+            Command="{Binding Path=StartBatchProcessCommand}" Content="Burnt-in">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger
+                            Value="True"
+                            Binding="{Binding Path=IsProcessing}">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="_StopBatchProcessButton"
+            Width="90"
+            Height="50"
+            FontSize="14"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="7,80,-7,9"
+            Command="{Binding Path=StopBatchProcessCommand}" Content="Stop Aging">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger
+                            Value="False"
+                            Binding="{Binding Path=IsProcessing}">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="0">
+            <TextBlock x:Name="storeFolder" 
+                   Grid.Column="0" HorizontalAlignment="Center" TextWrapping="Wrap"
+                   TextTrimming="CharacterEllipsis" FontSize="15" Height="49" Width="62" Margin="22,33,16,57">
+            <Hyperlink Command="{Binding Path=StoreFolderCommand}">
+                <Run Text="Data-Path..."/>
+            </Hyperlink>
+            </TextBlock>
+
+            <Label x:Name="_TEC" 
+                   Content="激光器温度老化 " Style="{StaticResource MyLabelHeaderStyle}" 
+                   HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="-10,80,-1,0" Width="111" Height="28"/>
+
+            <ToggleSwitch:HorizontalToggleSwitch 
+                            ThumbTemplate="{StaticResource SimpleThumbTemplate}"
+                            FontSize="14"
+                            BorderBrush="#FF6A6A6A"
+                            UncheckedForeground="White" 
+                            UncheckedContent="Off" 
+                            CheckedContent="On" 
+                            IsEnabled="{Binding IsTECTempeEnabled}"
+                            IsChecked="{Binding IsTECTempeSelected, Mode=TwoWay}"
+                            HorizontalAlignment="Left"
+                            Height="26"  Width="68" Margin="13,109,0,4">
+                <ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFB3B5B7" Offset="1"/>
+                        <GradientStop Color="#FFEDEEEE"/>
+                    </LinearGradientBrush>
+                </ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                <ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFE1E2E2"/>
+                        <GradientStop Color="#FF555555"/>
+                    </LinearGradientBrush>
+                </ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                <ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6E97B7" Offset="1"/>
+                        <GradientStop Color="#FF46738A"/>
+                    </LinearGradientBrush>
+                </ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+            </ToggleSwitch:HorizontalToggleSwitch>
+        </Grid>
+    </Grid>
+</UserControl>

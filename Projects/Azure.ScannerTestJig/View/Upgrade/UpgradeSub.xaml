@@ -1,0 +1,372 @@
+﻿<Window x:Class="Azure.ScannerTestJig.View.Upgrade.UpgradeSub"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Azure.ScannerTestJig.View.Upgrade" xmlns:Borders="clr-namespace:ToggleSwitch.Borders;assembly=ToggleSwitch"
+        mc:Ignorable="d"
+            xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="Upgrade" Height="800.142" Width="820.951" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <!--Blue Button-->
+            <ControlTemplate x:Key="BlueButtonControl" TargetType="{x:Type Button}">
+                <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+                    <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsDefaulted" Value="False">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#0061a7" Offset="0"/>
+                                    <GradientStop Color="#007dc1" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="False" />
+                <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
+                <Setter Property="Height" Value="52"/>
+                <Setter Property="IsChecked" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CheckBox">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Height}">
+                                    <Rectangle x:Name="CheckBoxRectangle" Fill="White" Opacity="0.3" RadiusY="5" RadiusX="5"/>
+                                    <Rectangle x:Name="CheckBoxRectangleOut" Stroke="#FFABADB3" StrokeThickness="1" RadiusY="5" RadiusX="5"/>
+                                    <Grid x:Name="CheckedMark" Height="{TemplateBinding Height}" Width="{TemplateBinding Height}" Visibility="Collapsed" >
+                                        <Viewbox>
+                                            <Grid>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M1,9 L10,17" Stroke="#3553ad"/>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M8,17 L20,4" Stroke="#3553ad"/>
+                                            </Grid>
+                                        </Viewbox>
+                                    </Grid>
+                                </Grid>
+                                <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="CheckedMark" Property="Visibility" Value="Visible"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="BlueButton" TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource BlueButtonControl}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="5,2,5,2"/>
+            </Style>
+            <!--Blue Button End-->
+
+            <ControlTemplate x:Key="SimpleThumbTemplate" TargetType="Thumb">
+                <Grid Background="Transparent">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="MouseOver">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.25" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="FocusStates">
+                            <VisualState x:Name="Focused">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Unfocused"/>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="CheckStates">
+                            <VisualState x:Name="Unchecked"/>
+                            <VisualState x:Name="Checked"/>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Borders:OuterGlowBorder OuterGlowSize="4" OuterGlowOpacity="0.15" BorderThickness="0" OuterGlowColor="Black" Background="Transparent" CornerRadius="4" ShadowCornerRadius="8" IsTabStop="False" >
+                        <Grid>
+                            <Borders:ClippingBorder x:Name="Background" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" IsTabStop="False" Background="{TemplateBinding Background}"/>
+                            <Borders:ClippingBorder x:Name="BackgroundAnimation" Background="Black" Opacity="0" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Black" CornerRadius="4" IsTabStop="False"/>
+                            <Rectangle x:Name="DisabledVisualElement" Fill="White" IsHitTestVisible="false" Opacity="0" RadiusY="4" RadiusX="4"/>
+                            <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="1" Opacity="0" RadiusY="4" RadiusX="4" StrokeThickness="1"/>
+                        </Grid>
+                    </Borders:OuterGlowBorder>
+                </Grid>
+            </ControlTemplate>
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="177*"/>
+            <RowDefinition Height="165*"/>
+            <RowDefinition Height="427*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <GroupBox Header="文件操作" HorizontalAlignment="Left"  Width="808" Margin="0,21,0,0" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="401*"/>
+                        <ColumnDefinition Width="395*"/>
+                        <ColumnDefinition Width="395*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Button x:Name="_Convert"
+                              Content="Hex &lt; = > bin"
+                              Width="200"
+                              Height="80"
+                              FontSize="25"
+                              VerticalAlignment="Center"
+                              Command="{Binding Path=ConvertCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Button x:Name="_Split"
+                              Content="Bin分割"
+                              Width="200"
+                              Height="80"
+                              FontSize="25"
+                              VerticalAlignment="Center"
+                              Command="{Binding Path=SplitCommand}" Margin="42,27,22,27">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Button x:Name="_Merge"
+                              Content="Bin合并"
+                              Width="200"
+                              Height="80"
+                              FontSize="25"
+                              VerticalAlignment="Center"
+                              Command="{Binding Path=MergeCommand}" Margin="52,27,12,27">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,0,0,383" Grid.RowSpan="2" IsEnabled="{Binding Path=UpgradeProcess}">
+            <GroupBox Header="串口通讯" HorizontalAlignment="Left"  Width="808" Margin="0,21,0,-33" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="547*"/>
+                        <ColumnDefinition Width="249*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="68*"/>
+                        <RowDefinition Height="63*"/>
+                        <RowDefinition Height="68*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Label x:Name="COMNumberCoeff" Content="COM:"  FontSize="25" FontWeight="Bold" Margin="-4,8,134,-8"/>
+                        <ComboBox x:Name="COMNumberCoeffComboBox"   VerticalAlignment="Top" FontSize="25"
+                  ItemsSource="{Binding Path=COMNumberCoeffOptions}"
+                  SelectedItem="{Binding Path=SelectedCOMNumberCoeff}" Margin="82,2,15,0" Height="54"/>
+                    </Grid>
+                    <Grid Grid.Row="1"  Grid.Column="0">
+
+
+
+                        <Label  Style="{StaticResource MyLabelHeaderStyle}" FontSize="15" Width="48" Height="36" Margin="22,13,477,14" >
+                            <TextBlock TextWrapping="Wrap"
+Height="26" Width="40" ><Run Text="接收:"/></TextBlock>
+                        </Label>
+                        <TextBox x:Name="FileNameTextBox1155"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            IsEnabled="False"
+                            Text="{Binding GetInstruct485,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="70,12,22,0" />
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Label x:Name="Address1" Content="地址:"  FontSize="25" FontWeight="Bold" Margin="0,8,174,4"/>
+                        <TextBox x:Name="FileNameTextBox11515"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Text="{Binding Address485,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="85,12,22,0" />
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="0">
+                        <Label  Style="{StaticResource MyLabelHeaderStyle}" FontSize="15" Width="48" Height="46" Margin="23,19,476,3" >
+                            <TextBlock TextWrapping="Wrap"
+Height="26" Width="40" ><Run Text="发送:"/></TextBlock>
+                        </Label>
+                        <TextBox x:Name="FileNameTextBox11"
+                            Height="36"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Text="{Binding SetInstruct485,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="72,18,23,0" />
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Button x:Name="jiguangWaveButton1"
+            Content="发送"
+            FontSize="20"
+            Command="{Binding Path=WriteInstruct485Command}" Margin="81,14,13,5"  >
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Row="2" Margin="0,80,0,0" IsEnabled="{Binding Path=UpgradeProcess}">
+            <GroupBox Header="在线升级" HorizontalAlignment="Left"  Width="808" Margin="0,7,0,5" >
+                <Grid Margin="0,-16,0,0">
+                    <Label x:Name="StartAddress1" Content="开始地址:"  FontSize="25" FontWeight="Bold" Margin="81,102,564,181" Visibility="Hidden"/>
+                    <TextBox x:Name="FileNameTextBox115151"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Text="{Binding StartAddress485,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="205,106,433,0"  Visibility="Hidden"/>
+                    <Label x:Name="EndAddress1" Content="数据长度:"  FontSize="25" FontWeight="Bold" Margin="240,34,404,249"/>
+                    <TextBox x:Name="FileNameTextBox1151511"
+                            Height="36"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Text="{Binding EndAddress485,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="373,36,265,0" />
+                    <Button x:Name="_start"
+                              Content="升级"
+                              Height="90"
+                              FontSize="25"
+                              VerticalAlignment="Center"
+                              Command="{Binding Path=StartCommand}" Margin="269,130,243,109">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Label x:Name="state" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding StrCurrentState}" Foreground="Red"  FontSize="25" FontWeight="Bold" Margin="12,262,6,12"/>
+                    <Button x:Name="jiguangWaveButton1_Copy"
+                        Content="清除扇区"
+                        FontSize="20"
+                        Command="{Binding WriteInstructCleanCommand}" Margin="630,18,12,261"  >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BlueButton}"/>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="jiguangWaveButton1_Copy1"
+                        Content="写第一包"
+                        FontSize="20"
+                        Command="{Binding WriteFrist1Command}" Margin="630,80,12,201"  >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BlueButton}"/>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="jiguangWaveButton1_Copy2"
+                        Content="写第二包"
+                        FontSize="20"
+                        Command="{Binding WriteFrist2Command}" Margin="629,140,13,141"  >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BlueButton}"/>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="jiguangWaveButton1_Copy3"
+                        Content="写第二包"
+                        FontSize="20"
+                        Command="{Binding WriteFrist3Command}" Margin="630,206,12,75"  >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BlueButton}"/>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>

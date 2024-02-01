@@ -1,0 +1,158 @@
+﻿<UserControl x:Class="Azure.ScannerTestJig.View.APDCalibration.APDCalibrationChannel"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" Width="1206">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="119"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="126"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="277"/>
+                <ColumnDefinition Width="21*"/>
+                <ColumnDefinition Width="254"/>
+                <ColumnDefinition Width="23*"/>
+                <ColumnDefinition Width="272"/>
+                <ColumnDefinition Width="24*"/>
+                <ColumnDefinition Width="287"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" MinWidth="220">
+                <Label x:Name="channelName" HorizontalAlignment="Left"  Visibility="Hidden"
+               Margin="0,0,0,0" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" 
+               Content="{Binding Path=ChannelName}" 
+               Height="35" Width="60"  FontSize="16" FontWeight="Bold"
+               Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                <Label x:Name="IVPCBNumber" Content="IV板编号" HorizontalAlignment="Right" Margin="0,42,150,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="IVPCBNumberBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="146" Height="36" Margin="0,44,4,0"  Background="{Binding LightBlue,UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" FontSize="25"
+                Text="{Binding Path=APDCalibrationVM.IVPCBNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                </TextBox>
+                <Label x:Name="LaserPCBNumber" Content="激光板编号" HorizontalAlignment="Right" Margin="0,85,130,0" VerticalAlignment="Top" FontSize="14" Visibility="Hidden"/>
+                <TextBox x:Name="LaserPCBNumberBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="25" Margin="0,85,10,0" 
+                TextWrapping="Wrap" FontSize="14"
+                Text="{Binding Path=APDCalibrationVM.LaserPCBNumber, Mode=TwoWay}" Visibility="Hidden"/>
+
+            </Grid>
+            <Grid Grid.Column="2">
+                <Label x:Name="APDNumber" Content="APD编号" HorizontalAlignment="Right" Margin="0,45,132,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="APDNumberBox" HorizontalAlignment="Right" Height="36" Margin="0,45,5,0" TextWrapping="Wrap" FontSize="25"   Background="{Binding LightBlue,UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding Path=APDSerialNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="122"/>
+
+                <Label x:Name="calibrationTemp" Content="标定温度T0(℃)" HorizontalAlignment="Right" Margin="0,120,90,0" VerticalAlignment="Top" FontSize="14" Visibility="Hidden"/>
+                <TextBox x:Name="calibrationTempBox" HorizontalAlignment="Right" Height="25" Margin="0,120,10,0" TextWrapping="Wrap" FontSize="14"
+                 Text="{Binding Path=CalibrationTemperature}" VerticalAlignment="Top" Width="80" KeyDown="CalibrationTempBox_KeyDown" Visibility="Hidden"/>
+            </Grid>
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="BreakVolt" Content="击穿电压Vb(V)" HorizontalAlignment="Right" Margin="0,11,88,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Width="180" Grid.Row="1"/>
+                <TextBox x:Name="BreakVoltBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="86" Height="36" Margin="0,11,1,0"    Background="{Binding LightBlue,UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" FontSize="25"
+                Text="{Binding Path=BreakdownVoltage, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" Grid.Row="1"/>
+                <Label x:Name="APDWaveLength" Content="APD波长(mm)" HorizontalAlignment="Right" Margin="0,11,90,0" VerticalAlignment="Top" FontSize="14" Visibility="Hidden" Grid.Row="1"/>
+                <ComboBox x:Name="APDWaveLengthComboBox" HorizontalAlignment="Right" Margin="0,11,10,0" VerticalAlignment="Top" Width="80" FontSize="14"
+                  ItemsSource="{Binding Path=WaveLengthOptions}"
+                  SelectedIndex="{Binding Path=SelectedWaveLength}" Visibility="Hidden" Grid.Row="1"/>
+                <Label x:Name="calibrationGain" Content="标定增益G0" HorizontalAlignment="Right" Margin="0,51,90,0" VerticalAlignment="Top" FontSize="14" Visibility="Hidden" Grid.Row="1"/>
+                <ComboBox x:Name="calibrationGainComboBox" HorizontalAlignment="Right" Margin="0,51,10,0" VerticalAlignment="Top" Width="80" FontSize="14"
+                  ItemsSource="{Binding Path=CalibrationGainOptions}"
+                  DisplayMemberPath="APDGain"
+                  SelectedItem="{Binding Path=SelectedCalibrationGain}" Visibility="Hidden" Grid.Row="1"/>
+                <!--<Label x:Name="temperatureCoeff" Content="温度系数Ct(V/℃)" HorizontalAlignment="Right" Margin="0,86,90,-1" VerticalAlignment="Top" FontSize="14" Visibility="Hidden" Grid.Row="1"/>
+                <ComboBox x:Name="temperatureCoeffComboBox" HorizontalAlignment="Right" Margin="0,86,10,-1" VerticalAlignment="Top" Width="80" FontSize="14"
+                  ItemsSource="{Binding Path=TemperatureCoeffOptions}"
+                  SelectedItem="{Binding Path=SelectedTemperatureCoeff}" Visibility="Hidden" Grid.Row="1"/>-->
+            </Grid>
+            <Grid Grid.Column="6">
+                <Label x:Name="calibrationVolt" Content="标定电压U0(V)" HorizontalAlignment="Right" Margin="0,45,102,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="calibrationVoltBox" HorizontalAlignment="Right" Height="36" Margin="0,45,8,0" TextWrapping="Wrap" FontSize="25"     Background="{Binding LightBlue,UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding CalibrationVoltage,  Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="93" KeyDown="CalibrationVoltBox_KeyDown"/>
+            </Grid>
+        </Grid>
+        <Border Grid.Row="1" Background="#FFE0E0D3"></Border>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="242"/>
+                <ColumnDefinition Width="106*"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="113*"/>
+                <ColumnDefinition Width="276"/>
+                <ColumnDefinition Width="113*"/>
+                <ColumnDefinition Width="276"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" MinWidth="220">
+                <Label x:Name="currentGain" Content="当前增益G" HorizontalAlignment="Right" Margin="0,5,90,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="currentGainBox" HorizontalAlignment="Right" Height="36" Margin="0,5,10,0" TextWrapping="Wrap" FontSize="25" Background="{Binding LightReseda,UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding Path=CurrentAPDGain, TargetNullValue='N/A'}" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+                <Label x:Name="APDHighVolt" Content="APD高压(V)" HorizontalAlignment="Right" Margin="0,51,90,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="APDHighVoltBox" HorizontalAlignment="Right" Height="36" Margin="0,51,10,0" TextWrapping="Wrap" FontSize="25" Background="{Binding LightReseda,UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding APDHighVoltage, StringFormat=\{0:F2\}, TargetNullValue=N/A}" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Label x:Name="currentPGA" Content="PGA增益" HorizontalAlignment="Right" Margin="0,5,90,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="currentPGABox" HorizontalAlignment="Right" Height="36" Margin="0,5,10,0" TextWrapping="Wrap" FontSize="25" Background="{Binding LightReseda,UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding Path=CurrentPGA, TargetNullValue='N/A'}" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+                <Label x:Name="APDTemperature" Content="APD温度(℃)" HorizontalAlignment="Right" Margin="0,49,90,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="APDTemperatureBox" HorizontalAlignment="Right" Height="36" Margin="0,49,10,0" TextWrapping="Wrap" FontSize="25" Background="{Binding LightReseda,UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding APDTemperature, StringFormat=\{0:F2\}, TargetNullValue=N/A}" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+            </Grid>
+            <Grid Grid.Column="4">
+                <Label x:Name="temperatureCoeff" Content="温度系数(V/℃)" HorizontalAlignment="Right" Margin="0,5,94,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Width="182"/>
+                <ComboBox x:Name="temperatureCoeffComboBox" HorizontalAlignment="Right" Margin="0,7,7,0" VerticalAlignment="Top" Width="80" FontSize="25"
+                  ItemsSource="{Binding Path=TemperatureCoeffOptions}"
+                  SelectedItem="{Binding Path=SelectedTemperatureCoeff}"/>
+            </Grid>
+            <Grid Grid.Column="6">
+                <Label x:Name="LaserPower" Content="激光强度值" HorizontalAlignment="Right" Margin="0,5,102,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="LaserPowerBox" HorizontalAlignment="Right" Height="36" Margin="0,5,7,0" TextWrapping="Wrap" FontSize="25"  Background="{Binding LightReseda,UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding LaserPower, TargetNullValue=N/A}" VerticalAlignment="Top" Width="93" IsEnabled="False"/>
+                <Label x:Name="APDOutput" Content="APD输出(V)" HorizontalAlignment="Right" Margin="0,48,101,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+                <TextBox x:Name="APDOutputBox" HorizontalAlignment="Right" Height="36" Margin="0,48,6,0" TextWrapping="Wrap" FontSize="25" Background="{Binding LightReseda,UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding APDOutput, StringFormat=\{0:F4\}, TargetNullValue=N/A}" VerticalAlignment="Top" Width="94" IsEnabled="False"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="4">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Height="450" VerticalAlignment="Top">
+                <StackPanel>
+                    <DataGrid x:Name="dataGrid" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" IsReadOnly="True" FontSize="25"
+                  ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalGridLinesBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" RenderTransformOrigin="0.538,0.571" Width="670">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="标定增益" Width="110" Binding="{Binding APDGain}" FontWeight="Bold"/>
+                            <DataGridTextColumn Header="APD输出(V)" Width="110" Binding="{Binding APDOutput, StringFormat=\{0:F4\}}"/>
+                            <DataGridTextColumn Header="校准电压(V)" Width="110" Binding="{Binding CalibrationVolt, StringFormat=\{0:F2\}}" Visibility="Visible"/>
+                            <DataGridTextColumn Header="测试温度(℃)" Width="110" Binding="{Binding CalibrationTemper, StringFormat=\{0:F2\}}" Visibility="Visible"/>
+                            <DataGridTextColumn Header="正向校验(V)" Width="110" Binding="{Binding VerifyAPDOutput, StringFormat=\{0:F4\}}" Visibility="Visible"/>
+                            <DataGridTextColumn Header="反向校验(V)" Width="110" Binding="{Binding VerifyAPDOutput2, StringFormat=\{0:F4\}}" Visibility="Visible"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Visibility="Visible">
+                        <Label x:Name="FittedLine" Content="正向校验拟合方程：" HorizontalAlignment="Center" Margin="247,10,725,0" VerticalAlignment="Top" FontSize="25"/>
+                        <TextBox x:Name="FittedLineBox" HorizontalAlignment="Center" Height="36" Margin="466,12,266,0" TextWrapping="Wrap" FontSize="25"
+                 Text="{Binding FittedLine, TargetNullValue=N/A}" VerticalAlignment="Top" Width="474" IsReadOnly="True"/>
+                    </Grid>
+                    <Grid Visibility="Visible">
+                        <Label x:Name="FittedLine2" Content="反向校验拟合方程：" HorizontalAlignment="Center" Margin="246,10,726,0" VerticalAlignment="Top" FontSize="25"/>
+                        <TextBox x:Name="FittedLine2Box" HorizontalAlignment="Center" Height="36" Margin="467,13,264,0" TextWrapping="Wrap" FontSize="25"
+                 Text="{Binding FittedLine2, TargetNullValue=N/A}" VerticalAlignment="Top" Width="475" IsReadOnly="True"/>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="6">
+            <Label x:Name="ProgessLabel" Content="标定进度……" HorizontalAlignment="Center" Margin="529,0,519,30" VerticalAlignment="Bottom" FontSize="25" FontWeight="Bold"/>
+            <ProgressBar HorizontalAlignment="Center" Height="24" Margin="358,0,358,10" VerticalAlignment="Bottom" Width="490"
+                     Value="{Binding Path=CalibrationStepCount}" Maximum="17"/>
+        </Grid>
+    </Grid>
+</UserControl>

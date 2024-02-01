@@ -185,6 +185,11 @@ namespace Azure.ScannerEUI.ViewModel
         public event SetScanRegionEvent OnScanRegionReceived;
         public delegate void SetScanEnabledRegionEvent(bool isEnable);
         public event SetScanEnabledRegionEvent OnScanEnbledRegionReceived;
+        //开放线程
+        public ScanProcessing ScanProcessingAgingThread
+        {
+            get { return _ScanningProcess; }
+        }
         //Total number of multi region tasks
         public int ScanWorkCount 
         {
@@ -1889,6 +1894,11 @@ namespace Azure.ScannerEUI.ViewModel
                         {
                             _ChannelAImage.Freeze();
                             _ChannelBImage.Freeze();
+                            //Phosphor Laser Module software filter
+                            if (SettingsManager.ConfigSettings.ENGGUI_PhosphorModuleProcessing && !SettingsManager.ConfigSettings.AllModuleProcessing)
+                            {
+                                _ChannelCImage = OpenCvSharpHelper.Filter2D(_ChannelCImage);
+                            }
                             _ChannelCImage.Freeze();
                             int _LGain = 0;
                             int _R1Gain = 0;

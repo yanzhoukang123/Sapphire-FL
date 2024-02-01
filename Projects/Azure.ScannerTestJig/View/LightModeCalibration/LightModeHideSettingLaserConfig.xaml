@@ -1,0 +1,3096 @@
+﻿<UserControl x:Class="Azure.ScannerTestJig.View.LightModeCalibration.LightModeHideSettingLaserConfig"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Azure.ScannerTestJig.View.LightModeCalibration"
+             mc:Ignorable="d"  xmlns:Borders="clr-namespace:ToggleSwitch.Borders;assembly=ToggleSwitch" xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+              d:DesignHeight="2450" d:DesignWidth="1100">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--Blue Button-->
+            <ControlTemplate x:Key="BlueButtonControl" TargetType="{x:Type Button}">
+                <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+                    <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsDefaulted" Value="False">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#0061a7" Offset="0"/>
+                                    <GradientStop Color="#007dc1" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="False" />
+                <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
+                <Setter Property="Height" Value="52"/>
+                <Setter Property="IsChecked" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CheckBox">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Height}">
+                                    <Rectangle x:Name="CheckBoxRectangle" Fill="White" Opacity="0.3" RadiusY="5" RadiusX="5"/>
+                                    <Rectangle x:Name="CheckBoxRectangleOut" Stroke="#FFABADB3" StrokeThickness="1" RadiusY="5" RadiusX="5"/>
+                                    <Grid x:Name="CheckedMark" Height="{TemplateBinding Height}" Width="{TemplateBinding Height}" Visibility="Collapsed" >
+                                        <Viewbox>
+                                            <Grid>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M1,9 L10,17" Stroke="#3553ad"/>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M8,17 L20,4" Stroke="#3553ad"/>
+                                            </Grid>
+                                        </Viewbox>
+                                    </Grid>
+                                </Grid>
+                                <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="CheckedMark" Property="Visibility" Value="Visible"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="BlueButton" TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource BlueButtonControl}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="5,2,5,2"/>
+            </Style>
+            <!--Blue Button End-->
+            <ControlTemplate x:Key="RedButtonControl" TargetType="{x:Type Button}">
+                <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+                    <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsDefaulted" Value="False">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style x:Key="RedButton" TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource RedButtonControl}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="5,2,5,2"/>
+            </Style>
+            <ControlTemplate x:Key="SimpleThumbTemplate" TargetType="Thumb">
+                <Grid Background="Transparent">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="MouseOver">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.25" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="FocusStates">
+                            <VisualState x:Name="Focused">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Unfocused"/>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="CheckStates">
+                            <VisualState x:Name="Unchecked"/>
+                            <VisualState x:Name="Checked"/>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Borders:OuterGlowBorder OuterGlowSize="4" OuterGlowOpacity="0.15" BorderThickness="0" OuterGlowColor="Black" Background="Transparent" CornerRadius="4" ShadowCornerRadius="8" IsTabStop="False" >
+                        <Grid>
+                            <Borders:ClippingBorder x:Name="Background" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" IsTabStop="False" Background="{TemplateBinding Background}"/>
+                            <Borders:ClippingBorder x:Name="BackgroundAnimation" Background="Black" Opacity="0" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Black" CornerRadius="4" IsTabStop="False"/>
+                            <Rectangle x:Name="DisabledVisualElement" Fill="White" IsHitTestVisible="false" Opacity="0" RadiusY="4" RadiusX="4"/>
+                            <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="1" Opacity="0" RadiusY="4" RadiusX="4" StrokeThickness="1"/>
+                        </Grid>
+                    </Borders:OuterGlowBorder>
+                </Grid>
+            </ControlTemplate>
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="407*"/>
+            <ColumnDefinition Width="123*"/>
+            <ColumnDefinition Width="147*"/>
+            <ColumnDefinition Width="140*"/>
+            <ColumnDefinition Width="0.11*"/>
+            <ColumnDefinition Width="119*"/>
+            <ColumnDefinition Width="147*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="22*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="146" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器编号:" Height="30" Width="142" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Button x:Name="SetCurrentLaserNoButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLaserNoCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentLaserNoTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding SetCurrentLaserNoValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="5">
+            <Button x:Name="GetCurrentLaserNoButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLaserNoCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentLaserNoTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding GetCurrentLaserNoValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="181" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器波长（单位nm）:" Height="30" Width="170" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Button x:Name="SetCurrentLaserWavaLengthButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLaserWavaLengthCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentLaserWavaLengthTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentLaserWavaLengthValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="5">
+            <Button x:Name="GetCurrentLaserWavaLengthButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLaserWavaLengthCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentLaserWavaLengthTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentLaserWavaLengthValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="226" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器电流值（单位0.01mA）:" Height="30" Width="247" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Button x:Name="SetCurrentLaserCurrentValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLaserCurrentValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentLaserCurrentValueTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentLaserCurrentValueValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="5">
+            <Button x:Name="GetCurrentLaserCurrentValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLaserCurrentValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentLaserCurrentValueTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentLaserCurrentValueValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光功率对应的电流值（单位0.01mA）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="1">
+            <ComboBox x:Name="LaserCorrespondingCurrentValueCmb"
+                        Height="35"
+                        FontSize="25"
+                       HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="18,6,21,7"
+                        ItemsSource="{Binding LaserPowerModule}" 
+                        SelectedItem="{Binding SelectedLaserCorrespondingCurrentModule}"
+                        DisplayMemberPath="DisplayName" Width="84"  />
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="2">
+            <Button x:Name="SetCurrentLaserCorrespondingCurrentValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLaserCorrespondingCurrentValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="3" >
+            <TextBox x:Name="SetCurrentLaserCorrespondingCurrentValueTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentLaserCorrespondingCurrentValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="5">
+            <Button x:Name="GetCurrentLaserCorrespondingCurrentValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLaserCorrespondingCurrentValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentLaserCorrespondingCurrentValueTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentLaserCorrespondingCurrentValueValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC实际温度（单位0.1℃）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="5">
+            <Button x:Name="GetCurrentTECActualTemperatureButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECActualTemperatureCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTECActualTemperatureTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTECActualTemperatureValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC控制温度（单位0.1℃）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1">
+            <Button x:Name="SetCurrentTEControlTemperatureButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentTEControlTemperatureCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentTEControlTemperatureTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTEControlTemperatureValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="5">
+            <Button x:Name="GetCurrentTEControlTemperatureButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTEControlTemperatureCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTEControlTemperatureTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTEControlTemperatureValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC最大制冷电流（单位mA):" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="1">
+            <Button x:Name="SetCurrentTECMaximumCoolingCurrentButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentTECMaximumCoolingCurrentCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentTECMaximumCoolingCurrentTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTECMaximumCoolingCurrentValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="5">
+            <Button x:Name="GetCurrentTECMaximumCoolingCurrentButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECMaximumCoolingCurrentCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTECMaximumCoolingCurrentTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTECMaximumCoolingCurrentValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC制冷控制参数Kp:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="1">
+            <Button x:Name="SetCurrentTECRefrigerationControlParameterKpButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentTECRefrigerationControlParameterKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentTECRefrigerationControlParameterKpTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTECRefrigerationControlParameterKpValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="5">
+            <Button x:Name="GetCurrentTECRefrigerationControlParameterKpButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECRefrigerationControlParameterKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTECRefrigerationControlParameterKpTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTECRefrigerationControlParameterKpValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC制冷控制参数Ki:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="1">
+            <Button x:Name="SetCurrentTECRefrigerationControlParameterKiButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentTECRefrigerationControlParameterKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentTECRefrigerationControlParameterKiTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTECRefrigerationControlParameterKiValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="5">
+            <Button x:Name="GetCurrentTECRefrigerationControlParameterKiButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECRefrigerationControlParameterKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="8" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTECRefrigerationControlParameterKiTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTECRefrigerationControlParameterKiValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="9" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC制冷控制参数Kd:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="9" Grid.Column="1">
+            <Button x:Name="SetCurrentTECRefrigerationControlParameterKdButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentTECRefrigerationControlParameterKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="9" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentTECRefrigerationControlParameterKdTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTECRefrigerationControlParameterKdValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="9" Grid.Column="5">
+            <Button x:Name="GetCurrentTECRefrigerationControlParameterKdButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECRefrigerationControlParameterKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="9" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTECRefrigerationControlParameterKdTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTECRefrigerationControlParameterKdValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="10" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光光功率值（单位：0.1mW）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="10" Grid.Column="1">
+            <Button x:Name="SetCurrentLaserLightPowerValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentLaserLightPowerValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="10" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentLaserLightPowerValueTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentLaserLightPowerValueValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="10" Grid.Column="5">
+            <Button x:Name="GetCurrentLaserLightPowerValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentLaserLightPowerValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="10" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentLaserLightPowerValueTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentLaserLightPowerValueValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="11" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="读取TEC工作状态:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="11" Grid.Column="5">
+            <Button x:Name="GetCurrentTECWorkingStatusButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECWorkingStatusCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="11" Grid.Column="6" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="115*"/>
+                <ColumnDefinition Width="32*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="GetCurrentTECWorkingStatusTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTECWorkingStatusValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" Grid.ColumnSpan="2" />
+        </Grid>
+        <Grid Grid.Row="12" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="读取TEC电流方向:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="12" Grid.Column="5">
+            <Button x:Name="GetCurrentTECCurrentDirectionButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECCurrentDirectionCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="12" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTECCurrentDirectionTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentTECCurrentDirectionValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="13" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="散热器温度（单位0.1℃）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="13" Grid.Column="5">
+            <Button x:Name="GetCurrentRadiatorTemperatureButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentRadiatorTemperatureCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="13" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentRadiatorTemperatureTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrenRadiatorTemperatureValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="14" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="TEC电流补偿系数（单位：%）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="14" Grid.Column="1">
+            <Button x:Name="SetCurrentTECCurrentCompensationCoefficientButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentTECCurrentCompensationCoefficientCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="14" Grid.Column="2" >
+            <TextBox x:Name="SetCurrenTECCurrentCompensationCoefficientTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentTECCurrentCompensationCoefficientValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="14" Grid.Column="5">
+            <Button x:Name="GetCurrentTECCurrentCompensationCoefficientButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentTECCurrentCompensationCoefficientCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="14" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentTECCurrentCompensationCoefficientTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrenTECCurrentCompensationCoefficientValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="15" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="当前激光光功率值（单位：0.1mW）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="15" Grid.Column="5">
+            <Button x:Name="Get_CurrentLaserLightPowerValueButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=Get_CurrentLaserLightPowerValueCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="15" Grid.Column="6" >
+            <TextBox x:Name="Get_CurrentLaserLightPowerValueTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding Get_CurrentLaserLightPowerValueValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="16" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="功率闭环控制参数Kp:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="16" Grid.Column="1">
+            <Button x:Name="SetCurrentPowerClosedloopControlParameterKpButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentPowerClosedloopControlParameterKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="16" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentPowerClosedloopControlParameterKpTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentPowerClosedloopControlParameterKpValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="16" Grid.Column="5">
+            <Button x:Name="GetCurrentPowerClosedloopControlParameterKpButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentPowerClosedloopControlParameterKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="16" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentPowerClosedloopControlParameterKpTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentPowerClosedloopControlParameterKpValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="17" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="功率闭环控制参数Ki:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="17" Grid.Column="1">
+            <Button x:Name="SetCurrentPowerClosedloopControlParameterKiButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentPowerClosedloopControlParameterKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="17" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentPowerClosedloopControlParameterKiTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentPowerClosedloopControlParameterKiValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="17" Grid.Column="5">
+            <Button x:Name="GetCurrentPowerClosedloopControlParameterKiButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentPowerClosedloopControlParameterKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="17" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentPowerClosedloopControlParameterKiTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentPowerClosedloopControlParameterKiValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="18" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="304" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="功率闭环控制参数Kd:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="18" Grid.Column="1">
+            <Button x:Name="SetCurrentPowerClosedloopControlParameterKdButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentPowerClosedloopControlParameterKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="18" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentPowerClosedloopControlParameterKdTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentPowerClosedloopControlParameterKdValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="18" Grid.Column="5">
+            <Button x:Name="GetCurrentPowerClosedloopControlParameterKdButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrentPowerClosedloopControlParameterKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="18" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentPowerClosedloopControlParameterKdTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentPowerClosedloopControlParameterKdValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="19" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光功率对应的光电二极管电压（单位0.0001V）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="19" Grid.Column="1">
+            <ComboBox x:Name="PhotodiodeVoltageCorrespondingToLaserPowerCmb"
+                        Height="35"
+                        FontSize="25"
+                       HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="18,6,21,7"
+                        ItemsSource="{Binding LaserPowerModule}" 
+                        SelectedItem="{Binding SelectedPhotodiodeVoltageCorrespondingToLaserPowerModule}"
+                        DisplayMemberPath="DisplayName" Width="84"  />
+        </Grid>
+        <Grid Grid.Row="19" Grid.Column="2">
+            <Button x:Name="SetCurrentPhotodiodeVoltageCorrespondingToLaserPowerButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentPhotodiodeVoltageCorrespondingToLaserPowerCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="19" Grid.Column="3" >
+            <TextBox x:Name="SetCurrentPhotodiodeVoltageCorrespondingToLaserPowerTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrenPhotodiodeVoltageCorrespondingToLaserPowerValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="19" Grid.Column="5">
+            <Button x:Name="GetCurrenPhotodiodeVoltageCorrespondingToLaserPowerButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrenPhotodiodeVoltageCorrespondingToLaserPowerCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="19" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentPhotodiodeVoltageCorrespondingToLaserPowerTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentPhotodiodeVoltageCorrespondingToLaserPowerValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="20" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光电二极管电压（单位0.0001V）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="20" Grid.Column="5">
+            <Button x:Name="GetCurrenPhotodiodeVoltageButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrenPhotodiodeVoltageCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="20" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentPhotodiodeVoltageTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentPhotodiodeVoltageValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="21" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光电二极管温度曲线K值（单位0.0001）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="21" Grid.Column="1">
+            <Button x:Name="SetCurrentKValueofPhotodiodeTemperatureCurveButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentKValueofPhotodiodeTemperatureCurveCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="21" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentKValueofPhotodiodeTemperatureCurveTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentKValueofPhotodiodeTemperatureCurveValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+        </Grid>
+        <Grid Grid.Row="21" Grid.Column="5">
+            <Button x:Name="GetKValueofPhotodiodeTemperatureCurveButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrenKValueofPhotodiodeTemperatureCurveCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="21" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentKValueofPhotodiodeTemperatureCurveTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentKValueofPhotodiodeTemperatureCurveValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="22" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光电二极管温度曲线b值（单位0.0001）:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="23" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(小于=10mW)控制Kp:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="24" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(小于=10mW)控制Ki:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="25" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(小于=10mW)控制Kd:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="26" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="读取软件版本号:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="27" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="读取错误代码:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="28" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光学模块序列号:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="29" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＜=15mW)控制kp:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="30" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＜=15mW)控制ki:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="31" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＜=15mW)控制kd:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="32" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＞15mW)控制kp:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="33" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＞15mW)控制ki:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="34" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＞15mW)控制kd:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="35" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＜=15mW)控制kp上限:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="36" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＜=15mW)控制kp下限:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="37" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＜=15mW)控制ki上限:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="38" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＜=15mW)控制ki下限:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="39" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＞15mW)控制kp上限:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="40" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＞15mW)控制kp下限:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="41" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＞15mW)控制ki上限:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="42" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="光功率(＞15mW)控制ki下限:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="43" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器最大电流:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="44" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" FontSize="15" Width="369" Height="33">
+                <TextBlock TextWrapping="Wrap"
+Text="激光器最小电流:" Height="30" Width="361" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="22" Grid.Column="1">
+            <Button x:Name="SetCurrentBValueofPhotodiodeTemperatureCurveButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetCurrentBValueofPhotodiodeTemperatureCurveCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="23" Grid.Column="1">
+            <Button x:Name="SetOpticalPowerKpButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="24" Grid.Column="1">
+            <Button x:Name="SetOpticalPowerKiButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="25" Grid.Column="1">
+            <Button x:Name="SetOpticalPowerKdButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="28" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetLaserOpticalModuleNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="29" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton11"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerLessThanOrEqual15mWKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="30" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton2"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerLessThanOrEqual15mWKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="31" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton3"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerLessThanOrEqual15mWKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="32" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton5"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerGreaterThan15mWKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="33" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton6"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerGreaterThan15mWKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="34" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton7"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerGreaterThan15mWKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="35" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton8"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerControlKpUpperLimitLessThanOrEqual15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="36" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton9"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerControlKpDownLimitLessThanOrEqual15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="37" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton10"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerControlKiUpperLimitLessThanOrEqual15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="38" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton31"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerControlKiDownLimitLessThanOrEqual15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="39" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="37*"/>
+                <ColumnDefinition Width="26*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SetLaserOpticalModuleNumberButton39"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="34"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="19,10,22,11"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerControlKpUpperLimitLessThan15Command}" Grid.ColumnSpan="2">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="40" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton40"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerControlKpDownLimitLessThan15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="41" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton41"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerControlKiUpperLimitLessThan15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="42" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton42"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetOpticalPowerControlKiDownLimitLessThan15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="43" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton43"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetLaserMaxCurrentCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="44" Grid.Column="1">
+            <Button x:Name="SetLaserOpticalModuleNumberButton44"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Write"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=SetLaserMinCurrentCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="22" Grid.Column="2" >
+            <TextBox x:Name="SetCurrentBValueofPhotodiodeTemperatureCurveTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetCurrentBValueofPhotodiodeTemperatureCurveValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+
+        </Grid>
+        <Grid Grid.Row="23" Grid.Column="2" >
+            <TextBox x:Name="SetOpticalPowerKpTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerKpValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+
+        </Grid>
+        <Grid Grid.Row="24" Grid.Column="2" >
+            <TextBox x:Name="SetOpticalPowerKiTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerKiValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+
+        </Grid>
+        <Grid Grid.Row="25" Grid.Column="2" >
+            <TextBox x:Name="SetOpticalPowerKdTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerKdValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="7,7,8,6" />
+
+        </Grid>
+        <Grid Grid.Row="28" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetLaserOpticalModuleNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="29" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox29"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerLessThanOrEqual15mWKp,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="30" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox30"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerLessThanOrEqual15mWKi,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="31" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox31"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerLessThanOrEqual15mWKd,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="32" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox32"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerGreaterThan15mWKp,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="33" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox33"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerGreaterThan15mWKi,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="34" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox34"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerGreaterThan15mWKd,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="35" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox35"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerControlKpUpperLimitLessThanOrEqual15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="36" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox36"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerControlKpDownLimitLessThanOrEqual15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="37" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox37"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerControlKiUpperLimitLessThanOrEqual15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="38" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox38"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerControlKiDownLimitLessThanOrEqual15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="39" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox39"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerControlKpUpperLimitLessThan15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="40" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox40"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerControlKpDownLimitLessThan15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="41" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox41"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerControlKiUpperLimitLessThan15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="42" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox42"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetOpticalPowerControlKiDownLimitLessThan15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="43" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox43"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetLaserMaxCurrent,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="44" Grid.Column="2" >
+            <TextBox x:Name="SetLaserOpticalModuleNumberTextBox44"
+                           InputMethod.IsInputMethodEnabled="False"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding SetLaserMinCurrent,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="True" Margin="3,8,2,6" />
+        </Grid>
+        <Grid Grid.Row="22" Grid.Column="5">
+            <Button x:Name="GetBValueofPhotodiodeTemperatureCurveButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetCurrenBValueofPhotodiodeTemperatureCurveCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="23" Grid.Column="5">
+            <Button x:Name="GetOpticalPowerKpButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="24" Grid.Column="5">
+            <Button x:Name="GetOpticalPowerKiButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="25" Grid.Column="5">
+            <Button x:Name="GetOpticalPowerKdButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="25" Grid.Column="6">
+            <TextBox x:Name="GetOpticalPowerKdTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerKdValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="26" Grid.Column="5">
+            <Button x:Name="GetLaservNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Margin="16,0,19,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetLaservNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="27" Grid.Column="5">
+            <Button x:Name="GetLaserErrorCodeButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetLaserErrorCodeCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="28" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetLaserOpticalModuleNumberCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="29" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton29"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerLessThanOrEqual15mWKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="30" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton30"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerLessThanOrEqual15mWKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="31" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton31"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerLessThanOrEqual15mWKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="32" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton32"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerGreaterThan15mWKpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="33" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton33"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerGreaterThan15mWKiCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="34" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton34"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerGreaterThan15mWKdCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="35" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton35"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerControlKpUpperLimitLessThanOrEqual15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="36" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton36"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerControlKpDownLimitLessThanOrEqual15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="37" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton37"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerControlKiUpperLimitLessThanOrEqual15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="38" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton38"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerControlKiDownLimitLessThanOrEqual15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="39" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton39"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerControlKpUpperLimitLessThan15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="40" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton40"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerControlKpDownLimitLessThan15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="41" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton41"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerControlKiUpperLimitLessThan15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="42" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton42"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetOpticalPowerControlKiDownLimitLessThan15Command}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="43" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton43"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetLaserMaxCurrentCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="44" Grid.Column="5">
+            <Button x:Name="GetLaserOpticalModuleNumberButton44"
+            IsEnabled="{Binding IsNullEnabledL1}"
+            Content="Read"
+            Width="84"
+            Height="35"
+            FontSize="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,6,3,7"
+            Visibility="{Binding IsScanVisibility}"
+            Command="{Binding Path=GetLaserMinCurrentCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="27" Grid.Column="6" >
+            <TextBox x:Name="GetLaserErrorCodeTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetLaserErrorCodeValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="22" Grid.Column="6" >
+            <TextBox x:Name="GetCurrentBValueofPhotodiodeTemperatureCurveTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetCurrentBValueofPhotodiodeTemperatureCurveValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="23" Grid.Column="6" >
+            <TextBox x:Name="GetOpticalPowerKpTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerKpValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="24" Grid.Column="6" >
+            <TextBox x:Name="GetOpticalPowerKiTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerKiValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="26" Grid.Column="6" >
+            <TextBox x:Name="GetLaservNumberTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetLaservNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="28" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetLaserOpticalModuleNumberValue,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="29" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox29"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerLessThanOrEqual15mWKp,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="30" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox30"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerLessThanOrEqual15mWKi,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="31" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox31"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerLessThanOrEqual15mWKd,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="32" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox32"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerGreaterThan15mWKp,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="33" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox33"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerGreaterThan15mWKi,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="34" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox34"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerGreaterThan15mWKd,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="35" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox35"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerControlKpUpperLimitLessThanOrEqual15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="36" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox36"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerControlKpDownLimitLessThanOrEqual15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="37" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox37"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerControlKiUpperLimitLessThanOrEqual15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="38" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox38"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerControlKiDownLimitLessThanOrEqual15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="39" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox39"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerControlKpUpperLimitLessThan15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="40" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox40"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerControlKpDownLimitLessThan15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="41" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox41"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerControlKiUpperLimitLessThan15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="42" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox42"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetOpticalPowerControlKiDownLimitLessThan15,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="43" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox43"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetLaserMaxCurrent,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+        <Grid Grid.Row="44" Grid.Column="6" >
+            <TextBox x:Name="GetLaserOpticalModuleNumberTextBox44"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            Text="{Binding GetLaserMinCurrent,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="9,8,6,5" />
+        </Grid>
+    </Grid>
+</UserControl>

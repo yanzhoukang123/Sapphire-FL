@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;   //ObservableCollection
 using Azure.ImagingSystem;  //LightingType
+using System.Drawing;
 
 namespace Azure.Configuration
 {
@@ -220,6 +221,8 @@ namespace Azure.Configuration
             //比如将100微米的图像取平均新图为50微米
             public bool PhosphorModuleProcessing { get; set; }
             public bool AllModuleProcessing { get; set; }
+            //ENG GUI Phosphor Laser Module software filter switch
+            public bool ENGGUI_PhosphorModuleProcessing { get; set; }
 
             //Control conditions for the fan speed 
             public double InternalLowTemperature { get; set; }
@@ -229,6 +232,242 @@ namespace Azure.Configuration
             public double ModuleModerateTemperature { get; set; }
             public double ModuleHighTemperature { get; set; }
 
+            #region TestJjg
+            private ObservableCollection<LightGain> _LightGains = new ObservableCollection<LightGain>();
+            private int _CentralCoordX = 0;
+            private int _CentralCoordY = 0;
+            private Point _GlassLevelingTopLeft;
+            private Point _GlassLevelingTopRight;
+            private Point _GlassLevelingLowerRight;
+            private Point _GlassLevelingLowerLeft;
+            private int _ZScanValueThreshold = 0;
+            private int _ModuleInterval = 0;
+            private int _OldPower = 0;
+            private double _APDOutputAtG0 = 0;
+            private double _APDOutputErrorAtG0 = 0;
+            private double _APDDarkCurrentLimitH = 0;
+            private double _APDDarkCurrentLimitL = 0;
+            private int _APDOutputStableLongTime = 0;
+            private int _APDOutputStableShortTime = 0;
+            private int _APDPGA = 0;
+            private ObservableCollection<SelectLaserChannel> _LaserChannel = new ObservableCollection<SelectLaserChannel>();
+            private ObservableCollection<LaserPower> _LaserPower = new ObservableCollection<LaserPower>();
+            public ObservableCollection<LightGain> LightGains
+            {
+                get { return _LightGains; }
+            }
+            public int CentralCoordX
+            {
+                get
+                {
+                    return _CentralCoordX;
+                }
+
+                set
+                {
+                    _CentralCoordX = value;
+                }
+            }
+
+            public int CentralCoordY
+            {
+                get
+                {
+                    return _CentralCoordY;
+                }
+
+                set
+                {
+                    _CentralCoordY = value;
+                }
+            }
+            public Point GlassLevelingTopLeft
+            {
+                get
+                {
+                    return _GlassLevelingTopLeft;
+                }
+
+                set
+                {
+                    _GlassLevelingTopLeft = value;
+                }
+            }
+            public Point GlassLevelingTopRight
+            {
+                get
+                {
+                    return _GlassLevelingTopRight;
+                }
+
+                set
+                {
+                    _GlassLevelingTopRight = value;
+                }
+            }
+
+            public Point GlassLevelingLowerRight
+            {
+                get
+                {
+                    return _GlassLevelingLowerRight;
+                }
+
+                set
+                {
+                    _GlassLevelingLowerRight = value;
+                }
+            }
+
+            public Point GlassLevelingLowerLeft
+            {
+                get
+                {
+                    return _GlassLevelingLowerLeft;
+                }
+
+                set
+                {
+                    _GlassLevelingLowerLeft = value;
+                }
+            }
+
+            public int ZScanValueThreshold
+            {
+                get
+                {
+                    return _ZScanValueThreshold;
+                }
+
+                set
+                {
+                    _ZScanValueThreshold = value;
+                }
+            }
+            public int ModuleInterval
+            {
+                get
+                {
+                    return _ModuleInterval;
+                }
+
+                set
+                {
+                    _ModuleInterval = value;
+                }
+            }
+            public double APDOutputAtG0
+            {
+                get
+                {
+                    return _APDOutputAtG0;
+                }
+
+                set
+                {
+                    _APDOutputAtG0 = value;
+                }
+            }
+            public int APDPGA
+            {
+                get
+                {
+                    return _APDPGA;
+                }
+
+                set
+                {
+                    _APDPGA = value;
+                }
+            }
+
+            public double APDOutputErrorAtG0
+            {
+                get
+                {
+                    return _APDOutputErrorAtG0;
+                }
+
+                set
+                {
+                    _APDOutputErrorAtG0 = value;
+                }
+            }
+
+            public double APDDarkCurrentLimitH
+            {
+                get
+                {
+                    return _APDDarkCurrentLimitH;
+                }
+
+                set
+                {
+                    _APDDarkCurrentLimitH = value;
+                }
+            }
+            public int OldPower
+            {
+                get
+                {
+                    return _OldPower;
+                }
+                set
+                {
+                    _OldPower = value;
+                }
+            }
+
+            public double APDDarkCurrentLimitL
+            {
+                get
+                {
+                    return _APDDarkCurrentLimitL;
+                }
+
+                set
+                {
+                    _APDDarkCurrentLimitL = value;
+                }
+            }
+
+            public int APDOutputStableLongTime
+            {
+                get
+                {
+                    return _APDOutputStableLongTime;
+                }
+
+                set
+                {
+                    _APDOutputStableLongTime = value;
+                }
+            }
+
+            public int APDOutputStableShortTime
+            {
+                get
+                {
+                    return _APDOutputStableShortTime;
+                }
+
+                set
+                {
+                    _APDOutputStableShortTime = value;
+                }
+            }
+
+            public bool ScanPreciseAt { get; set; }
+            public int ScanPreciseParameter { get; set; }
+            public ObservableCollection<SelectLaserChannel> LaserChannel
+            {
+                get { return _LaserChannel; }
+            }
+            public ObservableCollection<LaserPower> LaserPowers
+            {
+                get { return _LaserPower; }
+            }
+            #endregion
 
             public List<ResolutionType> ResolutionOptions
             {

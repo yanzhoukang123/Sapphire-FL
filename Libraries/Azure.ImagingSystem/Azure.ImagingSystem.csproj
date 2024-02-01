@@ -87,6 +87,7 @@
     <Compile Include="ScannerModeSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanProcessing.cs" />
+    <Compile Include="TestJigScanProcessing.cs" />
     <Compile Include="XMotorSpeedCalibration.cs" />
   </ItemGroup>
   <ItemGroup>

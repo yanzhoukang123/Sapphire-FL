@@ -56,7 +56,87 @@ namespace Azure.ImagingSystem
         Horizontal,
         XAxis,
     }
+    public class LaserPower
+    {
+        #region Public properties...
 
+        public int Position { get; set; }
+
+        public int Value { get; set; }
+
+        public string DisplayName { get; set; }
+
+        #endregion
+
+        #region Constructors...
+
+        public LaserPower()
+        {
+        }
+
+        public LaserPower(int position, int value, string displayName)
+        {
+            this.Position = position;
+            this.Value = value;
+            this.DisplayName = displayName;
+        }
+
+        #endregion
+    }
+    public class SelectLaserChannel
+    {
+        #region Public properties...
+
+        public int Position { get; set; }
+
+        public int Value { get; set; }
+
+        public string DisplayName { get; set; }
+
+        #endregion
+
+        #region Constructors...
+
+        public SelectLaserChannel()
+        {
+        }
+
+        public SelectLaserChannel(int position, int value, string displayName)
+        {
+            this.Position = position;
+            this.Value = value;
+            this.DisplayName = displayName;
+        }
+
+        #endregion
+    }
+    public class LightGain
+    {
+        #region Public properties...
+
+        public int Position { get; set; }
+
+        public int Value { get; set; }
+
+        public string DisplayName { get; set; }
+
+        #endregion
+
+        #region Constructors...
+
+        public LightGain()
+        {
+        }
+
+        public LightGain(int position, int value, string displayName)
+        {
+            this.Position = position;
+            this.Value = value;
+            this.DisplayName = displayName;
+        }
+
+        #endregion
+    }
     public class MotorSettingsType
     {
         #region Public properties...

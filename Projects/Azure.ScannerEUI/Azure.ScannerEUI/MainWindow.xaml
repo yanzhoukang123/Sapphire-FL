@@ -129,25 +129,39 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <local:MotorControl x:Name="_MotorControl"
+                    <TabControl>
+                        <TabItem Header="Motor">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <local:MotorControl x:Name="_MotorControl"
                             IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                             Path=DataContext.MotorIsAlive}"
                             Height="147"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             Grid.ColumnSpan="2" />
-                    </ScrollViewer>
-                    
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="Aging">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <local:AgingControl Height="147" Width="325"/>
+                            </ScrollViewer>
+                        </TabItem>
+                    </TabControl>
+
+
                     <!--<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,0,5,0">
-                            --><!--<TextBlock Text="Data Receiving Rate(KB/Sec)" Margin="5"/>
+                            -->
+                    <!--<TextBlock Text="Data Receiving Rate(KB/Sec)" Margin="5"/>
                             <TextBlock Text="{Binding Path=EthernetDataRate}" Margin="5"/>-->
-                            <!--IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.MotorIsAlive}"--><!--
+                    <!--IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.MotorIsAlive}"-->
+                    <!--
                             <local:DoorStatusControl HorizontalAlignment="Left" Margin="5,4,0,4" />
                             <local:VersionsAndOtheSettings HorizontalAlignment="Left" Margin="4,0,4,4" />
                         </StackPanel>
-                        --><!--ScanAndSpentTimeAndRemaining--><!--
+                        -->
+                    <!--ScanAndSpentTimeAndRemaining-->
+                    <!--
                         <local:UsScanContorlSpentTimeAndRemaining />
                     </StackPanel>-->
 

@@ -1,0 +1,104 @@
+﻿<Window x:Class="Azure.ScannerTestJig.View.MultiChannelLaserCalibration.DisplayMultiChannelLaserCalibrationData"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Azure.ScannerTestJig.View._532LaserModel" xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+        mc:Ignorable="d" 
+             Title="Display532Data" Height="700" Width="1100"  WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+    <Window.Resources>
+        <d3:PenDescription x:Key="HistoryLaserPowerCH1" DescriptionString="CH1" />
+        <d3:PenDescription x:Key="HistoryLaserPowerCH2" DescriptionString="CH2" />
+        <d3:PenDescription x:Key="HistoryLaserPowerCH3" DescriptionString="CH3" />
+        <d3:PenDescription x:Key="HistoryLaserPowerCH4" DescriptionString="CH4" />
+        <d3:PenDescription x:Key="HistoryLaserPowerCH5" DescriptionString="CH5" />
+        <d3:PenDescription x:Key="HistoryLaserPowerCH6" DescriptionString="CH6" />
+        <d3:PenDescription x:Key="HistoryLaserPowerCH7" DescriptionString="CH7" />
+    </Window.Resources>
+    <Grid >
+        <Grid>
+            <Label Content="Label" x:Name="fileName" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="50" Width="1075" FontSize="25" Grid.ColumnSpan="2"/>
+            <TabControl x:Name="FaterTab" Margin="0,46,0,0">
+                <TabItem Header="CH1" x:Name="TabCH1" IsEnabled="True">
+                    <Grid>
+                        <d3:ChartPlotter x:Name="_WaveChartCH1">
+                            <d3:Header FontFamily="Georgia" Content="多通道激光模块"/>
+                            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+                            <d3:LineGraph x:Name="HistoryLaserPowerCH1"  Stroke="Red" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH1}" DataSource="{Binding Path=HistoryLaserPowerCH1}"   />
+                        </d3:ChartPlotter>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="CH2" x:Name="TabCH2" IsEnabled="True">
+                    <Grid>
+                        <d3:ChartPlotter x:Name="_WaveChartCH2">
+                            <d3:Header FontFamily="Georgia" Content="多通道激光模块"/>
+                            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+                            <d3:LineGraph x:Name="HistoryLaserPowerCH2"  Stroke="Orange" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH2}" DataSource="{Binding Path=HistoryLaserPowerCH2}"   />
+                        </d3:ChartPlotter>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="CH3" x:Name="TabCH3" IsEnabled="True">
+                    <Grid>
+                        <d3:ChartPlotter x:Name="_WaveChartCH3">
+                            <d3:Header FontFamily="Georgia" Content="多通道激光模块"/>
+                            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+                            <d3:LineGraph x:Name="HistoryLaserPowerCH3"  Stroke="Yellow" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH3}" DataSource="{Binding Path=HistoryLaserPowerCH3}"   />
+                        </d3:ChartPlotter>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="CH4" x:Name="TabCH4" IsEnabled="True">
+                    <Grid>
+                        <d3:ChartPlotter x:Name="_WaveChartCH4">
+                            <d3:Header FontFamily="Georgia" Content="多通道激光模块"/>
+                            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+                            <d3:LineGraph x:Name="HistoryLaserPowerCH4"  Stroke="Green" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH4}" DataSource="{Binding Path=HistoryLaserPowerCH4}"   />
+                        </d3:ChartPlotter>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="CH5" x:Name="TabCH5" IsEnabled="True">
+                    <Grid>
+                        <d3:ChartPlotter x:Name="_WaveChartCH5">
+                            <d3:Header FontFamily="Georgia" Content="多通道激光模块"/>
+                            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+                            <d3:LineGraph x:Name="HistoryLaserPowerCH5"  Stroke="Black" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH5}" DataSource="{Binding Path=HistoryLaserPowerCH5}"   />
+                        </d3:ChartPlotter>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="CH6" x:Name="TabCH6" IsEnabled="True">
+                    <Grid>
+                        <d3:ChartPlotter x:Name="_WaveChartCH6">
+                            <d3:Header FontFamily="Georgia" Content="多通道激光模块"/>
+                            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+                            <d3:LineGraph x:Name="HistoryLaserPowerCH6"  Stroke="Blue" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH6}" DataSource="{Binding Path=HistoryLaserPowerCH6}"   />
+                        </d3:ChartPlotter>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="CH7" x:Name="TabCH7" IsEnabled="True">
+                    <Grid>
+                        <d3:ChartPlotter x:Name="_WaveChartCH7">
+                            <d3:Header FontFamily="Georgia" Content="多通道激光模块"/>
+                            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+                            <d3:LineGraph x:Name="HistoryLaserPowerCH7"  Stroke="Purple" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH7}" DataSource="{Binding Path=HistoryLaserPowerCH7}"   />
+                        </d3:ChartPlotter>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+      
+        <!--<d3:ChartPlotter x:Name="_HistoryWaveChart" Grid.ColumnSpan="2" Margin="0,0,32,30" Grid.RowSpan="2">
+            <d3:Header FontFamily="Georgia" Content="多通道激光模块"/>
+            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+            --><!--<d3:HorizontalAxisTitle FontFamily="Georgia" Content="Z轴扫描位置/mm"/>--><!--
+            <d3:LineGraph x:Name="HistoryLaserPowerCH1"  Stroke="Red" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH1}" DataSource="{Binding Path=HistoryLaserPowerCH1}"   />
+            <d3:LineGraph x:Name="HistoryLaserPowerCH2"  Stroke="Orange" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH2}" DataSource="{Binding Path=HistoryLaserPowerCH2}"   />
+            <d3:LineGraph x:Name="HistoryLaserPowerCH3"  Stroke="Yellow" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH3}" DataSource="{Binding Path=HistoryLaserPowerCH3}"   />
+            <d3:LineGraph x:Name="HistoryLaserPowerCH4"  Stroke="Green" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH4}" DataSource="{Binding Path=HistoryLaserPowerCH4}"   />
+            <d3:LineGraph x:Name="HistoryLaserPowerCH5"  Stroke="Black" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH5}" DataSource="{Binding Path=HistoryLaserPowerCH5}"   />
+            <d3:LineGraph x:Name="HistoryLaserPowerCH6"  Stroke="Blue" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH6}" DataSource="{Binding Path=HistoryLaserPowerCH6}"   />
+            <d3:LineGraph x:Name="HistoryLaserPowerCH7"  Stroke="Purple" StrokeThickness="3" Description="{StaticResource HistoryLaserPowerCH7}" DataSource="{Binding Path=HistoryLaserPowerCH7}"   />
+        </d3:ChartPlotter>-->
+       
+
+    </Grid>
+</Window>
+

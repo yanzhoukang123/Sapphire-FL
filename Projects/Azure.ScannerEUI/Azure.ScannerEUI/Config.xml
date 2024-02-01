@@ -153,8 +153,10 @@
     <!--If you average the two lines, let's say 100um becomes 50um  两行取平均-->
     <!--Phosphor Laser Module switch-->
     <ScannSetting Name="PhosphorModuleProcessing" Value="True"/>
-    <!--All Laser Module switch-->
+    <!--All Laser Module unidirectional scan switch-->
     <ScannSetting Name="AllModuleProcessing" Value="False"/>
+    <!--ENG GUI Phosphor Laser Module software filter switch-->
+    <ScannSetting Name="ENGGUI_PhosphorModuleProcessing" Value="False"/>
   </ScanSettings>
   <!--<OldTestPower" />-->
   <OldPowersSetting>
@@ -312,5 +314,6 @@
     <ShellFanModule ShellFan="ModuleModerateTemperature" Value="5"/>
     <ShellFanModule ShellFan="ModuleHighTemperature" Value="7"/>
   </ShellFanModules>
+  
 
 </Config>

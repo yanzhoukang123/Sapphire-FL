@@ -1,0 +1,283 @@
+﻿<Window x:Class="Azure.ScannerTestJig.View.Upgrade.BinFile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Azure.ScannerTestJig.View.Upgrade" 
+        xmlns:Borders="clr-namespace:ToggleSwitch.Borders;assembly=ToggleSwitch"
+        mc:Ignorable="d"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="BinFile" Height="250" Width="820" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <!--Blue Button-->
+            <ControlTemplate x:Key="BlueButtonControl" TargetType="{x:Type Button}">
+                <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+                    <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsDefaulted" Value="False">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#0061a7" Offset="0"/>
+                                    <GradientStop Color="#007dc1" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="False" />
+                <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
+                <Setter Property="Height" Value="52"/>
+                <Setter Property="IsChecked" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CheckBox">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Height}">
+                                    <Rectangle x:Name="CheckBoxRectangle" Fill="White" Opacity="0.3" RadiusY="5" RadiusX="5"/>
+                                    <Rectangle x:Name="CheckBoxRectangleOut" Stroke="#FFABADB3" StrokeThickness="1" RadiusY="5" RadiusX="5"/>
+                                    <Grid x:Name="CheckedMark" Height="{TemplateBinding Height}" Width="{TemplateBinding Height}" Visibility="Collapsed" >
+                                        <Viewbox>
+                                            <Grid>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M1,9 L10,17" Stroke="#3553ad"/>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M8,17 L20,4" Stroke="#3553ad"/>
+                                            </Grid>
+                                        </Viewbox>
+                                    </Grid>
+                                </Grid>
+                                <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="CheckedMark" Property="Visibility" Value="Visible"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="BlueButton" TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource BlueButtonControl}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="5,2,5,2"/>
+            </Style>
+            <!--Blue Button End-->
+
+            <ControlTemplate x:Key="SimpleThumbTemplate" TargetType="Thumb">
+                <Grid Background="Transparent">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="MouseOver">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.25" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="FocusStates">
+                            <VisualState x:Name="Focused">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Unfocused"/>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="CheckStates">
+                            <VisualState x:Name="Unchecked"/>
+                            <VisualState x:Name="Checked"/>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Borders:OuterGlowBorder OuterGlowSize="4" OuterGlowOpacity="0.15" BorderThickness="0" OuterGlowColor="Black" Background="Transparent" CornerRadius="4" ShadowCornerRadius="8" IsTabStop="False" >
+                        <Grid>
+                            <Borders:ClippingBorder x:Name="Background" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" IsTabStop="False" Background="{TemplateBinding Background}"/>
+                            <Borders:ClippingBorder x:Name="BackgroundAnimation" Background="Black" Opacity="0" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Black" CornerRadius="4" IsTabStop="False"/>
+                            <Rectangle x:Name="DisabledVisualElement" Fill="White" IsHitTestVisible="false" Opacity="0" RadiusY="4" RadiusX="4"/>
+                            <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="1" Opacity="0" RadiusY="4" RadiusX="4" StrokeThickness="1"/>
+                        </Grid>
+                    </Borders:OuterGlowBorder>
+                </Grid>
+            </ControlTemplate>
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid Visibility="Hidden" x:Name="GMerge">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="65*"/>
+                <RowDefinition Height="49*"/>
+                <RowDefinition Height="105*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Label   FontSize="20" FontWeight="Bold" Width="72" HorizontalAlignment="Left" Margin="35,16,0,3" >
+                    <TextBlock TextWrapping="NoWrap" Foreground="Black" 
+Text="Bin1:" Height="34" Width="67" />
+                </Label>
+                <TextBox HorizontalAlignment="Left" FontSize="18" VerticalContentAlignment="Center" FontWeight="Bold"  IsEnabled="False" Height="34" Margin="105,18,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="492" Text="{Binding BinPath1,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />
+                <TextBox HorizontalAlignment="Left" FontSize="18" VerticalContentAlignment="Center" FontWeight="Bold"  IsEnabled="False" Height="34" Margin="604,18,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="88" Text="{Binding Bin1Lenth,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <Button x:Name="_OpenBin1"
+                              Content="打开"
+                              Height="37"
+                              FontSize="25"
+                              VerticalAlignment="Center"
+                              Command="{Binding Path=OpenBin1Command}" Margin="703,16,17,12">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Label   FontSize="20" FontWeight="Bold" Width="72" HorizontalAlignment="Left" Margin="35,4,0,7" >
+                    <TextBlock TextWrapping="NoWrap" Foreground="Black" 
+Text="Bin2:" Height="34" Width="67" />
+                </Label>
+                <TextBox HorizontalAlignment="Left" FontSize="18" VerticalContentAlignment="Center" FontWeight="Bold"  IsEnabled="False" Height="34" Margin="105,5,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="492" Text="{Binding BinPath2,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />
+                <TextBox HorizontalAlignment="Left" FontSize="18" VerticalContentAlignment="Center" FontWeight="Bold"  IsEnabled="False" Height="34" Margin="604,5,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="88" Text="{Binding Bin2Lenth,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <Button x:Name="_OpenBin2"
+                              Content="打开"
+                              Height="38"
+                              FontSize="25"
+                              VerticalAlignment="Center"
+                              Command="{Binding Path=OpenBin2Command}" Margin="703,3,17,5">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Button x:Name="_MergeButton"
+                              Content="合并"
+                              Height="38"
+                              FontSize="25"
+                              VerticalAlignment="Center"
+                              Command="{Binding Path=MergeBinCommand}" Margin="703,15,17,52">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid Visibility="Visible" x:Name="GSplit">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="65*"/>
+                <RowDefinition Height="87*"/>
+                <RowDefinition Height="67*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Label   FontSize="20" FontWeight="Bold" Width="72" HorizontalAlignment="Left" Margin="35,16,0,3" >
+                    <TextBlock TextWrapping="NoWrap" Foreground="Black" 
+Text="Bin:" Height="34" Width="67" />
+                </Label>
+                <TextBox HorizontalAlignment="Left" FontSize="18" VerticalContentAlignment="Center" FontWeight="Bold"  IsEnabled="False" Height="34" Margin="105,18,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="492" Text="{Binding BinPath1,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />
+                <TextBox HorizontalAlignment="Left" FontSize="18" VerticalContentAlignment="Center" FontWeight="Bold"  IsEnabled="False" Height="34" Margin="604,18,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="88" Text="{Binding Bin1Lenth,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <Button x:Name="_SOpenBin1"
+                              Content="打开"
+                              Height="37"
+                              FontSize="25"
+                              VerticalAlignment="Center"
+                              Command="{Binding Path=OpenBin1Command}" Margin="703,16,17,12">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Label   FontSize="20" FontWeight="Bold" Width="164" HorizontalAlignment="Left" Margin="449,16,0,3" >
+                    <TextBlock TextWrapping="NoWrap" Foreground="Black" 
+Text="Start Address:" Height="34" Width="150" />
+                </Label>
+                <TextBox HorizontalAlignment="Left" FontSize="18" VerticalContentAlignment="Center" FontWeight="Bold"  IsEnabled="True" Height="34" Margin="604,18,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="88" Text="{Binding StartAddress,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <Button x:Name="_SMergeButton"
+                              Content="分割"
+                              Height="38"
+                              FontSize="25"
+                              Command="{Binding Path=SplitBinCommand}" Margin="705,16,17,33">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

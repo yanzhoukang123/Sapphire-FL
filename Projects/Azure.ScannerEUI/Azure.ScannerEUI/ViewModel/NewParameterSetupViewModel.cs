@@ -224,8 +224,8 @@ namespace Azure.ScannerEUI.ViewModel
             //When the configuration parameters are incorrect, it means that the current device is new and given default parameters
             if (Workspace.This.EthernetController.DeviceProperties.OpticalLR1Distance != 24 && Workspace.This.EthernetController.DeviceProperties.PixelOffsetR1 != 2400 &&
               Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance != 48 && Workspace.This.EthernetController.DeviceProperties.PixelOffsetR2 != 4800 &&
-              Workspace.This.EthernetController.DeviceProperties.ZFocusPosition != 1 && Workspace.This.EthernetController.DeviceProperties.XEncoderSubdivision != 1000 &&
-              Workspace.This.EthernetController.DeviceProperties.FanReserveTemperature != 1400 && Workspace.This.EthernetController.DeviceProperties.FanSwitchInterval != 400)
+              Workspace.This.EthernetController.DeviceProperties.ZFocusPosition != 1  &&Workspace.This.EthernetController.DeviceProperties.FanReserveTemperature != 1400 &&
+              Workspace.This.EthernetController.DeviceProperties.FanSwitchInterval != 400)
             {
                 MessageBoxResult boxResult = MessageBoxResult.None;
                 boxResult = MessageBox.Show("Currently, no personalization parameters are detected. Do you want to write the default value！\n", "warning", MessageBoxButton.YesNo);
@@ -248,8 +248,8 @@ namespace Azure.ScannerEUI.ViewModel
                     Pixel_10_R2_DY = 0;
                     FocusLength = 1;
                     XEncoderSubdivision = 1000;
-                    FanSwitchInterval = 24;
-                    FanReserveTemperature = 2;
+                    FanSwitchInterval = 2;//风扇启动间隔
+                    FanReserveTemperature = 24; //存储温度
                     SystemSN = "0";
                     ShellFanDefaultSpeed = 2;
                     CH1AlertWarningSwitch = 0;

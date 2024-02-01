@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{30962CD2-EEB1-4646-9529-EDCC0A1477D5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Azure.ScannerTestJig</RootNamespace>
+    <AssemblyName>Azure.ScannerTestJig</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DashboardMainDemo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="ConvetLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ConvetLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamicDataDisplay, Version=0.3.0.0, Culture=neutral, PublicKeyToken=5b7d744a7263923f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\DynamicDataDisplay.dll</HintPath>
+    </Reference>
+    <Reference Include="Hywire.FileAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Hywire.FileAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.pdfa.5.5.13.3\lib\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="SerialPortConnection">
+      <HintPath>.\SerialPortConnection.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ToggleSwitch, Version=1.1.2.0, Culture=neutral, PublicKeyToken=8637099990568f75, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ToggleSwitch.dll</HintPath>
+    </Reference>
+    <Reference Include="Utilities, Version=1.0.8780.27708, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ViewModule\532LaserModel\VoltagePointCollection532Laser.cs" />
+    <Compile Include="ViewModule\532LaserModel\WaveViewChart532LaserViewModel.cs" />
+    <Compile Include="ViewModule\532WaveForm\VoltagePointCollection.cs" />
+    <Compile Include="ViewModule\532WaveForm\WaveViewCalibrationViewModel.cs" />
+    <Compile Include="ViewModule\532WaveForm\WaveViewChartViewModel.cs" />
+    <Compile Include="ViewModule\APDCalibration\APDCalibrationChannelViewModel.cs" />
+    <Compile Include="ViewModule\APDCalibration\APDCalibrationViewModel.cs" />
+    <Compile Include="ViewModule\APDIVTempCalibration\APDIVTempCalibrationViewModel.cs" />
+    <Compile Include="ViewModule\Camera\CameraViewModule.cs" />
+    <Compile Include="ViewModule\Camera\imagelib.cs" />
+    <Compile Include="ViewModule\Camera\toupcam.cs" />
+    <Compile Include="ViewModule\FocusAdjust\FocusAdjustViewModel.cs" />
+    <Compile Include="ViewModule\FocusAdjust\MotorViewModel.cs" />
+    <Compile Include="ViewModule\FocusAdjust\PramaSetteViewModule.cs" />
+    <Compile Include="ViewModule\FocusAdjust\ZScanChartViewModel.cs" />
+    <Compile Include="ViewModule\GlassTopAdj\GlassTopAdjPosControlViewModel.cs" />
+    <Compile Include="ViewModule\GlassTopAdj\GlassTopAdjustViewModel.cs" />
+    <Compile Include="ViewModule\LightModeCalibration\LightModeCalibrationViewModule.cs" />
+    <Compile Include="ViewModule\MultiChannelLaserCalibration\ViewModuleChartMultiChannelLaserCailbration.cs" />
+    <Compile Include="ViewModule\MultiChannelLaserCalibration\VoltagePointCollectionMultiChannelLaserCailbration.cs" />
+    <Compile Include="ViewModule\PDCal532LaserModel\PDCalVoltagePointCollection532Laser.cs" />
+    <Compile Include="ViewModule\PDCal532LaserModel\PDCalWaveViewChart532LaserViewModel.cs" />
+    <Compile Include="ViewModule\Upgrade\UpgradeViewModule.cs" />
+    <Compile Include="ViewModule\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Camera\CameraPage.xaml.cs">
+      <DependentUpon>CameraPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MultiChannelLaserCalibration\DisplayMultiChannelLaserCalibrationData.xaml.cs">
+      <DependentUpon>DisplayMultiChannelLaserCalibrationData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MultiChannelLaserCalibration\MultiChannelLaserCalibrationChart.xaml.cs">
+      <DependentUpon>MultiChannelLaserCalibrationChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MultiChannelLaserCalibration\MultiChannelLaserCalibrationSub.xaml.cs">
+      <DependentUpon>MultiChannelLaserCalibrationSub.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModule\No532PDLaserModel\VoltagePointCollectionNo532Laser.cs" />
+    <Compile Include="ViewModule\No532PDLaserModel\WaveViewChartNo532LaserViewModel.cs" />
+    <Compile Include="ViewModule\TotalMachine\TotalMacheine532LaserModule.cs" />
+    <Compile Include="ViewModule\TotalMachine\TotalMachineLaserPowerCalibrationvm.cs" />
+    <Compile Include="ViewModule\TotalMachine\TotalMachineViewModule.cs" />
+    <Compile Include="ViewModule\Workspace.cs" />
+    <Compile Include="View\532LaserModel\Display532LaserData.xaml.cs">
+      <DependentUpon>Display532LaserData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\532LaserModel\WaveView532LaserChart.xaml.cs">
+      <DependentUpon>WaveView532LaserChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\532LaserModel\WaveView532LaserSubWind.xaml.cs">
+      <DependentUpon>WaveView532LaserSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\532WaveForm\Display532Data.xaml.cs">
+      <DependentUpon>Display532Data.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\532WaveForm\WaveViewChart.xaml.cs">
+      <DependentUpon>WaveViewChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\532WaveForm\WaveViewSubWind.xaml.cs">
+      <DependentUpon>WaveViewSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\APDCalibration\APDCalibrationChannel.xaml.cs">
+      <DependentUpon>APDCalibrationChannel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\APDCalibration\APDCalibrationSubWind.xaml.cs">
+      <DependentUpon>APDCalibrationSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\APDIVTempCalibration\APDIvTempCalibrationSubWind.xaml.cs">
+      <DependentUpon>APDIvTempCalibrationSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FocusAdjust\FocusAdjustSubWind.xaml.cs">
+      <DependentUpon>FocusAdjustSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GlassTopAdj\GlassParame.xaml.cs">
+      <DependentUpon>GlassParame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GlassTopAdj\GlassScanContol.xaml.cs">
+      <DependentUpon>GlassScanContol.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FocusAdjust\PramaSette.xaml.cs">
+      <DependentUpon>PramaSette.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FocusAdjust\ZScanChart.xaml.cs">
+      <DependentUpon>ZScanChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GlassTopAdj\GlassTopAdjPosControl.xaml.cs">
+      <DependentUpon>GlassTopAdjPosControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GlassTopAdj\GlassTopAdjSubWind.xaml.cs">
+      <DependentUpon>GlassTopAdjSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GlassTopAdj\ZMotorCurr.xaml.cs">
+      <DependentUpon>ZMotorCurr.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LightModeCalibration\LightModeClibrationSub.xaml.cs">
+      <DependentUpon>LightModeClibrationSub.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LightModeCalibration\LightModeConfig.xaml.cs">
+      <DependentUpon>LightModeConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LightModeCalibration\LightModeHideSettingIVConfig.xaml.cs">
+      <DependentUpon>LightModeHideSettingIVConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LightModeCalibration\LightModeHideSettingLaserConfig.xaml.cs">
+      <DependentUpon>LightModeHideSettingLaserConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LightModeCalibration\LightModeHideSettingSub.xaml.cs">
+      <DependentUpon>LightModeHideSettingSub.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LightModeCalibration\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MultiChannelLaserCalibration\MutiChannelLaserCalibrationSetting.xaml.cs">
+      <DependentUpon>MutiChannelLaserCalibrationSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\No532PDLaserModel\DisplayNo532LaserData.xaml.cs">
+      <DependentUpon>DisplayNo532LaserData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\No532PDLaserModel\WaveViewNo532LaserChart.xaml.cs">
+      <DependentUpon>WaveViewNo532LaserChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\No532PDLaserModel\WaveViewNo532LaserSubWind.xaml.cs">
+      <DependentUpon>WaveViewNo532LaserSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PDCal532LaserModel\PDCalDisplay532LaserData.xaml.cs">
+      <DependentUpon>PDCalDisplay532LaserData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PDCal532LaserModel\PDCalWaveView532LaserChart.xaml.cs">
+      <DependentUpon>PDCalWaveView532LaserChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PDCal532LaserModel\PDCalWaveView532LaserSubWind.xaml.cs">
+      <DependentUpon>PDCalWaveView532LaserSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TotalMachine\TotalMachine532LaserConfig.xaml.cs">
+      <DependentUpon>TotalMachine532LaserConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TotalMachine\TotalMachine532LaserConfigWind.xaml.cs">
+      <DependentUpon>TotalMachine532LaserConfigWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TotalMachine\TotalMachineLaserPowerCalibration.xaml.cs">
+      <DependentUpon>TotalMachineLaserPowerCalibration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TotalMachine\TotalMachineSubWind.xaml.cs">
+      <DependentUpon>TotalMachineSubWind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TotalMachine\TotalMachineViewModulecs.xaml.cs">
+      <DependentUpon>TotalMachineViewModulecs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Upgrade\BinFile.xaml.cs">
+      <DependentUpon>BinFile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Upgrade\UpgradeSub.xaml.cs">
+      <DependentUpon>UpgradeSub.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources\Dictionary1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModule\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Camera\CameraPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MultiChannelLaserCalibration\DisplayMultiChannelLaserCalibrationData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MultiChannelLaserCalibration\MultiChannelLaserCalibrationChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MultiChannelLaserCalibration\MultiChannelLaserCalibrationSub.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\532LaserModel\Display532LaserData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\532LaserModel\WaveView532LaserChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\532LaserModel\WaveView532LaserSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\532WaveForm\Display532Data.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\532WaveForm\WaveViewChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\532WaveForm\WaveViewSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\APDCalibration\APDCalibrationChannel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\APDCalibration\APDCalibrationSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\APDIVTempCalibration\APDIvTempCalibrationSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FocusAdjust\FocusAdjustSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GlassTopAdj\GlassParame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GlassTopAdj\GlassScanContol.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FocusAdjust\PramaSette.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FocusAdjust\ZScanChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GlassTopAdj\GlassTopAdjPosControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GlassTopAdj\GlassTopAdjSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GlassTopAdj\ZMotorCurr.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LightModeCalibration\LightModeClibrationSub.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LightModeCalibration\LightModeConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LightModeCalibration\LightModeHideSettingIVConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LightModeCalibration\LightModeHideSettingLaserConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LightModeCalibration\LightModeHideSettingSub.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LightModeCalibration\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MultiChannelLaserCalibration\MutiChannelLaserCalibrationSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\No532PDLaserModel\DisplayNo532LaserData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\No532PDLaserModel\WaveViewNo532LaserChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\No532PDLaserModel\WaveViewNo532LaserSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PDCal532LaserModel\PDCalDisplay532LaserData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PDCal532LaserModel\PDCalWaveView532LaserChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PDCal532LaserModel\PDCalWaveView532LaserSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TotalMachine\TotalMachine532LaserConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TotalMachine\TotalMachine532LaserConfigWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TotalMachine\TotalMachineLaserPowerCalibration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TotalMachine\TotalMachineSubWind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TotalMachine\TotalMachineViewModulecs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Upgrade\BinFile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Upgrade\UpgradeSub.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="save.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="u=441988613,1911869350&amp;fm=26&amp;gp=0.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DashboardMainDemo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Azure.APDCalibrationBench\Azure.APDCalibrationBench.csproj">
+      <Project>{16b9c295-6b3a-4e4f-996a-5149a15632d6}</Project>
+      <Name>Azure.APDCalibrationBench</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.CommandLib\Azure.CommandLib.csproj">
+      <Project>{7bbed9a3-66b6-4dc5-b7cb-349136274220}</Project>
+      <Name>Azure.CommandLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.EthernetCommLib\Azure.EthernetCommLib.csproj">
+      <Project>{0af5a167-a167-4640-ab2b-449da14a5efd}</Project>
+      <Name>Azure.EthernetCommLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.Image.Processing\Azure.Image.Processing.csproj">
+      <Project>{aeb73d39-8f98-4b1e-83f9-b50477299774}</Project>
+      <Name>Azure.Image.Processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.ImagingSystem\Azure.ImagingSystem.csproj">
+      <Project>{5aa78aae-9a61-428b-9013-e741ec8828d8}</Project>
+      <Name>Azure.ImagingSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.Interfaces\Azure.Interfaces.csproj">
+      <Project>{0d4aa995-c390-421a-8a5b-8b1d2c492461}</Project>
+      <Name>Azure.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.MotionLib\Azure.MotionLib.csproj">
+      <Project>{ab4c0c04-7117-4a82-83bb-ec2527f1e112}</Project>
+      <Name>Azure.MotionLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.SettingsManager\Azure.SettingsManager.csproj">
+      <Project>{c825f40a-d2ad-4f92-9e1d-3730870474df}</Project>
+      <Name>Azure.SettingsManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.Utilities\Azure.Utilities.csproj">
+      <Project>{12ad771e-f883-46f9-b73b-cf61ae4d29a2}</Project>
+      <Name>Azure.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Azure.WPF.Framework\Azure.WPF.Framework.csproj">
+      <Project>{3a6581b3-94d2-47d0-b4af-e182d15ebbbe}</Project>
+      <Name>Azure.WPF.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Hywire.DataProcessing.Methods\Hywire.DataProcessing.csproj">
+      <Project>{a7afa538-9c06-475b-be31-3931be9258a5}</Project>
+      <Name>Hywire.DataProcessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\TaskDialog\TaskDialog.csproj">
+      <Project>{37fd53f7-8a8f-4427-8ff4-6299e2933a7e}</Project>
+      <Name>TaskDialog</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="toupcam.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
