@@ -313,7 +313,7 @@ namespace Azure.ScannerEUI.ViewModel
                     _ImageInfo.GreenChannel.WhiteValue = maxPixelValue;
                     _ImageInfo.BlueChannel.WhiteValue = maxPixelValue;
                     _ImageInfo.GrayChannel.WhiteValue = maxPixelValue;
-
+                    _ImageInfo.MaxPixelValue = maxPixelValue;
                     // Default to mix/overall (grayscale image default type is Mix)
                     _ImageInfo.SelectedChannel = ImageChannelType.Mix;
 
@@ -403,7 +403,7 @@ namespace Azure.ScannerEUI.ViewModel
 
             MaxPixelValue = maxPixelValue;
             MaxWhiteValue = maxPixelValue;
-
+            _ImageInfo.MaxPixelValue = maxPixelValue;
             BitmapPalette palette = null;
             PixelFormat dstPixelFormat = PixelFormats.Rgb24;
             if (bpp == 8 || bpp == 16)
