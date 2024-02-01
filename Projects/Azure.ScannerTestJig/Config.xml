@@ -10,8 +10,7 @@
     <BinFactor Position="5" VerticalBins="5" HorizontalBins="5" DisplayName="5x5" />
     <BinFactor Position="6" VerticalBins="8" HorizontalBins="8" DisplayName="8x8" />
   </BinFactors>
-
-
+  
   <Gains>
     <Gain Position="1" Value="1" DisplayName="1x" />
     <Gain Position="2" Value="2" DisplayName="2x" />
@@ -191,5 +190,10 @@
     <Power Position="4" Value="25" DisplayName="25" />
     <Power Position="5" Value="30" DisplayName="30" />
   </Powers>
-
+  <!--TestJjg-->
+  <LaserChannels>
+    <Channel Position="1" Value="1" DisplayName="L" />
+    <Channel Position="2" Value="2" DisplayName="R1" />
+    <Channel Position="3" Value="3" DisplayName="R2" />
+  </LaserChannels>
 </Config>
