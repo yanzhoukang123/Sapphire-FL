@@ -52,6 +52,6 @@ using System.Windows;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 //abc
-[assembly: AssemblyVersion("2.0.5.1129")]
-[assembly: AssemblyFileVersion("2.0.5.1129")]
+[assembly: AssemblyVersion("2.0.0.1142")]
+[assembly: AssemblyFileVersion("2.0.0.1142")]
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]

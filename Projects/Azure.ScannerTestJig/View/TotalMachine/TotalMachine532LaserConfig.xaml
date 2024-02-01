@@ -856,6 +856,10 @@ Text="Laser:" Height="30" Width="64" />
             </Button>
         </Grid>
         <Grid Grid.Row="17" Grid.Column="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="29*"/>
+                <ColumnDefinition Width="88*"/>
+            </Grid.ColumnDefinitions>
             <TextBox x:Name="_GetCurrentValuelaserTextBox"
                             Height="35"
                             FontSize="25"
@@ -864,7 +868,7 @@ Text="Laser:" Height="30" Width="64" />
                             VerticalContentAlignment="Center"
                             PreviewTextInput="TextBox_PreviewTextInput"
                             PreviewKeyDown="TextBox_PreviewKeyDown"
-                            Text="{Binding GetCurrentValuelaser,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="10,3,5,3" />
+                            Text="{Binding GetCurrentValuelaser,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" IsEnabled="False" Margin="10,4,5,4" Grid.ColumnSpan="2" />
         </Grid>
         <Grid Grid.Row="17" Grid.Column="3">
             <ToggleSwitch:HorizontalToggleSwitch 

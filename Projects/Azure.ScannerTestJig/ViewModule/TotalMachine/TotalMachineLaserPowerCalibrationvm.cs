@@ -960,6 +960,11 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
             {
                 if (_SensorTemperatureL1 != value)
                 {
+                    double _temp = Convert.ToDouble(value) * 10;
+                    if (_temp == Workspace.This.DefaultIntCode2)
+                    {
+                        value = "0";
+                    }
                     _SensorTemperatureL1 = value;
                     RaisePropertyChanged("SensorTemperatureL1");
                 }
@@ -973,6 +978,11 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_SensorTemperatureR1 != value)
                 {
+                    double _temp = Convert.ToDouble(value)*10;
+                    if (_temp == Workspace.This.DefaultIntCode2)
+                    {
+                        value = "0";
+                    }
                     _SensorTemperatureR1 = value;
                     RaisePropertyChanged("SensorTemperatureR1");
                 }
@@ -986,6 +996,11 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_SensorTemperatureR2 != value)
                 {
+                    double _temp = Convert.ToDouble(value) * 10;
+                    if (_temp == Workspace.This.DefaultIntCode2)
+                    {
+                        value = "0";
+                    }
                     _SensorTemperatureR2 = value;
                     RaisePropertyChanged("SensorTemperatureR2");
                 }
@@ -1026,7 +1041,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetACurrentValue != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1043,7 +1058,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetBCurrentValue != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1059,7 +1074,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
             {
                 if (_GetCCurrentValue != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }

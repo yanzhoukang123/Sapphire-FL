@@ -135,6 +135,8 @@ namespace Azure.ScannerTestJig.ViewModule
 
         public int DefaultIntCode = -1;
 
+        public double DefaultIntCode2 = -2;
+
         #region SubCommand
 
         #region  PDCal532激光模块

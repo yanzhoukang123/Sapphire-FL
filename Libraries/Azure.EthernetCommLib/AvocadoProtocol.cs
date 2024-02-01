@@ -4393,19 +4393,17 @@ namespace Azure.EthernetCommLib
                                     case Properties.OpticalPowerControlvoltage:
                                         if (containsA)
                                         {
-
-                                            AllOpticalPowerControlvoltage[LaserChannels.ChannelA] = BitConverter.ToInt32(rxbuf, dataFieldOffset + 2) * 0.0001;
+                                            AllOpticalPowerControlvoltage[LaserChannels.ChannelA] = BitConverter.ToInt16(rxbuf, dataFieldOffset + 2) * 0.0001;
                                             dataFieldOffset += 4;
                                         }
                                         if (containsB)
                                         {
-
-                                            AllOpticalPowerControlvoltage[LaserChannels.ChannelB] = BitConverter.ToInt32(rxbuf, dataFieldOffset + 2) * 0.0001;
+                                            AllOpticalPowerControlvoltage[LaserChannels.ChannelB] = BitConverter.ToInt16(rxbuf, dataFieldOffset + 2) * 0.0001;
                                             dataFieldOffset += 4;
                                         }
                                         if (containsC)
                                         {
-                                            AllOpticalPowerControlvoltage[LaserChannels.ChannelC] = BitConverter.ToInt32(rxbuf, dataFieldOffset + 2) * 0.0001;
+                                            AllOpticalPowerControlvoltage[LaserChannels.ChannelC] = BitConverter.ToInt16(rxbuf, dataFieldOffset + 2) * 0.0001;
                                             dataFieldOffset += 4;
                                         }
                                         break;

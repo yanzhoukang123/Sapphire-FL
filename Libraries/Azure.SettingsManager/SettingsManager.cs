@@ -1483,6 +1483,16 @@ namespace Azure.Configuration
                     lightGainItem.DisplayName = nav.GetAttribute("DisplayName", "");
                     configSettings.LightGains.Add(lightGainItem);
                 }
+                iter = xpathNav.Select("/Config/LaserChannels/Channel");
+                while (iter.MoveNext())
+                {
+                    XPathNavigator nav = iter.Current;
+                    SelectLaserChannel LaserChannelItem = new SelectLaserChannel();
+                    LaserChannelItem.Position = int.Parse(nav.GetAttribute("Position", ""));
+                    LaserChannelItem.Value = int.Parse(nav.GetAttribute("Value", ""));
+                    LaserChannelItem.DisplayName = nav.GetAttribute("DisplayName", "");
+                    configSettings.LaserChannel.Add(LaserChannelItem);
+                }
                 iter = xpathNav.Select("/Config/TestJjgScanSettings/ScanSetting");
                 while (iter.MoveNext())
                 {

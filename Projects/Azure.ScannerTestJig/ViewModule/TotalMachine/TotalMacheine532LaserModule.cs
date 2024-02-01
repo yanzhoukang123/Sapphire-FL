@@ -200,10 +200,6 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
             {
                 if (_GetCurrentLightPower != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
-                    {
-                        value = 0;
-                    }
                     _GetCurrentLightPower = value;
                     RaisePropertyChanged("GetCurrentLightPower");
                 }
@@ -593,7 +589,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetLaserControlVoltage != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value < Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -783,7 +779,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetRadioDiodeVoltage != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1162,7 +1158,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetCurrentValuelaser != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1329,9 +1325,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetTECkp != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetTECkp = value;
                     RaisePropertyChanged("GetTECkp");
@@ -1448,9 +1444,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetTECki != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetTECki = value;
                     RaisePropertyChanged("GetTECki");
@@ -1567,9 +1563,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetTECkd != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetTECkd = value;
                     RaisePropertyChanged("GetTECkd");
@@ -1852,10 +1848,10 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetLaserMinCurrent != value)
                 {
-                    if ((value * 10) == Workspace.This.Uint16Code)
-                    {
-                        value = 0;
-                    }
+                    //if (value == Workspace.This.Uint16Code)
+                    //{
+                    //    value = 0;
+                    //}
                     _GetLaserMinCurrent = value;
                     RaisePropertyChanged("GetLaserMinCurrent");
                 }
@@ -1869,10 +1865,10 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetLaserMaxCurrent != value)
                 {
-                    if ((value * 10) == Workspace.This.Uint16Code)
-                    {
-                        value = 0;
-                    }
+                    //if (value == Workspace.This.Uint16Code)
+                    //{
+                    //    value = 0;
+                    //}
                     _GetLaserMaxCurrent = value;
                     RaisePropertyChanged("GetLaserMaxCurrent");
                 }
@@ -1886,7 +1882,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerControlKiDownLimitLessThan15 != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1903,7 +1899,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerControlKiUpperLimitLessThan15 != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1920,7 +1916,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerControlKpDownLimitLessThan15 != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1937,7 +1933,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerControlKpUpperLimitLessThan15 != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1954,7 +1950,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerControlKiDownLimitLessThanOrEqual15 != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1971,7 +1967,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerControlKiUpperLimitLessThanOrEqual15 != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -1988,7 +1984,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerControlKpDownLimitLessThanOrEqual15 != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -2005,7 +2001,7 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerControlKpUpperLimitLessThanOrEqual15 != value)
                 {
-                    if (value == Workspace.This.Uint32Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
                         value = 0;
                     }
@@ -2022,9 +2018,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerGreaterThan15mWKd != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetOpticalPowerGreaterThan15mWKd = value;
                     RaisePropertyChanged("GetOpticalPowerGreaterThan15mWKd");
@@ -2039,9 +2035,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerGreaterThan15mWKi != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetOpticalPowerGreaterThan15mWKi = value;
                     RaisePropertyChanged("GetOpticalPowerGreaterThan15mWKi");
@@ -2056,9 +2052,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerGreaterThan15mWKp != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetOpticalPowerGreaterThan15mWKp = value;
                     RaisePropertyChanged("GetOpticalPowerGreaterThan15mWKp");
@@ -2073,9 +2069,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerLessThanOrEqual15mWKd != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetOpticalPowerLessThanOrEqual15mWKd = value;
                     RaisePropertyChanged("GetOpticalPowerLessThanOrEqual15mWKd");
@@ -2091,9 +2087,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerLessThanOrEqual15mWKi != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetOpticalPowerLessThanOrEqual15mWKi = value;
                     RaisePropertyChanged("GetOpticalPowerLessThanOrEqual15mWKi");
@@ -2108,9 +2104,9 @@ namespace Azure.ScannerTestJig.ViewModule.TotalMachine
 
                 if (_GetOpticalPowerLessThanOrEqual15mWKp != value)
                 {
-                    if (value == Workspace.This.Uint16Code)
+                    if (value == Workspace.This.DefaultIntCode2)
                     {
-                        value = double.NaN;
+                        value = 0;
                     }
                     _GetOpticalPowerLessThanOrEqual15mWKp = value;
                     RaisePropertyChanged("GetOpticalPowerLessThanOrEqual15mWKp");
