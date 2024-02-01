@@ -5,13 +5,13 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Xml;
 using System.Xml.Linq;  //XDocument
 using System.Xml.XPath; //XPathDocument
 using Azure.Common;
 using Azure.ImagingSystem;
 using Azure.Image.Processing;
+using System.Windows;
 
 namespace Azure.Configuration
 {
@@ -915,7 +915,6 @@ namespace Azure.Configuration
                     APDPgaItem.DisplayName = nav.GetAttribute("DisplayName", "");
                     configSettings.APDPgas.Add(APDPgaItem);
                 }
-
                 iter = xpathNav.Select("/Config/MotorSettings/MotorSetting");
                 while (iter.MoveNext())
                 {
@@ -1070,6 +1069,12 @@ namespace Azure.Configuration
                     {
                         bool.TryParse(nav.GetAttribute("Value", ""), out AllModuleProcessing);
                         configSettings.AllModuleProcessing = AllModuleProcessing;
+                    }
+                    bool ENGGUI_PhosphorModuleProcessing;
+                    if (name == "ENGGUI_PhosphorModuleProcessing")
+                    {
+                        bool.TryParse(nav.GetAttribute("Value", ""), out ENGGUI_PhosphorModuleProcessing);
+                        configSettings.ENGGUI_PhosphorModuleProcessing = ENGGUI_PhosphorModuleProcessing;
                     }
                 }
                 iter = xpathNav.Select("/Config/RadiatorTemperatures/RadiatorTemperature");
@@ -1228,7 +1233,7 @@ namespace Azure.Configuration
                     //string strLaserType = nav.GetAttribute("LaserType", "");
                     //strLaserType = "Laser" + strLaserType;
                     //LaserType laserType = (LaserType)Enum.Parse(typeof(LaserType), strLaserType);
-                    
+
                     string strLaserType = nav.GetAttribute("LaserType", "");
 
                     int nLaserType = int.Parse(strLaserType);
@@ -1467,6 +1472,136 @@ namespace Azure.Configuration
                         configSettings.ModuleHighTemperature = delay;
                     }
                 }
+                #region TestJjg
+                iter = xpathNav.Select("/Config/LightGains/LightGain");
+                while (iter.MoveNext())
+                {
+                    XPathNavigator nav = iter.Current;
+                    LightGain lightGainItem = new LightGain();
+                    lightGainItem.Position = int.Parse(nav.GetAttribute("Position", ""));
+                    lightGainItem.Value = int.Parse(nav.GetAttribute("Value", ""));
+                    lightGainItem.DisplayName = nav.GetAttribute("DisplayName", "");
+                    configSettings.LightGains.Add(lightGainItem);
+                }
+                iter = xpathNav.Select("/Config/TestJjgScanSettings/ScanSetting");
+                while (iter.MoveNext())
+                {
+                    XPathNavigator nav = iter.Current;
+                    string settingName = nav.GetAttribute("Name", "");
+                    string settingValue = nav.GetAttribute("Value", "");
+                    switch (settingName)
+                    {
+                        case "ScanPreciseAt":
+                            configSettings.ScanPreciseAt = bool.Parse(settingValue);
+                            break;
+                        case "ScanPreciseParameter":
+                            configSettings.ScanPreciseParameter = int.Parse(settingValue);
+                            break;
+                    }
+                }
+                iter = xpathNav.Select("/Config/FocusAdjustSettings/Setting");
+                while (iter.MoveNext())
+                {
+                    XPathNavigator nav = iter.Current;
+                    string settingName = nav.GetAttribute("Name", "");
+                    string settingValue = nav.GetAttribute("Value", "");
+                    switch (settingName)
+                    {
+                        case "ZScanValueThreshold":
+                            configSettings.ZScanValueThreshold = int.Parse(settingValue);
+                            break;
+                        case "CentralCoordX":
+                            configSettings.CentralCoordX = int.Parse(settingValue);
+                            break;
+                        case "CentralCoordY":
+                            configSettings.CentralCoordY = int.Parse(settingValue);
+                            break;
+                    }
+                }
+                iter = xpathNav.Select("/Config/GlassLevelingSettings/Setting");
+                System.Drawing.Point[] point = new System.Drawing.Point[4];
+                while (iter.MoveNext())
+                {
+                    XPathNavigator nav = iter.Current;
+                    string settingName = nav.GetAttribute("Name", "");
+                    string settingValue = nav.GetAttribute("Value", "");
+                    switch (settingName)
+                    {
+                        case "TopLeftX":
+                            point[0].X = int.Parse(settingValue);
+                            break;
+                        case "TopLeftY":
+                            point[0].Y = int.Parse(settingValue);
+                            break;
+                        case "TopRightX":
+                            point[1].X = int.Parse(settingValue);
+                            break;
+                        case "TopRightY":
+                            point[1].Y = int.Parse(settingValue);
+                            break;
+                        case "LowerRightX":
+                            point[2].X = int.Parse(settingValue);
+                            break;
+                        case "LowerRightY":
+                            point[2].Y = int.Parse(settingValue);
+                            break;
+                        case "LowerLeftX":
+                            point[3].X = int.Parse(settingValue);
+                            break;
+                        case "LowerLeftY":
+                            point[3].Y = int.Parse(settingValue);
+                            break;
+                        case "ModuleInterval":
+                            configSettings.ModuleInterval = int.Parse(settingValue);
+                            break;
+                    }
+                }
+                configSettings.GlassLevelingTopLeft = point[0];
+                configSettings.GlassLevelingTopRight = point[1];
+                configSettings.GlassLevelingLowerRight = point[2];
+                configSettings.GlassLevelingLowerLeft = point[3];
+                iter = xpathNav.Select("/Config/APDCalibrationSettings/Setting");
+                while (iter.MoveNext())
+                {
+                    XPathNavigator nav = iter.Current;
+                    string settingName = nav.GetAttribute("Name", "");
+                    string settingValue = nav.GetAttribute("Value", "");
+                    switch (settingName)
+                    {
+                        case "ApdOutputAtG0":
+                            configSettings.APDOutputAtG0 = double.Parse(settingValue);
+                            break;
+                        case "ApdOutputErrorAtG0":
+                            configSettings.APDOutputErrorAtG0 = double.Parse(settingValue);
+                            break;
+                        case "DarkCurrentLimitH":
+                            configSettings.APDDarkCurrentLimitH = double.Parse(settingValue);
+                            break;
+                        case "DarkCurrentLimitL":
+                            configSettings.APDDarkCurrentLimitL = double.Parse(settingValue);
+                            break;
+                        case "ApdOutputStableLongTime":
+                            configSettings.APDOutputStableLongTime = int.Parse(settingValue);
+                            break;
+                        case "ApdOutputStableShortTime":
+                            configSettings.APDOutputStableShortTime = int.Parse(settingValue);
+                            break;
+                        case "ApdPGA":
+                            configSettings.APDPGA = int.Parse(settingValue);
+                            break;
+                    }
+                }
+                iter = xpathNav.Select("/Config/Powers/Power");
+                while (iter.MoveNext())
+                {
+                    XPathNavigator nav = iter.Current;
+                    LaserPower laserPowerItem = new LaserPower();
+                    laserPowerItem.Position = int.Parse(nav.GetAttribute("Position", ""));
+                    laserPowerItem.Value = int.Parse(nav.GetAttribute("Value", ""));
+                    laserPowerItem.DisplayName = nav.GetAttribute("DisplayName", "");
+                    configSettings.LaserPowers.Add(laserPowerItem);
+                }
+                #endregion
                 xpathNav = null;
                 xpathDoc = null;
             }

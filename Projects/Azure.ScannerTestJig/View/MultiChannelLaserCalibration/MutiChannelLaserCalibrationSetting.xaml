@@ -1,0 +1,466 @@
+﻿<Window x:Class="Azure.ScannerTestJig.View.MultiChannelLaserCalibration.MutiChannelLaserCalibrationSetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:Azure.ScannerTestJig.View.MultiChannelLaserCalibration" xmlns:Borders="clr-namespace:ToggleSwitch.Borders;assembly=ToggleSwitch"
+        mc:Ignorable="d"
+        Title="MutiChannelLaserCalibrationSetting" Height="400" Width="370" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+    <Window.Resources>
+        <ResourceDictionary>
+            <!--Blue Button-->
+            <ControlTemplate x:Key="BlueButtonControl" TargetType="{x:Type Button}">
+                <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+                    <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsDefaulted" Value="False">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#0061a7" Offset="0"/>
+                                    <GradientStop Color="#007dc1" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#007dc1" Offset="0"/>
+                                    <GradientStop Color="#0061a7" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="False" />
+                <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
+                <Setter Property="Height" Value="52"/>
+                <Setter Property="IsChecked" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CheckBox">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Height}">
+                                    <Rectangle x:Name="CheckBoxRectangle" Fill="White" Opacity="0.3" RadiusY="5" RadiusX="5"/>
+                                    <Rectangle x:Name="CheckBoxRectangleOut" Stroke="#FFABADB3" StrokeThickness="1" RadiusY="5" RadiusX="5"/>
+                                    <Grid x:Name="CheckedMark" Height="{TemplateBinding Height}" Width="{TemplateBinding Height}" Visibility="Collapsed" >
+                                        <Viewbox>
+                                            <Grid>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M1,9 L10,17" Stroke="#3553ad"/>
+                                                <Path SnapsToDevicePixels="True" StrokeThickness="3" Data="M8,17 L20,4" Stroke="#3553ad"/>
+                                            </Grid>
+                                        </Viewbox>
+                                    </Grid>
+                                </Grid>
+                                <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="CheckedMark" Property="Visibility" Value="Visible"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="BlueButton" TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource BlueButtonControl}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="5,2,5,2"/>
+            </Style>
+            <!--Blue Button End-->
+            <ControlTemplate x:Key="RedButtonControl" TargetType="{x:Type Button}">
+                <Border x:Name="border"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+                    <ContentPresenter x:Name="contentPresenter"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                Focusable="False"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                Margin="{TemplateBinding Padding}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsDefaulted" Value="False">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="CornerRadius" TargetName="border" Value="3"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style x:Key="RedButton" TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource RedButtonControl}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="5,2,5,2"/>
+            </Style>
+            <ControlTemplate x:Key="SimpleThumbTemplate" TargetType="Thumb">
+                <Grid Background="Transparent">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="MouseOver">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.25" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="FocusStates">
+                            <VisualState x:Name="Focused">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0" To="0.05" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Unfocused"/>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="CheckStates">
+                            <VisualState x:Name="Unchecked"/>
+                            <VisualState x:Name="Checked"/>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Borders:OuterGlowBorder OuterGlowSize="4" OuterGlowOpacity="0.15" BorderThickness="0" OuterGlowColor="Black" Background="Transparent" CornerRadius="4" ShadowCornerRadius="8" IsTabStop="False" >
+                        <Grid>
+                            <Borders:ClippingBorder x:Name="Background" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" IsTabStop="False" Background="{TemplateBinding Background}"/>
+                            <Borders:ClippingBorder x:Name="BackgroundAnimation" Background="Black" Opacity="0" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Black" CornerRadius="4" IsTabStop="False"/>
+                            <Rectangle x:Name="DisabledVisualElement" Fill="White" IsHitTestVisible="false" Opacity="0" RadiusY="4" RadiusX="4"/>
+                            <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="1" Opacity="0" RadiusY="4" RadiusX="4" StrokeThickness="1"/>
+                        </Grid>
+                    </Borders:OuterGlowBorder>
+                </Grid>
+            </ControlTemplate>
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="50*"/>
+            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="46*"/>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="40*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Label  Style="{StaticResource MyLabelHeaderStyle}" FontSize="15" Width="72" Height="38" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="NoWrap"
+Text="通道:" Height="21" Width="52" />
+            </Label>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <CheckBox x:Name="CH1Number" IsChecked="{Binding Path=CH1Check}"  Content="CH1"  FontSize="15"  Style="{StaticResource CheckBoxStyle}"  HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="66" Height="21" FontWeight="Bold" Margin="32,8,27,0" />
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <CheckBox x:Name="CH2Number" IsChecked="{Binding Path=CH2Check}"  Content="CH2"  FontSize="15"  Style="{StaticResource CheckBoxStyle}"  HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="66" Height="21" FontWeight="Bold" Margin="32,5,27,0" />
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <CheckBox x:Name="CH3Number" IsChecked="{Binding Path=CH3Check}"  Content="CH3"  FontSize="15"  Style="{StaticResource CheckBoxStyle}"  HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="66" Height="21" FontWeight="Bold" Margin="33,7,26,0" />
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="0">
+            <CheckBox x:Name="CH4Number" IsChecked="{Binding Path=CH4Check}"  Content="CH4"  FontSize="15"  Style="{StaticResource CheckBoxStyle}"  HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="66" Height="21" FontWeight="Bold" Margin="33,5,26,0" />
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="0">
+            <CheckBox x:Name="CH5Number" IsChecked="{Binding Path=CH5Check}"  Content="CH5"  FontSize="15"  Style="{StaticResource CheckBoxStyle}"  HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="66" Height="21" FontWeight="Bold" Margin="34,5,25,0" />
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="0">
+            <CheckBox x:Name="CH6Number" IsChecked="{Binding Path=CH6Check}"  Content="CH6"  FontSize="15"  Style="{StaticResource CheckBoxStyle}"  HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="66" Height="21" FontWeight="Bold" Margin="33,5,26,0" />
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="0">
+            <CheckBox x:Name="CH7Number" IsChecked="{Binding Path=CH7Check}"  Content="CH7"  FontSize="15"  Style="{StaticResource CheckBoxStyle}"  HorizontalAlignment="Center"  VerticalAlignment="Top"  Width="66" Height="21" FontWeight="Bold" Margin="34,5,25,0" />
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+
+            <TextBox x:Name="ch1txt"
+                            Height="33"
+                            Width="80"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Foreground="Red"
+                            Text="{Binding CH1Txt,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="11,3,18,0" >
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
+
+            <TextBox x:Name="ch2txt"
+                            Height="33"
+                            Width="80"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Foreground="Red"
+                            Text="{Binding CH2Txt,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="11,3,18,0" >
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="1">
+            <TextBox x:Name="ch3txt"
+                            Height="33"
+                            Width="80"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Foreground="Red"
+                            Text="{Binding CH3Txt,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="11,3,18,0" >
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="1">
+            <TextBox x:Name="ch4txt"
+                            Height="33"
+                            Width="80"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Foreground="Red"
+                            Text="{Binding CH4Txt,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="11,3,18,0" >
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1">
+            <TextBox x:Name="ch5txt"
+                            Height="33"
+                            Width="80"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Foreground="Red"
+                            Text="{Binding CH5Txt,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="10,3,19,0" >
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="1">
+            <TextBox x:Name="ch6txt"
+                            Height="33"
+                            Width="80"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Foreground="Red"
+                            Text="{Binding CH6Txt,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="10,3,19,0" >
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="1">
+            <TextBox x:Name="ch7txt"
+                            Height="33"
+                            Width="80"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"
+                            Foreground="Red"
+                            Text="{Binding CH7Txt,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" Margin="10,3,19,0" >
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2">
+            <!--<Label  Style="{StaticResource MyLabelHeaderStyle}" FontSize="15" Width="84" Height="38" Margin="33,1,33,-4">
+                <TextBlock TextWrapping="NoWrap"
+Text="时间(s):" Height="21" Width="74" />
+            </Label>-->
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Label   FontSize="15" FontWeight="Bold" Width="72" Height="38" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="NoWrap" Foreground="Red" 
+Text="658" Height="21" Width="52" />
+            </Label>
+            <!--<TextBox x:Name="CH1Time"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            Text="{Binding CH1Time,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />-->
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="2">
+            <Label   FontSize="15" FontWeight="Bold" Width="72" Height="38" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="NoWrap" Foreground="Red" 
+Text="685" Height="21" Width="52" />
+            </Label>
+            <!--<TextBox x:Name="CH2Time"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            Text="{Binding CH2Time,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />-->
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="2">
+            <Label   FontSize="15" FontWeight="Bold" Width="72" Height="38" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="NoWrap" Foreground="Red" 
+Text="784" Height="21" Width="52" />
+            </Label>
+            <!--<TextBox x:Name="CH3Time"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            Text="{Binding CH3Time,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />-->
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="2">
+            <Label   FontSize="15" FontWeight="Bold" Width="72" Height="38" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="NoWrap" Foreground="Red" 
+Text="488" Height="21" Width="52" />
+            </Label>
+            <!--<TextBox x:Name="CH4Time"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            Text="{Binding CH4Time,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />-->
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="2">
+            <Label   FontSize="15" FontWeight="Bold" Width="72" Height="38" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="NoWrap" Foreground="Red" 
+Text="638" Height="21" Width="52" />
+            </Label>
+            <!--<TextBox x:Name="CH5Time"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            Text="{Binding CH5Time,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />-->
+        </Grid>
+        <Grid Grid.Row="6" Grid.Column="2">
+            <Label   FontSize="15" FontWeight="Bold" Width="72" Height="38" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="NoWrap" Foreground="Red" 
+Text="450" Height="21" Width="52" />
+            </Label>
+            <!--<TextBox x:Name="CH6Time"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            Text="{Binding CH6Time,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />-->
+        </Grid>
+        <Grid Grid.Row="7" Grid.Column="2">
+            <Label   FontSize="15" FontWeight="Bold" Width="72" Height="38" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="NoWrap" Foreground="Red" 
+Text="730" Height="21" Width="52" />
+            </Label>
+            <!--<TextBox x:Name="CH7Time"
+                            Height="35"
+                            FontSize="25"
+                            FontWeight="SemiBold"
+                            Text="{Binding CH7Time,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  TargetNullValue={x:Static sys:String.Empty}}" />-->
+        </Grid>
+        <Grid Grid.Row="8"  Grid.ColumnSpan="3" Margin="52,0,59,0">
+            <Button x:Name="jiguangWaveButton55"
+            Content="确定"
+            Height="41"
+            FontSize="20"
+          Click="jiguangWaveButton55_Click" Margin="67,1,46,7">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

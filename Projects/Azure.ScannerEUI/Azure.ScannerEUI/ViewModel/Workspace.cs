@@ -151,6 +151,7 @@ namespace Azure.ScannerEUI.ViewModel
         private TransportLockViewModel _TransportLockViewModel = null;
         private ZAutomaticallyFocalViewModel _ZAutomaticallyFocal = null;
         private ImageRotatingPrcessViewModel _ImageRotatingPrcess = null;
+        private AgingViewModel _AgingVM;
         private bool _IsAuthenticated = false;
         private Visibility _WorkIndexTitleVisBility = Visibility.Hidden;
         private EthernetController _EthernetController;
@@ -201,6 +202,7 @@ namespace Azure.ScannerEUI.ViewModel
             _TransportLockViewModel = new TransportLockViewModel();
             _ZAutomaticallyFocal = new ZAutomaticallyFocalViewModel();
             _ImageRotatingPrcess = new ImageRotatingPrcessViewModel();
+            _AgingVM = new AgingViewModel();
             // image capturing status
             _DispatcherTimer.Tick += new EventHandler(_DispatcherTimer_Tick);
             _DispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -6534,6 +6536,10 @@ namespace Azure.ScannerEUI.ViewModel
         public ImageRotatingPrcessViewModel ImageRotatingPrcessVM
         {
             get { return _ImageRotatingPrcess; }
+        }
+        public AgingViewModel AgingVM
+        {
+            get { return _AgingVM; }
         }
         public string CapturingTopStatusText
         {

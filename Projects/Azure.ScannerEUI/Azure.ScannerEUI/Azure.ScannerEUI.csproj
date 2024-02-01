@@ -191,6 +191,7 @@
     <Compile Include="ToggleSwitch\Utils\CornerRadiusValueConverter.cs" />
     <Compile Include="ToggleSwitch\Utils\ScalarValueConverter.cs" />
     <Compile Include="ViewModel\AbstractPaneViewModel.cs" />
+    <Compile Include="ViewModel\AgingViewModel.cs" />
     <Compile Include="ViewModel\ApdViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
     <Compile Include="ViewModel\GIFFileViewModel.cs" />
@@ -205,6 +206,9 @@
     <Compile Include="ViewModel\TransportLockViewModel.cs" />
     <Compile Include="ViewModel\Workspace.cs" />
     <Compile Include="ViewModel\ZAutomaticallyFocalViewModel.cs" />
+    <Compile Include="View\AgingControl.xaml.cs">
+      <DependentUpon>AgingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ApdControl.xaml.cs">
       <DependentUpon>ApdControl.xaml</DependentUpon>
     </Compile>
@@ -400,6 +404,10 @@
     <Page Include="ToggleSwitch\Assets\ToggleSwitchStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AgingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ApdControl.xaml">
       <SubType>Designer</SubType>

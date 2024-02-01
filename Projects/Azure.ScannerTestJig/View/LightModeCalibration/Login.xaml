@@ -1,0 +1,15 @@
+﻿<Window x:Class="Azure.ScannerTestJig.View.LightModeCalibration.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Azure.ScannerTestJig.View.LightModeCalibration"
+        mc:Ignorable="d"
+        Title="Login" Height="337.728" Width="595.538" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button Content="确认" HorizontalAlignment="Left" Margin="348,124,0,0" VerticalAlignment="Top" Width="75" Height="29" Click="Button_Click"/>
+
+        <PasswordBox HorizontalAlignment="Left" x:Name="pwd" Margin="166,125,0,0" VerticalAlignment="Top" Width="158" Height="28"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,42 @@
+﻿<Window x:Class="Azure.ScannerTestJig.View.No532PDLaserModel.DisplayNo532LaserData"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Azure.ScannerTestJig.View.No532PDLaserModel"
+        mc:Ignorable="d"
+         xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:Borders="clr-namespace:ToggleSwitch.Borders;assembly=ToggleSwitch" xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+        Title="WaveViewSubWind"   Height="1000" Width="1800" Closed="Window_Closed" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Window.Resources>
+        <d3:PenDescription x:Key="HistoryLaserPower" DescriptionString="光功率" />
+        <!--<d3:PenDescription x:Key="HistoryPDVoltage" DescriptionString="PD" />-->
+        <!--<d3:PenDescription x:Key="HistoryInternalPDVoltage" DescriptionString="模块PD" />-->
+        <d3:PenDescription x:Key="HistoryTecTemper" DescriptionString="温度" />
+        <d3:PenDescription x:Key="HistoryLaserElectric" DescriptionString="激光器电流" />
+    </Window.Resources>
+    <Grid Margin="0,87,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="169*" />
+            <ColumnDefinition Width="435*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="298*" />
+            <RowDefinition Height="Auto" />
+
+        </Grid.RowDefinitions>
+
+        <d3:ChartPlotter x:Name="_HistoryWaveChart" Grid.ColumnSpan="2" Margin="0,0,32,30" Grid.RowSpan="2">
+            <d3:Header FontFamily="Georgia" Content="532光电二极管"/>
+            <d3:VerticalAxisTitle FontFamily="Georgia" Content="Value"/>
+            <!--<d3:HorizontalAxisTitle FontFamily="Georgia" Content="Z轴扫描位置/mm"/>-->
+            <d3:LineGraph x:Name="HistoryLaserPower"  Stroke="Red" StrokeThickness="3" Description="{StaticResource HistoryLaserPower}" DataSource="{Binding Path=HistoryLaserPower}"   />
+            <!--<d3:LineGraph x:Name="HistoryPDVoltage"  Stroke="Black" StrokeThickness="3" Description="{StaticResource HistoryPDVoltage}"  DataSource="{Binding Path=HistoryPDVoltage}"/>-->
+            <!--<d3:LineGraph x:Name="HistoryInternalPDVoltage"  Stroke="Cyan"  StrokeThickness="3" Description="{StaticResource HistoryInternalPDVoltage}"  DataSource="{Binding Path=HistoryInternalPDVoltage}"/>-->
+            <d3:LineGraph x:Name="HistoryTecTemper"  Stroke="Green" StrokeThickness="3" Description="{StaticResource HistoryTecTemper}" DataSource="{Binding Path=HistoryTecTemper}" />
+            <d3:LineGraph x:Name="HistoryLaserElectric"  Stroke="Blue" StrokeThickness="3" Description="{StaticResource HistoryLaserElectric}" DataSource="{Binding Path=HistoryLaserElectric}" />
+        </d3:ChartPlotter>
+        <Label Content="Label" x:Name="fileName" HorizontalAlignment="Left" Margin="13,-71,0,0" VerticalAlignment="Top" Height="50" Width="1075" FontSize="25" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

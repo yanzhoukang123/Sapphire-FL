@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Azure.ScannerTestJig.View.GlassTopAdj.ZMotorCurr"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Azure.ScannerTestJig.View.GlassTopAdj"
+             mc:Ignorable="d" 
+            xmlns:sys="clr-namespace:System;assembly=mscorlib" Height="53.643" Width="245.616">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--Blue Button End-->
+            <Style x:Key="MyLabelHeaderStyle" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="DarkBlue" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Grid.Row="0" Grid.Column="0" Height="52" VerticalAlignment="Top" Margin="0,0,4,0">
+            <Label Content="Z-Pos" Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="1.004,0.483" Margin="1,6,165,2" Width="76" Height="44" />
+        </Grid>
+        <Grid Grid.Row="0" Margin="0,0,2,1">
+
+            <Label Background="LightGray"
+                MinWidth="70"
+                Height="36"
+                FontSize="25"
+                FontWeight="SemiBold"
+                HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{Binding Path=CurrentZPos, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static sys:String.Empty}}" Margin="78,11,59,6" Width="107" RenderTransformOrigin="0.011,0.611" />
+            <Label Content="mm" Style="{StaticResource MyLabelHeaderStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="1.004,0.483" Margin="184,4,3,5" Width="57" Height="44" />
+        </Grid>
+    </Grid>
+</UserControl>

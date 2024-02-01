@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 11/15/2017 - NOT BEING USED. NOW USING THE SAME config.xml AS THE USER UI -->
+
+<Config>
+  <BinFactors>
+    <BinFactor Position="1" VerticalBins="1" HorizontalBins="1" DisplayName="1x1" />
+    <BinFactor Position="2" VerticalBins="2" HorizontalBins="2" DisplayName="2x2" />
+    <BinFactor Position="3" VerticalBins="3" HorizontalBins="3" DisplayName="3x3" />
+    <BinFactor Position="4" VerticalBins="4" HorizontalBins="4" DisplayName="4x4" />
+    <BinFactor Position="5" VerticalBins="5" HorizontalBins="5" DisplayName="5x5" />
+    <BinFactor Position="6" VerticalBins="8" HorizontalBins="8" DisplayName="8x8" />
+  </BinFactors>
+
+
+  <Gains>
+    <Gain Position="1" Value="1" DisplayName="1x" />
+    <Gain Position="2" Value="2" DisplayName="2x" />
+    <Gain Position="3" Value="3" DisplayName="3x" />
+  </Gains>
+
+  <RgbIntensities>
+    <RgbIntensity Position="1" Intensity="65535" DisplayName="Red" />
+    <RgbIntensity Position="2" Intensity="65535" DisplayName="Green" />
+    <RgbIntensity Position="3" Intensity="65535" DisplayName="Blue" />
+  </RgbIntensities>
+
+  <Resolutions>
+    <Resolution Position="1" Value="10" DisplayName="10" />
+    <Resolution Position="2" Value="20" DisplayName="20" />
+    <Resolution Position="3" Value="50" DisplayName="50" />
+    <Resolution Position="4" Value="100" DisplayName="100" />
+    <Resolution Position="5" Value="150" DisplayName="150" />
+    <Resolution Position="6" Value="200" DisplayName="200" />
+    <Resolution Position="7" Value="500" DisplayName="500" />
+    <Resolution Position="8" Value="1000" DisplayName="1000" />
+  </Resolutions>
+
+  <Qualities>
+    <Quality Position="1" Value="1" DisplayName="1" />
+    <Quality Position="2" Value="2" DisplayName="2" />
+    <Quality Position="3" Value="4" DisplayName="4" />
+    <Quality Position="4" Value="8" DisplayName="8" />
+  </Qualities>
+
+ <MotorParameters>
+    <MotorParameter Name="XMaxValue" Value="45833"/>
+    <MotorParameter Name="YMaxValue" Value="409600"/>
+    <MotorParameter Name="ZMaxValue" Value="8819"/>
+    <MotorParameter Name="WMaxValue" Value="28000"/>
+    <MotorParameter Name="XMotorSubdivision" Value="138.88888889"/>
+    <MotorParameter Name="YMotorSubdivision" Value="1600"/>
+    <MotorParameter Name="ZMotorSubdivision" Value="1259.84252"/>
+    <MotorParameter Name="WMotorSubdivision" Value="1000"/>
+    <MotorParameter Name="WMinValue" Value="-2000"/>
+    <MotorParameter Name="WMediumValue" Value="14000"/>
+    <MotorParameter Name="XEncoderSubdivision" Value="1000"/>
+  </MotorParameters>
+
+  <MotorPolarities>
+    <Polarities Name="DirX" Value="True"/>
+    <Polarities Name="EnableX" Value="False"/>
+    <Polarities Name="ClockX" Value="False"/>
+    <Polarities Name="HomeX" Value="False"/>
+    <Polarities Name="FwdLimitX" Value="False"/>
+    <Polarities Name="BwdLimitX" Value="False"/>
+    <Polarities Name="DirY" Value="False"/>
+    <Polarities Name="EnableY" Value="False"/>
+    <Polarities Name="ClockY" Value="False"/>
+    <Polarities Name="HomeY" Value="False"/>
+    <Polarities Name="FwdLimitY" Value="False"/>
+    <Polarities Name="BwdLimitY" Value="False"/>
+    <Polarities Name="DirZ" Value="False"/>
+    <Polarities Name="EnableZ" Value="False"/>
+    <Polarities Name="ClockZ" Value="False"/>
+    <Polarities Name="HomeZ" Value="False"/>
+    <Polarities Name="FwdLimitZ" Value="False"/>
+    <Polarities Name="BwdLimitZ" Value="False"/>
+    <Polarities Name="DirW" Value="False"/>
+    <Polarities Name="EnableW" Value="False"/>
+    <Polarities Name="ClockW" Value="False"/>
+    <Polarities Name="HomeW" Value="False"/>
+    <Polarities Name="FwdLimitW" Value="False"/>
+    <Polarities Name="BwdLimitW" Value="False"/>
+  </MotorPolarities>
+
+  <APDGains>
+    <!--<APDGain Position="1" Value="5" DisplayName="5" />
+    <APDGain Position="2" Value="10" DisplayName="10" />
+    <APDGain Position="3" Value="15" DisplayName="15" />
+    <APDGain Position="4" Value="25" DisplayName="25" />-->
+    <APDGain Position="5" Value="50" DisplayName="50" />
+    <APDGain Position="6" Value="100" DisplayName="100" />
+    <APDGain Position="7" Value="150" DisplayName="150" />
+    <APDGain Position="8" Value="200" DisplayName="200" />
+    <APDGain Position="9" Value="250" DisplayName="250" />
+    <APDGain Position="10" Value="300" DisplayName="300" />
+    <APDGain Position="11" Value="400" DisplayName="400" />
+    <APDGain Position="12" Value="500" DisplayName="500" />
+  </APDGains>
+
+  <APDPgas>
+    <APDPga Position="1" Value="0" DisplayName="1" />
+    <APDPga Position="2" Value="1" DisplayName="2" />
+    <APDPga Position="3" Value="2" DisplayName="4" />
+    <APDPga Position="4" Value="3" DisplayName="8" />
+    <APDPga Position="5" Value="4" DisplayName="16" />
+    <APDPga Position="6" Value="5" DisplayName="32" />
+    <APDPga Position="7" Value="6" DisplayName="64" />
+    <APDPga Position="8" Value="7" DisplayName="128" />
+  </APDPgas>
+
+
+  <!--Default position and speed (Z position is the default focus position)-->
+  <MotorSettings>
+    <MotorSetting Motor="X" Position="50" Speed="80" Accel="50000" Dccel="50000"/>
+    <MotorSetting Motor="Y" Position="50" Speed="6" Accel="5000" Dccel="5000"/>
+    <MotorSetting Motor="Z" Position="5" Speed="1" Accel="5000" Dccel="50.8"/>
+    <MotorSetting Motor="W" Position="0" Speed="2.0" Accel="10" Dccel="10"/>
+    <ScanningSetting Name="XMotorTurnDelay" Value="100"/>
+    <ScanningSetting Name="XMotionExtraMoveLength" Value="10"/>
+    <LaunchSetting Name="HomeMotionsAtLaunchTime" Value="True"/>
+  </MotorSettings>
+
+  <!--750: A channel : Gray-->
+  <!--520: B channel : Green-->
+  <!--650: C channel : Red-->
+  <!--450: D channel : Blue-->
+  <!--Intensity = default intensity-->
+  <LaserPowers>
+    <LaserPower Laser="A" Intensity="6800" MaxIntensity="14980" />
+    <LaserPower Laser="B" Intensity="8500" MaxIntensity="14900" />
+    <LaserPower Laser="C" Intensity="7500" MaxIntensity="14900" />
+    <LaserPower Laser="D" Intensity="5000" MaxIntensity="11000" />
+  </LaserPowers>
+
+  <!--Replaced by LaserPowers-->
+  <!--Default lasers (A, B, C, D) intensity-->
+  <!--<LasersIntensities Value="6800 8500 7500 5000" />-->
+  <ScanSettings>
+    <ScannSetting Name="ScanDynamicBitAt" Value="True"/>
+  </ScanSettings>
+
+  <!--TestJjg-->
+  <LightGains>
+    <LightGain Position="0" Value="0" DisplayName="1" />
+    <LightGain Position="1" Value="1" DisplayName="16" />
+  </LightGains>
+
+  <!--TestJjg Number of light intensity calibration Sample Interval-->
+  <TestJjgScanSettings>
+    <ScanSetting Name="ScanPreciseAt" Value="False"/>
+    <ScanSetting Name="ScanPreciseParameter" Value="10"/>
+  </TestJjgScanSettings>
+
+  <!--TestJjg-->
+  <APDCalibrationSettings>
+    <Setting Name="ApdOutputAtG0" Value="0.5"/>
+    <Setting Name="ApdOutputErrorAtG0" Value="0.005"/>
+    <Setting Name="DarkCurrentLimitH" Value="0.003"/>
+    <Setting Name="DarkCurrentLimitL" Value="0.001"/>
+    <Setting Name="ApdOutputStableLongTime" Value="15"/>
+    <Setting Name="ApdOutputStableShortTime" Value="10"/>
+    <Setting Name="ApdPGA" Value="1"/>
+  </APDCalibrationSettings>
+
+  <!--TestJjg-->
+  <FocusAdjustSettings>
+    <Setting Name="ZScanValueThreshold" Value="80"/>
+    <Setting Name="CentralCoordX" Value="165"/>
+    <Setting Name="CentralCoordY" Value="140"/>
+  </FocusAdjustSettings>
+
+  <!--TestJjg-->
+  <GlassLevelingSettings>
+    <Setting Name="TopLeftX" Value="32"/>
+    <Setting Name="TopLeftY" Value="250"/>
+    <Setting Name="TopRightX" Value="237"/>
+    <Setting Name="TopRightY" Value="250"/>
+    <Setting Name="LowerRightX" Value="237"/>
+    <Setting Name="LowerRightY" Value="25"/>
+    <Setting Name="LowerLeftX" Value="32"/>
+    <Setting Name="LowerLeftY" Value="25"/>
+    <Setting Name="ModuleInterval" Value="25"/>
+  </GlassLevelingSettings>
+  <!--TestJjg-->
+  <Powers>
+    <Power Position="0" Value="5" DisplayName="5" />
+    <Power Position="1" Value="10" DisplayName="10" />
+    <Power Position="2" Value="15" DisplayName="15" />
+    <Power Position="3" Value="20" DisplayName="20" />
+    <Power Position="4" Value="25" DisplayName="25" />
+    <Power Position="5" Value="30" DisplayName="30" />
+  </Powers>
+
+</Config>

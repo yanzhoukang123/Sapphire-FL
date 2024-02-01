@@ -75,6 +75,11 @@ namespace Azure.ScannerEUI
                     }
                     else
                     {
+                        if (SettingsManager.ConfigSettings.AllModuleProcessing&& SettingsManager.ConfigSettings.ENGGUI_PhosphorModuleProcessing)
+                        {
+                            MessageBox.Show(" it’ll either use the software filter or unidirectional scan!");
+                            System.Windows.Application.Current.Shutdown();
+                        }
                         Workspace.This.IsAuthenticated = true;
                     }
                 }
@@ -368,6 +373,20 @@ namespace Azure.ScannerEUI
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            //Close Temperature Aging
+            if (Workspace.This.AgingVM.IsTECTempeSelected)
+            {
+                MessageBoxResult boxResult = MessageBoxResult.None;
+                boxResult = MessageBox.Show("TEC Temperature Aging in progress,Close it?", "Warning", MessageBoxButton.YesNo);
+                if (boxResult == MessageBoxResult.Yes)
+                {
+                    Workspace.This.AgingVM.IsTECTempeSelected = false;
+                }
+                else
+                {
+                    return;
+                }
+            }
             if (Workspace.This.IsPreparing)
             {
                 string caption = "Scanning Mode";
@@ -417,14 +436,14 @@ namespace Azure.ScannerEUI
                     Workspace.This.EthernetController.SetIvPga(IVChannels.ChannelA, 0);
                     Workspace.This.EthernetController.SetIvPga(IVChannels.ChannelB, 0);
                     Workspace.This.EthernetController.SetIvPga(IVChannels.ChannelC, 0);
+                    //Setting the fan level
+                    Workspace.This.EthernetController.SetIncrustationFan(1, Workspace.This.NewParameterVM.ShellFanDefaultSpeed);
                     Workspace.This.EthernetController.Disconnect();
                 }
             }
             catch
             {
             }
-            //Setting the fan level
-            Workspace.This.EthernetController.SetIncrustationFan(1, Workspace.This.NewParameterVM.ShellFanDefaultSpeed);
             SettingsManager.OnExit();
         }
 
