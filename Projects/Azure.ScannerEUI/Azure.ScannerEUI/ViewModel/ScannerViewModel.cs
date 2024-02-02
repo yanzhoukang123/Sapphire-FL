@@ -1295,36 +1295,71 @@ namespace Azure.ScannerEUI.ViewModel
                 RaisePropertyChanged("SelectedQuality");
             }
             OnSpentTimeInit();//SpentTime
-            XHomecoefficient = 310;
-            try
+            if (_XMaxValue <= 45833)  //Max range of X-axis,  Distinguish whether the maximum range of the X-axis is 250mm or 500mm
             {
-                if (Workspace.This != null)
+                XHomecoefficient = 310;
+                try
                 {
-                    if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 11)
+                    if (Workspace.This != null)
                     {
-                        XHomecoefficient = 311;
+                        if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 11)
+                        {
+                            XHomecoefficient = 311;
+                        }
+                        else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 12)
+                        {
+                            XHomecoefficient = 312;
+                        }
+                        else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 13)
+                        {
+                            XHomecoefficient = 313;
+                        }
+                        //else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 14)
+                        //{
+                        //    _XHomecoefficient = 314;
+                        //}
+                        //else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 15)
+                        //{
+                        //    _XHomecoefficient = 315;
+                        //}
                     }
-                    else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 12)
-                    {
-                        XHomecoefficient = 312;
-                    }
-                    else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 13)
-                    {
-                        XHomecoefficient = 313;
-                    }
-                    //else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 14)
-                    //{
-                    //    _XHomecoefficient = 314;
-                    //}
-                    //else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 15)
-                    //{
-                    //    _XHomecoefficient = 315;
-                    //}
                 }
-
+                catch
+                {
+                }
             }
-            catch
+            else
             {
+                XHomecoefficient = 550;
+                try
+                {
+                    if (Workspace.This != null)
+                    {
+                        if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 11)
+                        {
+                            XHomecoefficient = 551;
+                        }
+                        else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 12)
+                        {
+                            XHomecoefficient = 552;
+                        }
+                        else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 13)
+                        {
+                            XHomecoefficient = 553;
+                        }
+                        //else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 14)
+                        //{
+                        //    _XHomecoefficient = 554;
+                        //}
+                        //else if (Workspace.This.EthernetController.DeviceProperties.LogicalHomeX == 15)
+                        //{
+                        //    _XHomecoefficient = 555;
+                        //}
+                    }
+                }
+                catch
+                {
+                }
             }
             ScanX0 = (int)Workspace.This.EthernetController.DeviceProperties.LogicalHomeX;
             ScanY0 = (int)Workspace.This.EthernetController.DeviceProperties.LogicalHomeY;
@@ -1571,6 +1606,14 @@ namespace Azure.ScannerEUI.ViewModel
                 string message = "ERROR: The scanner is not connected!";
                 Xceed.Wpf.Toolkit.MessageBox.Show(message, caption, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
+            }
+            if (Workspace.This.ScannerVM.HWversion == Workspace.This.DefaultHWversion)//（FW Version 1.1.0.0）
+            {
+                //关闭RGB灯光，Turn off RGB lights
+                if (Workspace.This.IsRGBLightSelected)
+                {
+                    Workspace.This.IsRGBLightSelected = false;
+                }
             }
             CurrentScanDirection();
             Width = (int)Math.Ceiling(ScanDeltaX * 1000.0 / SelectedResolution.Value);

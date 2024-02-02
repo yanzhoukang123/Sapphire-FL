@@ -152,7 +152,7 @@
     <!--<ScannSetting Name="YEvenNumberedLine" Value="0"/>-->
     <!--If you average the two lines, let's say 100um becomes 50um  两行取平均-->
     <!--Phosphor Laser Module switch-->
-    <ScannSetting Name="PhosphorModuleProcessing" Value="True"/>
+    <ScannSetting Name="PhosphorModuleProcessing" Value="False"/>
     <!--All Laser Module unidirectional scan switch-->
     <ScannSetting Name="AllModuleProcessing" Value="False"/>
     <!--ENG GUI Phosphor Laser Module software filter switch-->

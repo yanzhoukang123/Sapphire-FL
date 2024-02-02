@@ -40,7 +40,8 @@ namespace Azure.EthernetCommLib
         public float L375Coefficient;
         public ushort CH1AlertWarningSwitch;  //CH1 Ambient Temperature  Alert
         public float CH1WarningTemperature;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 130)]   // sizeconst = total(256) - used(32+22*4+2*3)
+        public byte VersionExtension;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 129)]   // sizeconst = total(256) - used(32+22*4+2*3)+1
         public byte[] ReservedBytes;
     }
 }

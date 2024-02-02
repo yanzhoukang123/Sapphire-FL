@@ -172,6 +172,7 @@ namespace Azure.ScannerEUI.ViewModel
         private string _DefaultHWversion = "1.1.0.0";
         private double _AmbientTemperatureCH1 = 0;
         private double _AmbientTemperatureCH2 = 0;
+        private bool _IsRGBLightSelected = false;
         #endregion
 
         #region Constructors...
@@ -352,9 +353,31 @@ namespace Azure.ScannerEUI.ViewModel
             }
         }
 
+        #region RGB Light Control
+        public bool IsRGBLightSelected
+        {
+            get { return _IsRGBLightSelected; }
+            set
+            {
+                if (_IsRGBLightSelected != value)
+                {
+                    _IsRGBLightSelected = value;
+                    if (value == true)
+                    {
+                        Workspace.This.EthernetController.SetRGBLightRegisterControl(1);
+                    }
+                    else
+                    {
+                        Workspace.This.EthernetController.SetRGBLightRegisterControl(0);
+                    }
+                    RaisePropertyChanged("IsRGBLightSelected");
+                }
+            }
+        }
+        #endregion
         //public bool IsStartUpInCameraMode { get; set; }
 
-        #region 
+        #region  Optical module power on/off 光学模块上下电
         public bool DeviceStatus
         {
             get
@@ -619,6 +642,11 @@ namespace Azure.ScannerEUI.ViewModel
                                 Workspace.This.LEDVesionVisFlag = Visibility.Hidden;
                                 Workspace.This.NewParameterVM.LEDVesionVisFlag = Visibility.Hidden;
                             }
+                            else
+                            {
+                                //关闭RGB灯光,Turn off RGB lights
+                                Workspace.This.EthernetController.SetRGBLightRegisterControl(0);
+                            }
                             Workspace.This.OldVesionVisFlag = Visibility.Hidden;
                         }
                         else
@@ -638,6 +666,8 @@ namespace Azure.ScannerEUI.ViewModel
                                 Workspace.This.OldVesionVisFlag = Visibility.Hidden;
                                 ScanIsAlive = false;
                                 this.MotorIsAlive = false;
+                                //关闭RGB灯光,Turn off RGB lights
+                                Workspace.This.EthernetController.SetRGBLightRegisterControl(0);
                             }
                         }
                     }
@@ -683,6 +713,8 @@ namespace Azure.ScannerEUI.ViewModel
                                     });
                                     MonitorOpticalModule();
                                 }
+                                //关闭RGB灯光,Turn off RGB lights
+                                Workspace.This.EthernetController.SetRGBLightRegisterControl(0);
                             }
                         }
                     }
@@ -1124,7 +1156,7 @@ namespace Azure.ScannerEUI.ViewModel
                 This.NewParameterVM.LTECControlKp = 0;
                 This.NewParameterVM.LTECControlKi = 0;
                 This.NewParameterVM.LTECControlKd = 0;
-
+                This.NewParameterVM.LPMTCoefficient = "0";
 
                 This.NewParameterVM.R1IVFirmwareVersionSN = "NaN";
                 This.NewParameterVM.R1IVFirmwareSN = "NaN";
@@ -1142,7 +1174,7 @@ namespace Azure.ScannerEUI.ViewModel
                 This.NewParameterVM.R1TECControlKp = 0;
                 This.NewParameterVM.R1TECControlKi = 0;
                 This.NewParameterVM.R1TECControlKd = 0;
-
+                This.NewParameterVM.R1PMTCoefficient = "0";
 
                 This.NewParameterVM.R2IVFirmwareVersionSN = "NaN";
                 This.NewParameterVM.R2IVFirmwareSN = "NaN";
@@ -1160,6 +1192,7 @@ namespace Azure.ScannerEUI.ViewModel
                 This.NewParameterVM.R2TECControlKp = 0;
                 This.NewParameterVM.R2TECControlKi = 0;
                 This.NewParameterVM.R2TECControlKd = 0;
+                This.NewParameterVM.R2PMTCoefficient = "0";
 
                 EthernetController.IVOpticalModuleSerialNumber[IVChannels.ChannelA] = "0";
                 EthernetController.IVOpticalModuleSerialNumber[IVChannels.ChannelB] = "0";
@@ -1224,6 +1257,10 @@ namespace Azure.ScannerEUI.ViewModel
                 EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelA] = 0;
                 EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelB] = 0;
                 EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelC] = 0;
+
+                EthernetController.PMTCompensationCoefficient[IVChannels.ChannelA] = 0;
+                EthernetController.PMTCompensationCoefficient[IVChannels.ChannelB] = 0;
+                EthernetController.PMTCompensationCoefficient[IVChannels.ChannelC] = 0;
                 int sleeptime = 200;
                 //获取所有通道激光信息
                 //Get all channel laser information
@@ -1340,6 +1377,24 @@ namespace Azure.ScannerEUI.ViewModel
                                 MessageBox.Show(window, "GetAllCurrentTECRefrigerationControlParameterKd failed.");
                             });
                             return;
+                        }
+                        if (This.IVVM.SensorML1 == IvSensorType.PMT)
+                        {
+                            Thread.Sleep(sleeptime);
+                            //获取PMT系数
+                            //PMT Coefficient
+                            if (!This.EthernetController.GetAllPMTCompensationCoefficient(IVChannels.ChannelC))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllPMTCompensationCoefficient failed.");
+                                });
+                                return;
+                            }
                         }
                         if (This.IVVM.WL1 == 532)
                         {
@@ -1575,6 +1630,24 @@ namespace Azure.ScannerEUI.ViewModel
                             });
                             return;
                         }
+                        if (This.IVVM.SensorMR1 == IvSensorType.PMT)
+                        {
+                            Thread.Sleep(sleeptime);
+                            //获取PMT系数
+                            //PMT Coefficient
+                            if (!This.EthernetController.GetAllPMTCompensationCoefficient(IVChannels.ChannelA))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllPMTCompensationCoefficient failed.");
+                                });
+                                return;
+                            }
+                        }
                         if (This.IVVM.WR1 == 532)
                         {
                             //光功率(<=15mW)控制kp
@@ -1807,6 +1880,24 @@ namespace Azure.ScannerEUI.ViewModel
                             });
                             return;
                         }
+                        if (This.IVVM.SensorMR2 == IvSensorType.PMT)
+                        {
+                            Thread.Sleep(sleeptime);
+                            //获取PMT系数
+                            //PMT Coefficient
+                            if (!This.EthernetController.GetAllPMTCompensationCoefficient(IVChannels.ChannelB))
+                            {
+                                This.NewParameterVM.OtherSettingBtnIsEnable = true;
+                                StopWaitAnimation();
+                                _IsLoading = false;
+                                Application.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    Window window = new Window();
+                                    MessageBox.Show(window, "GetAllPMTCompensationCoefficient failed.");
+                                });
+                                return;
+                            }
+                        }
                         if (This.IVVM.WR2 == 532)
                         {
                             Thread.Sleep(sleeptime);
@@ -1955,7 +2046,10 @@ namespace Azure.ScannerEUI.ViewModel
                     This.NewParameterVM.LTECControlKp = EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelC];
                     This.NewParameterVM.LTECControlKi = EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelC];
                     This.NewParameterVM.LTECControlKd = EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelC];
-
+                    if (This.IVVM.SensorML1 == IvSensorType.PMT)
+                    {
+                        This.NewParameterVM.LPMTCoefficient = Convert.ToString(EthernetController.PMTCompensationCoefficient[IVChannels.ChannelC]);
+                    }
                     if (Workspace.This.IVVM.WL1 == 532)
                     {
                         This.NewParameterVM.LOpticalPowerLessThanOrEqual15mWKp = EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelC];
@@ -1979,6 +2073,10 @@ namespace Azure.ScannerEUI.ViewModel
                     This.NewParameterVM.R1TECControlKp = EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelA];
                     This.NewParameterVM.R1TECControlKi = EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelA];
                     This.NewParameterVM.R1TECControlKd = EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelA];
+                    if (This.IVVM.SensorMR1 == IvSensorType.PMT)
+                    {
+                        This.NewParameterVM.R1PMTCoefficient = Convert.ToString(EthernetController.PMTCompensationCoefficient[IVChannels.ChannelA]);
+                    }
                     if (Workspace.This.IVVM.WR1 == 532)
                     {
                         This.NewParameterVM.R1OpticalPowerLessThanOrEqual15mWKp = EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelA];
@@ -2004,7 +2102,10 @@ namespace Azure.ScannerEUI.ViewModel
                     This.NewParameterVM.R2TECControlKp = EthernetController.TECRefrigerationControlParameterKp[LaserChannels.ChannelB];
                     This.NewParameterVM.R2TECControlKi = EthernetController.TECRefrigerationControlParameterKi[LaserChannels.ChannelB];
                     This.NewParameterVM.R2TECControlKd = EthernetController.TECRefrigerationControlParameterKd[LaserChannels.ChannelB];
-
+                    if (This.IVVM.SensorMR2 == IvSensorType.PMT)
+                    {
+                        This.NewParameterVM.R2PMTCoefficient = Convert.ToString(EthernetController.PMTCompensationCoefficient[IVChannels.ChannelB]);
+                    }
                     if (Workspace.This.IVVM.WR2 == 532)
                     {
                         This.NewParameterVM.R2OpticalPowerLessThanOrEqual15mWKp = EthernetController.AllOpticalPowerLessThanOrEqual15mWKp[LaserChannels.ChannelB];

@@ -38,6 +38,7 @@ namespace Azure.ScannerEUI.ViewModel
         private float _FanSwitchInterval;
         private float _FanReserveTemperature;
         private string _SystemSN;
+        private byte _VersionExtension;
         private float _LCoefficient;
         private float _L375Coefficient;
         private float _R1Coefficient;
@@ -75,7 +76,7 @@ namespace Azure.ScannerEUI.ViewModel
         private bool _IsLOpticalPowerGreaterThan15mWKp = false;
         private bool _IsLOpticalPowerGreaterThan15mWKi = false;
         private bool _IsLOpticalPowerGreaterThan15mWKd = false;
-
+        private bool _IsLPMTCoefficient = false;
 
         private string _R1IVFirmwareVersionSN = "0";
         private string _R1IVFirmwareSN = "0";
@@ -108,7 +109,7 @@ namespace Azure.ScannerEUI.ViewModel
         private bool _IsR1OpticalPowerGreaterThan15mWKp = false;
         private bool _IsR1OpticalPowerGreaterThan15mWKi = false;
         private bool _IsR1OpticalPowerGreaterThan15mWKd = false;
-
+        private bool _IsR1PMTCoefficient = false;
 
 
 
@@ -143,7 +144,7 @@ namespace Azure.ScannerEUI.ViewModel
         private bool _IsR2OpticalPowerGreaterThan15mWKp = false;
         private bool _IsR2OpticalPowerGreaterThan15mWKi = false;
         private bool _IsR2OpticalPowerGreaterThan15mWKd = false;
-
+        private bool _IsR2PMTCoefficient = false;
 
 
         private double _LLaserMaxCurrent = 0;
@@ -162,11 +163,15 @@ namespace Azure.ScannerEUI.ViewModel
         private double _R2TECControlKp = 0;
         private double _R2TECControlKi = 0;
         private double _R2TECControlKd = 0;
-
+        private string _LPMTCoefficient = "0";
+        private string _R1PMTCoefficient = "0";
+        private string _R2PMTCoefficient = "0";
         private bool _IsEnabledL1 = false;
         private bool _IsEnabledR1 = false;
         private bool _IsEnabledR2 = false;
-
+        private bool _IsPMTEnabledL1 = false;
+        private bool _IsPMTEnabledR1 = false;
+        private bool _IsPMTEnabledR2 = false;
         private Visibility _Is532EnabledL1 = Visibility.Hidden;
         private Visibility _Is532EnabledR1 = Visibility.Hidden;
         private Visibility _Is532EnabledR2 = Visibility.Hidden;
@@ -217,43 +222,85 @@ namespace Azure.ScannerEUI.ViewModel
         #endregion
         public void Initialize()
         {
-
             _XMotorSubdivision = SettingsManager.ConfigSettings.XMotorSubdivision;
             _YMotorSubdivision = SettingsManager.ConfigSettings.YMotorSubdivision;
-
             //When the configuration parameters are incorrect, it means that the current device is new and given default parameters
             if (Workspace.This.EthernetController.DeviceProperties.OpticalLR1Distance != 24 && Workspace.This.EthernetController.DeviceProperties.PixelOffsetR1 != 2400 &&
               Workspace.This.EthernetController.DeviceProperties.OpticalLR2Distance != 48 && Workspace.This.EthernetController.DeviceProperties.PixelOffsetR2 != 4800 &&
-              Workspace.This.EthernetController.DeviceProperties.ZFocusPosition != 1  &&Workspace.This.EthernetController.DeviceProperties.FanReserveTemperature != 1400 &&
+              Workspace.This.EthernetController.DeviceProperties.ZFocusPosition != 1 && Workspace.This.EthernetController.DeviceProperties.FanReserveTemperature != 1400 &&
               Workspace.This.EthernetController.DeviceProperties.FanSwitchInterval != 400)
             {
+                float Init_LCoefficient = 0.15F;
+                float Init_L375Coefficient = 0.45F;
+                float Init_R1Coefficient = 0.15F;
+                float Init_R2Coefficient = 0.15F;
+                float Init_R2532Coefficient = 0.2F;
+                double Init_R1XLogicalHome = 10;
+                double Init_R1YLogicalHome = 10;
+                double Init_OpticalR2_R1Distance = 24;
+                int Init_Pixel_10_Offset_R2_R1 = 2400;
+                double Init_OpticalL_R1Distance = 48;
+                int Init_Pixel_10_Offset_L_R1 = 4800;
+                int Init_Pixel_10_L_DX = 0;
+                int Init_Pixel_10_L_DY = 0;
+                int Init_Pixel_10_R2_DX = 0;
+                int Init_Pixel_10_R2_DY = 0;
+                float Init_FocusLength = 1;
+                float Init_XEncoderSubdivision = 1000;
+                float Init_FanSwitchInterval = 2;//风扇启动间隔
+                float Init_FanReserveTemperature = 24; //存储温度
+                string Init_SystemSN = "0";
+                ushort Init_ShellFanDefaultSpeed = 2;
+                float Init_CH1WarningTemperature = 30;
                 MessageBoxResult boxResult = MessageBoxResult.None;
-                boxResult = MessageBox.Show("Currently, no personalization parameters are detected. Do you want to write the default value！\n", "warning", MessageBoxButton.YesNo);
+                boxResult = MessageBox.Show("Currently, no personalization parameters are detected. Do you want to write the default value！\n"
+                    + "\n L Coefficient = " + Init_LCoefficient
+                    + "\n 375 - L Coefficient = " + Init_L375Coefficient
+                    + "\n R1 Coefficient = " + Init_R1Coefficient
+                    + "\n R2 Coefficient = " + Init_R2Coefficient
+                    + "\n 532 - R2 Coefficient = " + Init_R2532Coefficient
+                    + "\n R2 X logical Home(mm) = " + Init_R1XLogicalHome
+                    + "\n R2 Y logical Home(mm) = " + Init_R1YLogicalHome
+                    + "\n R1-R2 Distance(mm) = " + Init_OpticalR2_R1Distance
+                    + "\n R1-R2 10 Pixel Distance = " + Init_Pixel_10_Offset_R2_R1
+                    + "\n L-R2 Distance(mm) = " + Init_OpticalL_R1Distance
+                    + "\n L-R2 10 Pixel Distance = " + Init_Pixel_10_Offset_L_R1
+                    + "\n Pixel 10 L  DX(pixel) = " + Init_Pixel_10_L_DX
+                    + "\n Pixel 10 L  DY(pixel) = " + Init_Pixel_10_L_DY
+                    + "\n Pixel 10 R1 DX(pixel) = " + Init_Pixel_10_R2_DX
+                    + "\n Pixel 10 R1 DY(pixel) = " + Init_Pixel_10_R2_DY
+                    + "\n FocusLength(mm) = " + Init_FocusLength
+                    + "\n XEncoderSubdivision = " + Init_XEncoderSubdivision
+                    + "\n Modules Fan Hysteresis(℃) = " + Init_FanSwitchInterval
+                    + "\n Modules Fan Operation(℃) = " + Init_FanReserveTemperature
+                    + "\n SystemSN = " + Init_SystemSN
+                    + "\n Default Level = " + Init_ShellFanDefaultSpeed
+                    + "\n Warning Temperature(℃) = " + Init_CH1WarningTemperature
+                   , "warning", MessageBoxButton.YesNo);
                 if (boxResult == MessageBoxResult.Yes)
                 {
-                    LCoefficient = 0.15F;
-                    L375Coefficient = 0.45F;
-                    R1Coefficient = 0.15F;
-                    R2Coefficient = 0.15F;
-                    R2532Coefficient = 0.2F;
-                    R1XLogicalHome = 10;
-                    R1YLogicalHome = 10;
-                    OpticalR2_R1Distance = 24;
-                    Pixel_10_Offset_R2_R1 = 2400;
-                    OpticalL_R1Distance = 48;
-                    Pixel_10_Offset_L_R1 = 4800;
-                    Pixel_10_L_DX = 0;
-                    Pixel_10_L_DY = 0;
-                    Pixel_10_R2_DX = 0;
-                    Pixel_10_R2_DY = 0;
-                    FocusLength = 1;
-                    XEncoderSubdivision = 1000;
-                    FanSwitchInterval = 2;//风扇启动间隔
-                    FanReserveTemperature = 24; //存储温度
-                    SystemSN = "0";
-                    ShellFanDefaultSpeed = 2;
-                    CH1AlertWarningSwitch = 0;
-                    CH1WarningTemperature = 30;
+                    LCoefficient = Init_LCoefficient;
+                    L375Coefficient = Init_L375Coefficient;
+                    R1Coefficient = Init_R1Coefficient;
+                    R2Coefficient = Init_R2Coefficient;
+                    R2532Coefficient = Init_R2532Coefficient;
+                    R1XLogicalHome = Init_R1XLogicalHome;
+                    R1YLogicalHome = Init_R1YLogicalHome;
+                    OpticalR2_R1Distance = Init_OpticalR2_R1Distance;
+                    Pixel_10_Offset_R2_R1 = Init_Pixel_10_Offset_R2_R1;
+                    OpticalL_R1Distance = Init_OpticalL_R1Distance;
+                    Pixel_10_Offset_L_R1 = Init_Pixel_10_Offset_L_R1;
+                    Pixel_10_L_DX = Init_Pixel_10_L_DX;
+                    Pixel_10_L_DY = Init_Pixel_10_L_DY;
+                    Pixel_10_R2_DX = Init_Pixel_10_R2_DX;
+                    Pixel_10_R2_DY = Init_Pixel_10_R2_DY;
+                    FocusLength = Init_FocusLength;
+                    XEncoderSubdivision = Init_XEncoderSubdivision;
+                    FanSwitchInterval = Init_FanSwitchInterval;//风扇启动间隔
+                    FanReserveTemperature = Init_FanReserveTemperature; //存储温度
+                    SystemSN = Init_SystemSN;
+                    ShellFanDefaultSpeed = Init_ShellFanDefaultSpeed;
+                    CH1WarningTemperature = Init_CH1WarningTemperature;
                     ExecuteParametersWriteCommand(null);
                 }
 
@@ -478,6 +525,18 @@ namespace Azure.ScannerEUI.ViewModel
                 {
                     _SystemSN = value;
                     RaisePropertyChanged("SystemSN");
+                }
+            }
+        }
+        public byte VersionExtension
+        {
+            get { return _VersionExtension; }
+            set
+            {
+                if (_VersionExtension != value)
+                {
+                    _VersionExtension = value;
+                    RaisePropertyChanged("VersionExtension");
                 }
             }
         }
@@ -1316,7 +1375,28 @@ namespace Azure.ScannerEUI.ViewModel
                 }
             }
         }
-
+        public string LPMTCoefficient
+        {
+            get { return _LPMTCoefficient; }
+            set
+            {
+                if (_LPMTCoefficient != value)
+                {
+                    if (Convert.ToDouble(value) == Uint16Code)
+                    {
+                        IsLPMTCoefficient = false;
+                        RaisePropertyChanged("IsLPMTCoefficient");
+                        _LPMTCoefficient = "NaN";
+                        RaisePropertyChanged("LPMTCoefficient");
+                    }
+                    else
+                    {
+                        _LPMTCoefficient = value;
+                        RaisePropertyChanged("LPMTCoefficient");
+                    }
+                }
+            }
+        }
         public bool IsEnabledL1
         {
             get { return _IsEnabledL1; }
@@ -1326,7 +1406,15 @@ namespace Azure.ScannerEUI.ViewModel
                 RaisePropertyChanged("IsEnabledL1");
             }
         }
-
+        public bool IsPMTEnabledL1
+        {
+            get { return _IsPMTEnabledL1; }
+            set
+            {
+                _IsPMTEnabledL1 = value;
+                RaisePropertyChanged("IsPMTEnabledL1");
+            }
+        }
 
         public Visibility Is532EnabledL1
         {
@@ -1353,6 +1441,10 @@ namespace Azure.ScannerEUI.ViewModel
                     IsLTECControlKi = value;
                     IsLTECControlKd = value;
                     IsLWavelength = value;
+                    if (Workspace.This.IVVM.SensorML1 == IvSensorType.PMT)
+                    {
+                        IsLPMTCoefficient = value;
+                    }
                     if (Workspace.This.IVVM.WL1 == 532)
                     {
                         IsLLaserMaxCurrent = value;
@@ -1722,6 +1814,31 @@ namespace Azure.ScannerEUI.ViewModel
                         }
                         _IsLTECControlKd = value;
                         RaisePropertyChanged("IsLTECControlKd");
+                    }
+                }
+            }
+        }
+        public bool IsLPMTCoefficient
+        {
+            get { return _IsLPMTCoefficient; }
+            set
+            {
+                if (_IsLPMTCoefficient != value)
+                {
+                    if (LPMTCoefficient == "NaN" || LPMTCoefficient == "")
+                    {
+                        _IsLPMTCoefficient = false;
+                        RaisePropertyChanged("IsLPMTCoefficient");
+                    }
+                    else
+                    {
+                        if (!value)
+                        {
+                            _IsLCheckALL = false;
+                            RaisePropertyChanged("IsLCheckALL");
+                        }
+                        _IsLPMTCoefficient = value;
+                        RaisePropertyChanged("IsLPMTCoefficient");
                     }
                 }
             }
@@ -2289,6 +2406,28 @@ namespace Azure.ScannerEUI.ViewModel
                 RaisePropertyChanged("IsEnabledR1");
             }
         }
+        public string R1PMTCoefficient
+        {
+            get { return _R1PMTCoefficient; }
+            set
+            {
+                if (_R1PMTCoefficient != value)
+                {
+                    if (Convert.ToDouble(value) == Uint16Code)
+                    {
+                        IsR1PMTCoefficient = false;
+                        RaisePropertyChanged("IsR1PMTCoefficient");
+                        _R1PMTCoefficient = "NaN";
+                        RaisePropertyChanged("R1PMTCoefficient");
+                    }
+                    else
+                    {
+                        _R1PMTCoefficient = value;
+                        RaisePropertyChanged("R1PMTCoefficient");
+                    }
+                }
+            }
+        }
         public Visibility Is532EnabledR1
         {
             get { return _Is532EnabledR1; }
@@ -2296,6 +2435,15 @@ namespace Azure.ScannerEUI.ViewModel
             {
                 _Is532EnabledR1 = value;
                 RaisePropertyChanged("Is532EnabledR1");
+            }
+        }
+        public bool IsPMTEnabledR1
+        {
+            get { return _IsPMTEnabledR1; }
+            set
+            {
+                _IsPMTEnabledR1 = value;
+                RaisePropertyChanged("IsPMTEnabledR1");
             }
         }
 
@@ -2314,6 +2462,10 @@ namespace Azure.ScannerEUI.ViewModel
                     IsR1TECControlKi = value;
                     IsR1TECControlKd = value;
                     IsR1Wavelength = value;
+                    if (Workspace.This.IVVM.SensorMR1 == IvSensorType.PMT)
+                    {
+                        IsR1PMTCoefficient = value;
+                    }
                     if (Workspace.This.IVVM.WR1 == 532)
                     {
                         IsR1LaserMaxCurrent = value;
@@ -2684,6 +2836,31 @@ namespace Azure.ScannerEUI.ViewModel
                         }
                         _IsR1TECControlKd = value;
                         RaisePropertyChanged("IsR1TECControlKd");
+                    }
+                }
+            }
+        }
+        public bool IsR1PMTCoefficient
+        {
+            get { return _IsR1PMTCoefficient; }
+            set
+            {
+                if (_IsR1PMTCoefficient != value)
+                {
+                    if (R1PMTCoefficient == "NaN" || R1PMTCoefficient == "")
+                    {
+                        _IsR1PMTCoefficient = false;
+                        RaisePropertyChanged("IsR1PMTCoefficient");
+                    }
+                    else
+                    {
+                        if (!value)
+                        {
+                            _IsR1CheckALL = false;
+                            RaisePropertyChanged("IsR1CheckALL");
+                        }
+                        _IsR1PMTCoefficient = value;
+                        RaisePropertyChanged("IsR1PMTCoefficient");
                     }
                 }
             }
@@ -3246,7 +3423,28 @@ namespace Azure.ScannerEUI.ViewModel
                 }
             }
         }
-
+        public string R2PMTCoefficient
+        {
+            get { return _R2PMTCoefficient; }
+            set
+            {
+                if (_R2PMTCoefficient != value)
+                {
+                    if (Convert.ToDouble(value) == Uint16Code)
+                    {
+                        IsR2PMTCoefficient = false;
+                        RaisePropertyChanged("IsR2PMTCoefficient");
+                        _R2PMTCoefficient = "NaN";
+                        RaisePropertyChanged("R2PMTCoefficient");
+                    }
+                    else
+                    {
+                        _R2PMTCoefficient = value;
+                        RaisePropertyChanged("R2PMTCoefficient");
+                    }
+                }
+            }
+        }
         public bool IsEnabledR2
         {
             get { return _IsEnabledR2; }
@@ -3254,6 +3452,15 @@ namespace Azure.ScannerEUI.ViewModel
             {
                 _IsEnabledR2 = value;
                 RaisePropertyChanged("IsEnabledR2");
+            }
+        }
+        public bool IsPMTEnabledR2
+        {
+            get { return _IsPMTEnabledR2; }
+            set
+            {
+                _IsPMTEnabledR2 = value;
+                RaisePropertyChanged("IsPMTEnabledR2");
             }
         }
         public Visibility Is532EnabledR2
@@ -3281,6 +3488,10 @@ namespace Azure.ScannerEUI.ViewModel
                     IsR2TECControlKi = value;
                     IsR2TECControlKd = value;
                     IsR2Wavelength = value;
+                    if (Workspace.This.IVVM.SensorMR2 == IvSensorType.PMT)
+                    {
+                        IsR2PMTCoefficient = value;
+                    }
                     if (Workspace.This.IVVM.WR2 == 532)
                     {
                         IsR2LaserMaxCurrent = value;
@@ -3657,6 +3868,31 @@ namespace Azure.ScannerEUI.ViewModel
                 }
             }
         }
+        public bool IsR2PMTCoefficient
+        {
+            get { return _IsR2PMTCoefficient; }
+            set
+            {
+                if (_IsR2PMTCoefficient != value)
+                {
+                    if (R2PMTCoefficient == "NaN" || R2PMTCoefficient == "")
+                    {
+                        _IsR2PMTCoefficient = false;
+                        RaisePropertyChanged("IsR2PMTCoefficient");
+                    }
+                    else
+                    {
+                        if (!value)
+                        {
+                            _IsR2CheckALL = false;
+                            RaisePropertyChanged("IsR2CheckALL");
+                        }
+                        _IsR2PMTCoefficient = value;
+                        RaisePropertyChanged("IsR2PMTCoefficient");
+                    }
+                }
+            }
+        }
         #endregion
         #endregion
 
@@ -3730,6 +3966,17 @@ namespace Azure.ScannerEUI.ViewModel
                     if (Workspace.This.EthernetController.SetTECControlKd(LaserChannels.ChannelC, LTECControlKd) == false)
                     {
                         MessageBox.Show("LTECControlKd Write Failed.");
+                    }
+                }
+                if (Workspace.This.IVVM.SensorML1 == IvSensorType.PMT)
+                {
+                    if (IsPMTEnabledL1)
+                    {
+                        IsSelectAnyCheckBox = true;
+                        if (Workspace.This.EthernetController.SetPMTCoefficient(IVChannels.ChannelC, Convert.ToDouble(LPMTCoefficient)) == false)
+                        {
+                            MessageBox.Show("LPMTCoefficient Write Failed.");
+                        }
                     }
                 }
                 if (Workspace.This.IVVM.WL1 == 532)
@@ -3857,6 +4104,17 @@ namespace Azure.ScannerEUI.ViewModel
                         MessageBox.Show("R1TECControlKd Write Failed.");
                     }
                 }
+                if (Workspace.This.IVVM.SensorMR1 == IvSensorType.PMT)
+                {
+                    if (IsPMTEnabledR1)
+                    {
+                        IsSelectAnyCheckBox = true;
+                        if (Workspace.This.EthernetController.SetPMTCoefficient(IVChannels.ChannelA, Convert.ToDouble(R1PMTCoefficient)) == false)
+                        {
+                            MessageBox.Show("R1PMTCoefficient Write Failed.");
+                        }
+                    }
+                }
                 if (Workspace.This.IVVM.WR1 == 532)
                 {
                     if (IsR1LaserMaxCurrent)
@@ -3980,6 +4238,17 @@ namespace Azure.ScannerEUI.ViewModel
                         MessageBox.Show("R2TECControlKd Write Failed.");
                     }
                 }
+                if (Workspace.This.IVVM.SensorMR2 == IvSensorType.PMT)
+                {
+                    if (IsPMTEnabledR2)
+                    {
+                        IsSelectAnyCheckBox = true;
+                        if (Workspace.This.EthernetController.SetPMTCoefficient(IVChannels.ChannelB, Convert.ToDouble(R2PMTCoefficient)) == false)
+                        {
+                            MessageBox.Show("R2PMTCoefficient Write Failed.");
+                        }
+                    }
+                }
                 if (Workspace.This.IVVM.WR2 == 532)
                 {
                     if (IsR2LaserMaxCurrent)
@@ -4096,6 +4365,7 @@ namespace Azure.ScannerEUI.ViewModel
                 deviceProperties.ShellFanDefaultSpeed = ShellFanDefaultSpeed;
                 deviceProperties.CH1AlertWarningSwitch = CH1AlertWarningSwitch;
                 deviceProperties.CH1WarningTemperature = CH1WarningTemperature;
+                deviceProperties.VersionExtension = Convert.ToByte(VersionExtension);
                 if (Workspace.This.EthernetController.SetDeviceProperties(deviceProperties) == false)
                 {
                     MessageBox.Show("Write Failed.");
@@ -4140,6 +4410,9 @@ namespace Azure.ScannerEUI.ViewModel
             IsEnabledL1 = true;
             IsEnabledR1 = true;
             IsEnabledR2 = true;
+            IsPMTEnabledL1 = true;
+            IsPMTEnabledR1 = true;
+            IsPMTEnabledR2 = true;
             Is532EnabledL1 = Visibility.Visible;
             Is532EnabledR1 = Visibility.Visible;
             Is532EnabledR2 = Visibility.Visible;
@@ -4147,13 +4420,18 @@ namespace Azure.ScannerEUI.ViewModel
             {
                 if (Workspace.This.IVVM.WL1 != 532)
                 {
-                    Workspace.This.NewParameterVM.Is532EnabledL1 = Visibility.Hidden;
+                    Is532EnabledL1 = Visibility.Hidden;
+                }
+                if (Workspace.This.IVVM.SensorML1 != IvSensorType.PMT)
+                {
+                    IsPMTEnabledL1 = false;
                 }
             }
             else
             {
-                Workspace.This.NewParameterVM.IsEnabledL1 = false;
-                Workspace.This.NewParameterVM.Is532EnabledL1 = Visibility.Hidden;
+                IsEnabledL1 = false;
+                Is532EnabledL1 = Visibility.Hidden;
+                IsPMTEnabledL1 = false;
             }
 
 
@@ -4161,13 +4439,18 @@ namespace Azure.ScannerEUI.ViewModel
             {
                 if (Workspace.This.IVVM.WR1 != 532)
                 {
-                    Workspace.This.NewParameterVM.Is532EnabledR1 = Visibility.Hidden;
+                    Is532EnabledR1 = Visibility.Hidden;
+                }
+                if (Workspace.This.IVVM.SensorMR1 != IvSensorType.PMT)
+                {
+                    IsPMTEnabledR1 = false;
                 }
             }
             else
             {
-                Workspace.This.NewParameterVM.IsEnabledR1 = false;
-                Workspace.This.NewParameterVM.Is532EnabledR1 = Visibility.Hidden;
+                IsEnabledR1 = false;
+                Is532EnabledR1 = Visibility.Hidden;
+                IsPMTEnabledR1 = false;
             }
 
             if (Workspace.This.IVVM.WR2 != 0 && Workspace.This.IVVM.WR2 != Workspace.This.NewParameterVM.Uint16Code)
@@ -4175,13 +4458,18 @@ namespace Azure.ScannerEUI.ViewModel
 
                 if (Workspace.This.IVVM.WR2 != 532)
                 {
-                    Workspace.This.NewParameterVM.Is532EnabledR2 = Visibility.Hidden;
+                    Is532EnabledR2 = Visibility.Hidden;
+                }
+                if (Workspace.This.IVVM.SensorMR2 != IvSensorType.PMT)
+                {
+                    IsPMTEnabledR2 = false;
                 }
             }
             else
             {
-                Workspace.This.NewParameterVM.IsEnabledR2 = false;
-                Workspace.This.NewParameterVM.Is532EnabledR2 = Visibility.Hidden;
+                IsEnabledR2 = false;
+                Is532EnabledR2 = Visibility.Hidden;
+                IsPMTEnabledR2 = false;
             }
             GetOtherSetting();
             GetModelInfo();
@@ -4209,6 +4497,7 @@ namespace Azure.ScannerEUI.ViewModel
             Pixel_10_R2_DY = Workspace.This.EthernetController.DeviceProperties.PixelOffsetDyCHR2;
             FocusLength = Workspace.This.EthernetController.DeviceProperties.ZFocusPosition;
             SystemSN = Encoding.ASCII.GetString(Workspace.This.EthernetController.DeviceProperties.SysSN).TrimEnd('\0');
+            VersionExtension = Workspace.This.EthernetController.DeviceProperties.VersionExtension;
             Pixel_10_L_DX = Workspace.This.EthernetController.DeviceProperties.PixelOffsetDxCHL;
             Pixel_10_L_DY = Workspace.This.EthernetController.DeviceProperties.PixelOffsetDyCHL;
             XEncoderSubdivision = Workspace.This.EthernetController.DeviceProperties.XEncoderSubdivision;
@@ -4262,6 +4551,9 @@ namespace Azure.ScannerEUI.ViewModel
             IsLTECControlKp = false;
             IsLTECControlKi = false;
             IsLTECControlKd = false;
+            IsLPMTCoefficient = false;
+            IsR1PMTCoefficient = false;
+            IsR2PMTCoefficient = false;
             IsLLaserMaxCurrent = false;
             IsLLaserMinCurrent = false;
             IsLOpticalPowerLessThanOrEqual15mWKp = false;

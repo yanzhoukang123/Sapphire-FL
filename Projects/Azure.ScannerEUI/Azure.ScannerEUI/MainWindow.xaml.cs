@@ -425,6 +425,16 @@ namespace Azure.ScannerEUI
 
             try
             {
+                if (Workspace.This.ScannerVM.HWversion == Workspace.This.DefaultHWversion)
+                {
+                    //Setting the fan level
+                    Workspace.This.EthernetController.SetIncrustationFan(1, Workspace.This.NewParameterVM.ShellFanDefaultSpeed);
+                    //关闭RGB灯光，Turn off RGB lights
+                    if (Workspace.This.IsRGBLightSelected)
+                    {
+                        Workspace.This.IsRGBLightSelected = false;
+                    }
+                }
                 if (Workspace.This.EthernetController != null && Workspace.This.EthernetController.IsConnected)
                 {
                     Workspace.This.EthernetController.SetLaserPower(LaserChannels.ChannelA, 0);

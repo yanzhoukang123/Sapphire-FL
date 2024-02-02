@@ -135,7 +135,7 @@ namespace Azure.EthernetCommLib
         public static Dictionary<IVChannels, IvSensorType> IvSensorTypes { get { return AvocadoProtocol.IvSensorTypes; } }
         public static Dictionary<IVChannels, string> IVEstimatedVersionNumberBoard { get { return AvocadoProtocol.IVEstimatedVersionNumberBoard; } }
 
-        public  Dictionary<AmbientTemperatureChannel, double> AmbientTemperature { get { return AvocadoProtocol.AmbientTemperature; } }
+        public Dictionary<AmbientTemperatureChannel, double> AmbientTemperature { get { return AvocadoProtocol.AmbientTemperature; } }
 
         public static Dictionary<IVChannels, string> IVErrorCode { get { return AvocadoProtocol.IVErrorCode; } }
 
@@ -147,7 +147,7 @@ namespace Azure.EthernetCommLib
 
         public static Dictionary<IVChannels, double> TempSenser6459AD { get { return AvocadoProtocol.TempSenser6459AD; } }
 
-        public static Dictionary<IVChannels, uint> PMTCompensationCoefficient { get { return AvocadoProtocol.PMTCompensationCoefficient; } }
+        public static Dictionary<IVChannels, double> PMTCompensationCoefficient { get { return AvocadoProtocol.PMTCompensationCoefficient; } }
 
         public static Dictionary<IVChannels, double> LightIntensityCalibrationTemperature { get { return AvocadoProtocol.LightIntensityCalibrationTemperature; } }
         public static Dictionary<IVChannels, double> APDGainCalVol { get { return AvocadoProtocol.APDGainCalVol; } }
@@ -161,6 +161,38 @@ namespace Azure.EthernetCommLib
 
         public static Dictionary<LaserChannels, string> LaserBoardFirmwareVersionNumber { get { return AvocadoProtocol.LaserBoardFirmwareVersionNumber; } }
         private CommStatusTypes _CommStatus;
+        //public CommStatusTypes CommStatus
+        //{
+        //    get { return _CommStatus; }
+        //    set
+        //    {
+        //        if (_CommStatus != value)
+        //        {
+        //            _CommStatus = value;
+        //            if (_CommStatus == CommStatusTypes.Waiting)
+        //            {
+        //                if (_StatusTimer != null)
+        //                {
+        //                    _StatusTimer.Start();
+        //                }
+        //                else
+        //                {
+        //                    _StatusTimer = new System.Timers.Timer();
+        //                    _StatusTimer.AutoReset = false;
+        //                    _StatusTimer.Interval = 500;
+        //                    _StatusTimer.Elapsed += _StatusTimer_Elapsed;
+        //                }
+        //            }
+        //            else if (_CommStatus != CommStatusTypes.TimeOut)
+        //            {
+        //                if (_StatusTimer != null)
+        //                {
+        //                    _StatusTimer.Stop();
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         public CommStatusTypes CommStatus
         {
             get { return _CommStatus; }
@@ -171,24 +203,11 @@ namespace Azure.EthernetCommLib
                     _CommStatus = value;
                     if (_CommStatus == CommStatusTypes.Waiting)
                     {
-                        if (_StatusTimer != null)
-                        {
-                            _StatusTimer.Start();
-                        }
-                        else
-                        {
-                            _StatusTimer = new System.Timers.Timer();
-                            _StatusTimer.AutoReset = false;
-                            _StatusTimer.Interval = 500;
-                            _StatusTimer.Elapsed += _StatusTimer_Elapsed;
-                        }
+                        _StatusTimer.Start();
                     }
                     else if (_CommStatus != CommStatusTypes.TimeOut)
                     {
-                        if (_StatusTimer != null)
-                        {
-                            _StatusTimer.Stop();
-                        }
+                        _StatusTimer.Stop();
                     }
                 }
             }
@@ -212,7 +231,7 @@ namespace Azure.EthernetCommLib
                 }
             }
         }
-
+        public UInt16 Register2ControlStatus { get { return AvocadoProtocol.Register2ControlStatus; } }  //RGB light board control（FW Version 1.1.0.0）
         public Dictionary<LaserChannels, double> LaserTemperatures { get { return AvocadoProtocol.LaserTemperatures; } }
         public Dictionary<LaserChannels, double> RadiatorTemperatures { get { return AvocadoProtocol.RadiatorTemperatures; } }
 
@@ -392,7 +411,7 @@ namespace Azure.EthernetCommLib
             //}
             lock (_Token)
             {
-                if(CommStatus == CommStatusTypes.Received)
+                if (CommStatus == CommStatusTypes.Received)
                 {
                     CommStatus = CommStatusTypes.Idle;
                 }
@@ -428,7 +447,7 @@ namespace Azure.EthernetCommLib
                         return true;
                     }
                 }
-                catch(System.Net.Sockets.SocketException ex)
+                catch (System.Net.Sockets.SocketException ex)
                 {
                     IsConnected = false;
                     Connect(new IPAddress(new byte[] { 192, 168, 1, 110 }), 5000, 8000, new IPAddress(new byte[] { 192, 168, 1, 100 }));
@@ -653,14 +672,24 @@ namespace Azure.EthernetCommLib
             byte[] cmd = AvocadoProtocol.SetLEDBarProgress(progress);
             return SendBytes(cmd);
         }
-        public bool SetIncrustationFan(int IsAuto,int coefficient)
+        public bool SetIncrustationFan(int IsAuto, int coefficient)
         {
-            byte[] cmd = AvocadoProtocol.SetIncrustationFan(IsAuto,coefficient);
+            byte[] cmd = AvocadoProtocol.SetIncrustationFan(IsAuto, coefficient);
             return SendBytes(cmd);
         }
         public bool SetCommunicationControl(int sige)
         {
             byte[] cmd = AvocadoProtocol.SetCommunicationControl(sige);
+            return SendBytes(cmd);
+        }
+        /// <summary>
+        /// 0 off,1 on
+        /// </summary>
+        /// <param name="sige"></param>
+        /// <returns></returns>
+        public bool SetRGBLightRegisterControl(int sige)
+        {
+            byte[] cmd = AvocadoProtocol.SetRegisterControl(sige);
             return SendBytes(cmd);
         }
         public bool SetIncrustationFan()
@@ -740,6 +769,12 @@ namespace Azure.EthernetCommLib
         public bool GetAllPMTCompensationCoefficient()
         {
             byte[] cmd = AvocadoProtocol.GetAllPMTCompensationCoefficient();
+            return SendBytes(cmd);
+        }
+
+        public bool GetAllPMTCompensationCoefficient(IVChannels iVChannels)
+        {
+            byte[] cmd = AvocadoProtocol.GetAllPMTCompensationCoefficient(iVChannels);
             return SendBytes(cmd);
         }
         public bool GetAllLightIntensityCalibrationTemperature()
@@ -1181,6 +1216,11 @@ namespace Azure.EthernetCommLib
             byte[] cmd = AvocadoProtocol.SetTECControlKd(channel, current);
             return SendBytes(cmd);
         }
+        public bool SetPMTCoefficient(IVChannels channel, double current)
+        {
+            byte[] cmd = AvocadoProtocol.SetPMTCoefficient(channel, current);
+            return SendBytes(cmd);
+        }
         #endregion
         #endregion Public Functions
 
@@ -1226,14 +1266,14 @@ namespace Azure.EthernetCommLib
                     }
                 }
             }
-            catch(SocketException ex)
+            catch (SocketException ex)
             {
                 if (!_CommandSocket.Connected)
                 {
                     return;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //Disconnect();
             }
@@ -1266,7 +1306,7 @@ namespace Azure.EthernetCommLib
                     }
                 }
             }
-            catch(SocketException ex)
+            catch (SocketException ex)
             {
                 if (!_StreamSocket.Connected)
                 {
@@ -1330,11 +1370,7 @@ namespace Azure.EthernetCommLib
 
         private void StreamReceiveArgs_Completed(object sender, SocketAsyncEventArgs e)
         {
-            if (e.SocketError != SocketError.Success)
-            {
-                IsConnected = false;
-                return;
-            }
+            if (e.SocketError != SocketError.Success) { return; }
             Socket socket = sender as Socket;
             string iPRemote = socket.RemoteEndPoint.ToString();
 

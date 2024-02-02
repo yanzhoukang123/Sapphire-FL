@@ -5,13 +5,13 @@
         xmlns:local="clr-namespace:Azure.ScannerEUI.ViewModel"
         xmlns:imagingsys="clr-namespace:Azure.ImagingSystem;assembly=Azure.ImagingSystem"
         Title="PARAMETER SETUP"         
-        Height="950.013"
+        Height="1000.013"
      
         WindowStyle="ToolWindow"
         WindowStartupLocation="CenterOwner"
           Loaded="Window_Loaded"
         Closed="Window_Closed"
-       MaxHeight="950.013" Width="1600.459">
+       MaxHeight="1050.013" Width="1600.459">
     <!--<Window.DataContext>
         <local:ParameterSetupViewModel/>
     </Window.DataContext>-->
@@ -341,9 +341,22 @@
                     VerticalContentAlignment="Center"
                     Text="{Binding Path=SystemSN, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
         <Grid  Grid.Row="50" Grid.Column="1"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,11,2"  Visibility="{Binding LEDVesionVisFlag}">
-            <Label   Content="SN" Visibility="{Binding VesionVisFlag}" Margin="6,0,90,0"/>
+            <Label   Content="Version Extension" Visibility="{Binding VesionVisFlag}" Margin="6,0,90,0"/>
         </Grid>
         <Grid  Grid.Row="50" Grid.Column="2"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,11,2"  Visibility="{Binding LEDVesionVisFlag}">
+            <TextBox
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Path=VersionExtension, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="5,2" Visibility="{Binding VesionVisFlag}" />
+        </Grid>
+        <Grid  Grid.Row="52" Grid.Column="1"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,11,2"  Visibility="{Binding LEDVesionVisFlag}">
+            <Label   Content="SN" Visibility="{Binding VesionVisFlag}" Margin="6,0,90,0"/>
+        </Grid>
+        <Grid  Grid.Row="52" Grid.Column="2"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,2,11,2"  Visibility="{Binding LEDVesionVisFlag}">
             <TextBox
                     Width="80"
                     Height="25"
@@ -506,8 +519,8 @@
                     VerticalContentAlignment="Center"
                     IsEnabled="{Binding IsEnabledL1}"
                     Text="{Binding Path=LTECControlKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
-        <Label  Visibility="{Binding Is532EnabledL1}" Grid.Row="18" Grid.Column="4" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="18" Grid.Column="7"  Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLLaserMaxCurrent}"></CheckBox>
+        <Label  Grid.Row="18" Grid.Column="4" Content="PMT Coefficient(0.1mV)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="18" Grid.Column="7"  IsChecked="{Binding Path=IsLPMTCoefficient}" IsEnabled="{Binding IsPMTEnabledL1}"></CheckBox>
         <TextBox Grid.Row="18" Grid.Column="6"
                     Width="80"
                     Height="25"
@@ -515,10 +528,10 @@
                     FontWeight="SemiBold"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Visibility="{Binding Is532EnabledL1}"
-                    Text="{Binding Path=LLaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
-        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="20" Grid.Column="4" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="20" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLLaserMinCurrent}"></CheckBox>
+                    IsEnabled="{Binding IsPMTEnabledL1}"
+                    Text="{Binding Path=LPMTCoefficient,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label  Visibility="{Binding Is532EnabledL1}" Grid.Row="20" Grid.Column="4" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="20" Grid.Column="7"  Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLLaserMaxCurrent}"></CheckBox>
         <TextBox Grid.Row="20" Grid.Column="6"
                     Width="80"
                     Height="25"
@@ -527,9 +540,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledL1}"
-                    Text="{Binding Path=LLaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
-        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="28" Grid.Column="4"  Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1" />
-        <CheckBox Grid.Row="28" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
+                    Text="{Binding Path=LLaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="28" Grid.Column="4" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="28" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLLaserMinCurrent}"></CheckBox>
         <TextBox Grid.Row="28" Grid.Column="6"
                     Width="80"
                     Height="25"
@@ -538,10 +551,21 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LLaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="30" Grid.Column="4"  Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1" />
+        <CheckBox Grid.Row="30" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
+        <TextBox Grid.Row="30" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
                     Text="{Binding Path=LOpticalPowerLessThanOrEqual15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
-        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="30" Grid.Column="4" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="30" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
-        <TextBox  Grid.Row="30" Grid.Column="6"
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="32" Grid.Column="4" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="32" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
+        <TextBox  Grid.Row="32" Grid.Column="6"
                     Width="80"
                     Height="25"
                     FontSize="14"
@@ -550,19 +574,8 @@
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledL1}"
                     Text="{Binding Path=LOpticalPowerLessThanOrEqual15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
-        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="32" Grid.Column="4" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="32" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
-        <TextBox Grid.Row="32" Grid.Column="6"
-                    Width="80"
-                    Height="25"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Visibility="{Binding Is532EnabledL1}"
-                    Text="{Binding Path=LOpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
-        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="34" Grid.Column="4" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="34" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKp}"></CheckBox>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="34" Grid.Column="4" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="34" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
         <TextBox Grid.Row="34" Grid.Column="6"
                     Width="80"
                     Height="25"
@@ -571,9 +584,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledL1}"
-                    Text="{Binding Path=LOpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
-        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="36" Grid.Column="4" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
-        <CheckBox Grid.Row="36" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKi}"></CheckBox>
+                    Text="{Binding Path=LOpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="36" Grid.Column="4" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="36" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKp}"></CheckBox>
         <TextBox Grid.Row="36" Grid.Column="6"
                     Width="80"
                     Height="25"
@@ -582,10 +595,21 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledL1}"
-                    Text="{Binding Path=LOpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
-        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="38" Grid.Column="4" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="38" Grid.Column="7"  Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKd}"></CheckBox>
+                    Text="{Binding Path=LOpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="38" Grid.Column="4" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="38" Grid.Column="7" Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKi}"></CheckBox>
         <TextBox Grid.Row="38" Grid.Column="6"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledL1}"
+                    Text="{Binding Path=LOpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,2,3,2"/>
+        <Label Visibility="{Binding Is532EnabledL1}" Grid.Row="40" Grid.Column="4" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="40" Grid.Column="7"  Visibility="{Binding Is532EnabledL1}" IsChecked="{Binding Path=IsLOpticalPowerGreaterThan15mWKd}"></CheckBox>
+        <TextBox Grid.Row="40" Grid.Column="6"
                     Width="80"
                     Height="25"
                     FontSize="14"
@@ -772,8 +796,8 @@
                     VerticalContentAlignment="Center"
                     IsEnabled="{Binding IsEnabledR1}"
                     Text="{Binding Path=R1TECControlKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
-        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="18" Grid.Column="8" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="18" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1LaserMaxCurrent}"></CheckBox>
+        <Label  Grid.Row="18" Grid.Column="8" Content="PMT Coefficient(0.1mV)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="18" Grid.Column="11" IsChecked="{Binding Path=IsR1PMTCoefficient}" IsEnabled="{Binding IsPMTEnabledR1}"></CheckBox>
         <TextBox Grid.Row="18" Grid.Column="10"
                     Width="80"
                     Height="25"
@@ -781,10 +805,10 @@
                     FontWeight="SemiBold"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Visibility="{Binding Is532EnabledR1}"
-                    Text="{Binding Path=R1LaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
-        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="20" Grid.Column="8" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="20" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1LaserMinCurrent}"></CheckBox>
+                    IsEnabled="{Binding IsPMTEnabledR1}"
+                    Text="{Binding Path=R1PMTCoefficient,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="20" Grid.Column="8" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="20" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1LaserMaxCurrent}"></CheckBox>
         <TextBox Grid.Row="20" Grid.Column="10"
                     Width="80"
                     Height="25"
@@ -793,9 +817,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR1}"
-                    Text="{Binding Path=R1LaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
-        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="28" Grid.Column="8" Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox  Grid.Row="28" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
+                    Text="{Binding Path=R1LaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="28" Grid.Column="8" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="28" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1LaserMinCurrent}"></CheckBox>
         <TextBox Grid.Row="28" Grid.Column="10"
                     Width="80"
                     Height="25"
@@ -804,9 +828,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR1}"
-                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
-        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="30" Grid.Column="8" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="30" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
+                    Text="{Binding Path=R1LaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="30" Grid.Column="8" Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox  Grid.Row="30" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
         <TextBox Grid.Row="30" Grid.Column="10"
                     Width="80"
                     Height="25"
@@ -815,9 +839,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR1}"
-                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
-        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="32" Grid.Column="8" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="32" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
+                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="32" Grid.Column="8" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="32" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
         <TextBox Grid.Row="32" Grid.Column="10"
                     Width="80"
                     Height="25"
@@ -826,9 +850,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR1}"
-                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
-        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="34" Grid.Column="8" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="34" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKp}"></CheckBox>
+                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="34" Grid.Column="8" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="34" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
         <TextBox Grid.Row="34" Grid.Column="10"
                     Width="80"
                     Height="25"
@@ -837,9 +861,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR1}"
-                    Text="{Binding Path=R1OpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
-        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="36" Grid.Column="8" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
-        <CheckBox Grid.Row="36" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKi}"></CheckBox>
+                    Text="{Binding Path=R1OpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="36" Grid.Column="8" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="36" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKp}"></CheckBox>
         <TextBox Grid.Row="36" Grid.Column="10"
                     Width="80"
                     Height="25"
@@ -848,10 +872,21 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR1}"
-                    Text="{Binding Path=R1OpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
-        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="38" Grid.Column="8" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="38" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKd}"></CheckBox>
+                    Text="{Binding Path=R1OpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="38" Grid.Column="8" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="38" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKi}"></CheckBox>
         <TextBox Grid.Row="38" Grid.Column="10"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR1}"
+                    Text="{Binding Path=R1OpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
+        <Label Visibility="{Binding Is532EnabledR1}" Grid.Row="40" Grid.Column="8" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="40" Grid.Column="11"    Visibility="{Binding Is532EnabledR1}" IsChecked="{Binding Path=IsR1OpticalPowerGreaterThan15mWKd}"></CheckBox>
+        <TextBox Grid.Row="40" Grid.Column="10"
                     Width="80"
                     Height="25"
                     FontSize="14"
@@ -950,7 +985,7 @@
                     Text="{Binding Path=R1OpticalPowerControlKiDownLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2"/>
 
         <Label Grid.Row="0" Grid.Column="12" Content="R2            All" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,2,3,2"/>
-        <CheckBox Grid.Row="0" Grid.Column="15"  IsChecked="{Binding Path=IsR2CheckALL}" HorizontalAlignment="Center" Margin="40,0,29,0" Width="20"></CheckBox>
+        <CheckBox Grid.Row="0" Grid.Column="14"  IsChecked="{Binding Path=IsR2CheckALL}" HorizontalAlignment="Center" Margin="40,0,29,0" Width="20"></CheckBox>
         <Label Grid.Row="2" Grid.Column="12" Content="FVN" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,2,3,2"/>
         <TextBox Grid.Row="2" Grid.Column="14"
                     IsReadOnly="True"
@@ -1037,8 +1072,8 @@
                     VerticalContentAlignment="Center"
                   IsEnabled="{Binding IsEnabledR2}"
                     Text="{Binding Path=R2TECControlKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
-        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="18" Grid.Column="12" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="18" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2LaserMaxCurrent}"></CheckBox>
+        <Label  Grid.Row="18" Grid.Column="12" Content="PMT Coefficient(0.1mV)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="18" Grid.Column="16" IsChecked="{Binding Path=IsR2PMTCoefficient}" IsEnabled="{Binding IsPMTEnabledR2}"></CheckBox>
         <TextBox Grid.Row="18" Grid.Column="14"
                     Width="80"
                     Height="25"
@@ -1046,10 +1081,10 @@
                     FontWeight="SemiBold"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Visibility="{Binding Is532EnabledR2}"
-                    Text="{Binding Path=R2LaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
-        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="20" Grid.Column="12" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="20" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2LaserMinCurrent}"></CheckBox>
+                    IsEnabled="{Binding IsPMTEnabledR2}"
+                    Text="{Binding Path=R2PMTCoefficient,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="7,1,3,1"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="20" Grid.Column="12" Content="532-Laser Max" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="20" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2LaserMaxCurrent}"></CheckBox>
         <TextBox Grid.Row="20" Grid.Column="14"
                     Width="80"
                     Height="25"
@@ -1058,9 +1093,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR2}"
-                    Text="{Binding Path=R2LaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
-        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="28" Grid.Column="12" Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="28" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
+                    Text="{Binding Path=R2LaserMaxCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="28" Grid.Column="12" Content="532-Laser Min" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="28" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2LaserMinCurrent}"></CheckBox>
         <TextBox Grid.Row="28" Grid.Column="14"
                     Width="80"
                     Height="25"
@@ -1069,9 +1104,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR2}"
-                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
-        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="30" Grid.Column="12" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="30" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
+                    Text="{Binding Path=R2LaserMinCurrent,StringFormat=0.0, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="30" Grid.Column="12" Content="532-Kp(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="30" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKp}"></CheckBox>
         <TextBox Grid.Row="30" Grid.Column="14"
                     Width="80"
                     Height="25"
@@ -1080,9 +1115,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR2}"
-                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
-        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="32" Grid.Column="12" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="32" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
+                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="32" Grid.Column="12" Content="532-Ki(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="32" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKi}"></CheckBox>
         <TextBox Grid.Row="32" Grid.Column="14"
                     Width="80"
                     Height="25"
@@ -1091,9 +1126,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR2}"
-                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
-        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="34" Grid.Column="12" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="34" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKp}"></CheckBox>
+                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="34" Grid.Column="12" Content="532-Kd(&lt;=15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="34" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerLessThanOrEqual15mWKd}"></CheckBox>
         <TextBox Grid.Row="34" Grid.Column="14"
                     Width="80"
                     Height="25"
@@ -1102,9 +1137,9 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR2}"
-                    Text="{Binding Path=R2OpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
-        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="36" Grid.Column="12" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
-        <CheckBox Grid.Row="36" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKi}"></CheckBox>
+                    Text="{Binding Path=R2OpticalPowerLessThanOrEqual15mWKd, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="36" Grid.Column="12" Content="532-Kp(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="36" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKp}"></CheckBox>
         <TextBox Grid.Row="36" Grid.Column="14"
                     Width="80"
                     Height="25"
@@ -1113,10 +1148,21 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Visibility="{Binding Is532EnabledR2}"
-                    Text="{Binding Path=R2OpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
-        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="38" Grid.Column="12" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
-        <CheckBox Grid.Row="38" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKd}"></CheckBox>
+                    Text="{Binding Path=R2OpticalPowerGreaterThan15mWKp, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,1,2,1" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="38" Grid.Column="12" Content="532-Ki(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,3,2"/>
+        <CheckBox Grid.Row="38" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKi}"></CheckBox>
         <TextBox Grid.Row="38" Grid.Column="14"
+                    Width="80"
+                    Height="25"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{Binding Is532EnabledR2}"
+                    Text="{Binding Path=R2OpticalPowerGreaterThan15mWKi, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
+        <Label Visibility="{Binding Is532EnabledR2}" Grid.Row="40" Grid.Column="12" Content="532-Kd(&gt;15mW)" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,1,3,1"/>
+        <CheckBox Grid.Row="40" Grid.Column="16"  Visibility="{Binding Is532EnabledR2}" IsChecked="{Binding Path=IsR2OpticalPowerGreaterThan15mWKd}"></CheckBox>
+        <TextBox Grid.Row="40" Grid.Column="14"
                     Width="80"
                     Height="25"
                     FontSize="14"
@@ -1215,7 +1261,7 @@
                     Text="{Binding Path=R2OpticalPowerControlKiDownLimitLessThan15, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="6,2,2,2" Grid.ColumnSpan="2"/>
 
 
-        <Button Name="_ParametersReadCommand" Grid.Row="56" Grid.Column="6"
+        <Button Name="_ParametersReadCommand" Grid.Row="58" Grid.Column="6"
                     Command="{Binding Path=ParametersReadCommand}"
                     IsEnabled="{Binding Path=OtherSettingBtnIsEnable}"
                     Content="Read"
@@ -1225,7 +1271,7 @@
                     Style="{DynamicResource BlueButton}" 
                     VerticalAlignment="Center" 
                     Width="86" Margin="2,3,2,4" />
-        <Button Name="_ParametersWriteCommand" Grid.Row="56" Grid.Column="8"
+        <Button Name="_ParametersWriteCommand" Grid.Row="58" Grid.Column="8"
                     Command="{Binding Path=ParametersWriteCommand}" 
                     IsEnabled="{Binding Path=OtherSettingBtnIsEnable}"
                     Content="Write" 

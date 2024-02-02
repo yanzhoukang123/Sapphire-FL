@@ -156,8 +156,9 @@ namespace Azure.EthernetCommLib
             XMotionSubdivision = 0x11,
             IncrustationFan = 0x12,  //Housing fan
             CommunicationControl = 0x13,//485 Communication polling
-            AmbientTemperature= 0x14,
-            PromptForPressingShutdown=0x15,  //图像扫描过程中按下前面板关机键  Press the front panel shutdown button during image scanning
+            AmbientTemperature = 0x14,
+            PromptForPressingShutdown = 0x15,  //图像扫描过程中按下前面板关机键  Press the front panel shutdown button during image scanning
+            Register2Control = 0x16, //继电器2控制
             // Motor properties
             StartSpeed = 0x01,
             TopSpeed,
@@ -227,7 +228,7 @@ namespace Azure.EthernetCommLib
             LaserCurrent = 0x03,
             LaserPower = 0x04,
             LaserTemper = 0x05,
-            RadiatorTemper=0x06,
+            RadiatorTemper = 0x06,
             ReserveFan = 0x07,
             LaserCalPower = 0x08, //APD gain calibration voltage
             TECControlTemperature = 0x09,
@@ -251,7 +252,7 @@ namespace Azure.EthernetCommLib
             RadioDiodeVoltage = 0x20,             //Photodiode voltage
             RadioDiodeCalibrationSlope = 0x21,   //Photodiode calibration slope
             RadioAndTelevisionDiodeCalibrationConstant = 0x22, //Photodiode calibration constant
-            OpticalPowerControlKpUpperLimitLessThanOrEqual15=0x23,  //Optical power (<=15mW) control Kp upper limit
+            OpticalPowerControlKpUpperLimitLessThanOrEqual15 = 0x23,  //Optical power (<=15mW) control Kp upper limit
             OpticalPowerControlKpDownLimitLessThanOrEqual15 = 0x24,  //Optical power (<=15mW) control Kp down limit
             OpticalPowerControlKiUpperLimitLessThanOrEqual15 = 0x25,  //Optical power (<=15mW) control Ki upper limit
             OpticalPowerControlKiDownLimitLessThanOrEqual15 = 0x26,  //Optical power (<=15mW) control Ki down limit
@@ -316,7 +317,7 @@ namespace Azure.EthernetCommLib
                     //result.Add((byte)(DataField.Count & 0xff));
                     result.AddRange(BitConverter.GetBytes(DataLength));
                     result.AddRange(DataField);
-                  
+
                 }
                 result.Add(End);
 
@@ -378,7 +379,7 @@ namespace Azure.EthernetCommLib
         public static string HWVersion { get; private set; }
         public static string FWVersion { get; private set; }
         public static string LEDVersion { get; private set; }
-        
+
         public static Dictionary<MotorTypes, MotionState> MotionStates { get; }
         public static Dictionary<MotorTypes, int> MotionCrntPositions { get; }
         public static uint SingleSampleChA { get; private set; }
@@ -386,7 +387,7 @@ namespace Azure.EthernetCommLib
         public static uint SingleSampleChC { get; private set; }
         #region IvSensorLaserBoardFirmwareVersionNumber
         public static Dictionary<IVChannels, IvSensorType> IvSensorTypes { get; private set; }
-        
+
         public static Dictionary<IVChannels, string> IVEstimatedVersionNumberBoard { get; private set; }
         public static Dictionary<AmbientTemperatureChannel, double> AmbientTemperature { get; private set; }
         public static Dictionary<IVChannels, string> IVOpticalModuleSerialNumber { get; private set; }
@@ -400,7 +401,7 @@ namespace Azure.EthernetCommLib
 
         public static Dictionary<IVChannels, double> APDGainCalVol { get; private set; }
 
-        public static Dictionary<IVChannels, uint> PMTCompensationCoefficient { get; private set; }
+        public static Dictionary<IVChannels, double> PMTCompensationCoefficient { get; private set; }
 
         #endregion
         public static Dictionary<LaserChannels, string> LaserErrorCode { get; private set; }
@@ -454,12 +455,13 @@ namespace Azure.EthernetCommLib
         public static bool OpticalModulePowerMonitor { get; private set; }    //Optical module power monitoring   光学模块电源监测（FW Version 1.1.0.0）
         public static bool DevicePowerStatus { get; private set; }   //Front panel button power status  前面板按钮电源状态（FW Version 1.1.0.0）
         public static bool LidIsOpen { get; private set; }
-        public static bool TopLidIsOpen { get; private set; } 
+        public static bool TopLidIsOpen { get; private set; }
         public static bool TopCoverLock { get; private set; } ////Top cover  status（FW Version 1.1.0.0）   顶盖状态(硬件版本V1.1)
         public static bool TopMagneticState { get; private set; }       // Front lid  status （FW Version 1.1.0.0） 前盖状态(硬件版本V1.1)
         public static bool OpticalModulePowerStatus { get; private set; } //Optical module power status （FW Version 1.1.0.0）  光学模块电源状态(硬件版本V1.1)
 
-        public static bool ShutdownDuringScanStatus { get;  set; }      //State when pressing the front panel button while scanning images  （FW Version 1.1.0.0）  //扫描图像时按下前面板按钮时的状态
+        public static bool ShutdownDuringScanStatus { get; set; }      //State when pressing the front panel button while scanning images  （FW Version 1.1.0.0）  //扫描图像时按下前面板按钮时的状态
+        public static UInt16 Register2ControlStatus { get; private set; }  //RGB light board control（FW Version 1.1.0.0）
         public static uint XEncoderSubdivision { get; private set; }
         public static UInt16 LightGainDataState { get; private set; }
         public static byte[] LightGainData { get; set; }
@@ -540,7 +542,7 @@ namespace Azure.EthernetCommLib
             APDGainCalVol.Add(IVChannels.ChannelB, 0);
             APDGainCalVol.Add(IVChannels.ChannelC, 0);
 
-            PMTCompensationCoefficient = new Dictionary<IVChannels, uint>();
+            PMTCompensationCoefficient = new Dictionary<IVChannels, double>();
             PMTCompensationCoefficient.Add(IVChannels.ChannelA, 0);
             PMTCompensationCoefficient.Add(IVChannels.ChannelB, 0);
             PMTCompensationCoefficient.Add(IVChannels.ChannelC, 0);
@@ -815,7 +817,7 @@ namespace Azure.EthernetCommLib
 
             return _SendingFrame.GetBytes();
         }
-       
+
         public static byte[] GetIVSystemErrorCode()
         {
             _SendingFrame.Command = CommandTypes.Read;
@@ -1250,7 +1252,7 @@ namespace Azure.EthernetCommLib
         public static byte[] GetAllLaserModulseInfo()
         {
             _SendingFrame.Command = CommandTypes.Read;
-            _SendingFrame.System = SubSys.LaserChA| SubSys.LaserChB| SubSys.LaserChC;
+            _SendingFrame.System = SubSys.LaserChA | SubSys.LaserChB | SubSys.LaserChC;
             _SendingFrame.StartingProperty = Properties.LaserSensorSN;//iv type
             _SendingFrame.PropertyNums = 2;
             _SendingFrame.DataField = new List<byte>(new byte[4]);
@@ -1296,6 +1298,32 @@ namespace Azure.EthernetCommLib
             _SendingFrame.StartingProperty = Properties.PMTCompensationCoefficient;
             _SendingFrame.PropertyNums = 1;
             _SendingFrame.DataField = new List<byte>(new byte[4]);
+            return _SendingFrame.GetBytes();
+        }
+
+        public static byte[] GetAllPMTCompensationCoefficient(IVChannels iVChannels)
+        {
+            _SendingFrame.Command = CommandTypes.Read;
+            SubSys sys = SubSys.Default;
+            switch (iVChannels)
+            {
+                case IVChannels.ChannelA:
+                    sys = SubSys.Iv_ChA;
+                    break;
+                case IVChannels.ChannelB:
+                    sys = SubSys.Iv_ChB;
+                    break;
+                case IVChannels.ChannelC:
+                    sys = SubSys.Iv_ChC;
+                    break;
+                default:
+                    return null;
+            }
+            _SendingFrame.System = sys;
+            _SendingFrame.StartingProperty = Properties.PMTCompensationCoefficient;
+            _SendingFrame.PropertyNums = 1;
+            _SendingFrame.DataField = new List<byte>(new byte[4]);
+
             return _SendingFrame.GetBytes();
         }
 
@@ -1977,7 +2005,7 @@ namespace Azure.EthernetCommLib
             return _SendingFrame.GetBytes();
         }
         //设置外壳风扇
-        public static byte[] SetIncrustationFan(int IsAuto,int coefficient)
+        public static byte[] SetIncrustationFan(int IsAuto, int coefficient)
         {
             _SendingFrame.Command = CommandTypes.Write;
             _SendingFrame.System = SubSys.Mainboard;
@@ -1996,6 +2024,19 @@ namespace Azure.EthernetCommLib
             _SendingFrame.Command = CommandTypes.Write;
             _SendingFrame.System = SubSys.Mainboard;
             _SendingFrame.StartingProperty = Properties.CommunicationControl;
+            _SendingFrame.PropertyNums = 1;
+            _SendingFrame.DataLength = 2;
+            _SendingFrame.DataField = new List<byte>();
+            _SendingFrame.DataField.Add((byte)(sige));
+            _SendingFrame.DataField.Add(0);
+            return _SendingFrame.GetBytes();
+        }
+        public static byte[] SetRegisterControl(int sige)
+        {
+            uint _sige = Convert.ToUInt16(sige);
+            _SendingFrame.Command = CommandTypes.Write;
+            _SendingFrame.System = SubSys.Mainboard;
+            _SendingFrame.StartingProperty = Properties.Register2Control;
             _SendingFrame.PropertyNums = 1;
             _SendingFrame.DataLength = 2;
             _SendingFrame.DataField = new List<byte>();
@@ -3391,7 +3432,7 @@ namespace Azure.EthernetCommLib
             _SendingFrame.StartingProperty = Properties.LaserMaximumCurrent;
             _SendingFrame.PropertyNums = 1;
             _SendingFrame.DataLength = 4;
-            _SendingFrame.DataField = new List<byte>(BitConverter.GetBytes((int)(current*10)));
+            _SendingFrame.DataField = new List<byte>(BitConverter.GetBytes((int)(current * 10)));
 
             return _SendingFrame.GetBytes();
         }
@@ -3474,7 +3515,6 @@ namespace Azure.EthernetCommLib
 
             return _SendingFrame.GetBytes();
         }
-
         public static byte[] SetTECMaximumCurrent(LaserChannels channel, double current)
         {
             _SendingFrame.Command = CommandTypes.Write;
@@ -3583,6 +3623,42 @@ namespace Azure.EthernetCommLib
             return _SendingFrame.GetBytes();
         }
 
+        public static byte[] SetPMTCoefficient(IVChannels channel, double current)
+        {
+            _SendingFrame.Command = CommandTypes.Write;
+            SubSys sys = SubSys.Default;
+            switch (channel)
+            {
+                case IVChannels.ChannelA:
+                    sys = SubSys.Iv_ChA;
+                    break;
+                case IVChannels.ChannelB:
+                    sys = SubSys.Iv_ChB;
+                    break;
+                case IVChannels.ChannelC:
+                    sys = SubSys.Iv_ChC;
+                    break;
+                default:
+                    return null;
+            }
+            _SendingFrame.System = sys;
+            _SendingFrame.StartingProperty = Properties.PMTCompensationCoefficient;
+            _SendingFrame.PropertyNums = 1;
+            _SendingFrame.DataLength = 2;
+            //double _tempNumber = current * 10000;
+            string hexString = string.Format("{0:X8}", (uint)current);
+            byte[] _tempDataField = Enumerable.Range(0, hexString.Length)
+                  .Where(x => x % 2 == 0)
+                  .Select(x => Convert.ToByte(hexString.Substring(x, 2), 16))
+                  .ToArray();
+            byte[] DataField = new byte[2];
+            DataField[1] = _tempDataField[2];
+            DataField[0] = _tempDataField[3];
+            _SendingFrame.DataField = new List<byte>(DataField);
+
+            return _SendingFrame.GetBytes();
+        }
+
         #endregion
 
         internal static bool ResponseDecoding(byte[] rxbuf, int index)
@@ -3636,13 +3712,17 @@ namespace Azure.EthernetCommLib
                                         dataFieldOffset += 256;
                                         break;
                                     case Properties.XEncoderSubdivision:
-                                        XEncoderSubdivision= BitConverter.ToUInt32(rxbuf, dataFieldOffset);
+                                        XEncoderSubdivision = BitConverter.ToUInt32(rxbuf, dataFieldOffset);
                                         dataFieldOffset += 4;
                                         break;
                                     case Properties.AmbientTemperature:
                                         AmbientTemperature[AmbientTemperatureChannel.CH1] = BitConverter.ToUInt16(rxbuf, dataFieldOffset) * 0.1;
                                         dataFieldOffset += 2;
                                         AmbientTemperature[AmbientTemperatureChannel.CH2] = BitConverter.ToUInt16(rxbuf, dataFieldOffset) * 0.1;
+                                        dataFieldOffset += 2;
+                                        break;
+                                    case Properties.Register2Control:
+                                        Register2ControlStatus = BitConverter.ToUInt16(rxbuf, dataFieldOffset);
                                         dataFieldOffset += 2;
                                         break;
                                 }
@@ -3909,17 +3989,17 @@ namespace Azure.EthernetCommLib
                                     case Properties.PMTCompensationCoefficient:
                                         if (containsA)
                                         {
-                                            PMTCompensationCoefficient[IVChannels.ChannelA] = BitConverter.ToUInt16(rxbuf, dataFieldOffset);
+                                            PMTCompensationCoefficient[IVChannels.ChannelA] = BitConverter.ToInt16(rxbuf, dataFieldOffset);
                                             dataFieldOffset += 2;
                                         }
                                         if (containsB)
                                         {
-                                            PMTCompensationCoefficient[IVChannels.ChannelB] = BitConverter.ToUInt16(rxbuf, dataFieldOffset);
+                                            PMTCompensationCoefficient[IVChannels.ChannelB] = BitConverter.ToInt16(rxbuf, dataFieldOffset);
                                             dataFieldOffset += 2;
                                         }
                                         if (containsC)
                                         {
-                                            PMTCompensationCoefficient[IVChannels.ChannelC] = BitConverter.ToUInt16(rxbuf, dataFieldOffset);
+                                            PMTCompensationCoefficient[IVChannels.ChannelC] = BitConverter.ToInt16(rxbuf, dataFieldOffset);
                                             dataFieldOffset += 2;
                                         }
                                         break;
@@ -4393,11 +4473,13 @@ namespace Azure.EthernetCommLib
                                     case Properties.OpticalPowerControlvoltage:
                                         if (containsA)
                                         {
+
                                             AllOpticalPowerControlvoltage[LaserChannels.ChannelA] = BitConverter.ToInt16(rxbuf, dataFieldOffset + 2) * 0.0001;
                                             dataFieldOffset += 4;
                                         }
                                         if (containsB)
                                         {
+
                                             AllOpticalPowerControlvoltage[LaserChannels.ChannelB] = BitConverter.ToInt16(rxbuf, dataFieldOffset + 2) * 0.0001;
                                             dataFieldOffset += 4;
                                         }

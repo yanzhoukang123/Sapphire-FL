@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Azure.ScannerEUI.View"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" Height="53.964" Width="300.245">
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
+             mc:Ignorable="d" Height="53.964" Width="450.245">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,29 +25,68 @@
     </UserControl.Resources>
     <Grid Visibility="{Binding VesionVisFlag}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="9*"/>
-            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="178*"/>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="181*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Visibility="{Binding LEDVesionVisFlag}">
-            <Label Content="CH1:" Style="{StaticResource MyLabelHeaderStyle}" Width="48" Margin="18,11,42,14" />
-            <TextBox x:Name="CH1"
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                <Label Content="RGB Light:" Style="{StaticResource MyLabelHeaderStyle}" />
+                <ToggleSwitch:HorizontalToggleSwitch 
+                            ThumbTemplate="{StaticResource SimpleThumbTemplate}"
+                            FontSize="14"
+                            BorderBrush="#FF6A6A6A"
+                            UncheckedForeground="White" 
+                            UncheckedContent="Off" 
+                            CheckedContent="On" 
+                            IsChecked="{Binding IsRGBLightSelected, Mode=TwoWay}"
+                            HorizontalAlignment="Center"
+                            Margin="1,12,1,16" Height="26" Width="80">
+                    <ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFB3B5B7" Offset="1"/>
+                            <GradientStop Color="#FFEDEEEE"/>
+                        </LinearGradientBrush>
+                    </ToggleSwitch:HorizontalToggleSwitch.ThumbBrush>
+                    <ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFE1E2E2"/>
+                            <GradientStop Color="#FF555555"/>
+                        </LinearGradientBrush>
+                    </ToggleSwitch:HorizontalToggleSwitch.UncheckedBackground>
+                    <ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF6E97B7" Offset="1"/>
+                            <GradientStop Color="#FF46738A"/>
+                        </LinearGradientBrush>
+                    </ToggleSwitch:HorizontalToggleSwitch.CheckedBackground>
+                </ToggleSwitch:HorizontalToggleSwitch>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Visibility="{Binding LEDVesionVisFlag}">
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                <Label Content="CH1:" Style="{StaticResource MyLabelHeaderStyle}" Width="48"/>
+                <TextBox x:Name="CH1"
                         Height="25"
                         FontSize="14"
                         FontWeight="SemiBold"
                         VerticalContentAlignment="Center"
                         BorderBrush="{x:Null}" BorderThickness="0"
-                        Text="{Binding Path=AmbientTemperatureCH1, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Margin="67,15,9,14"/>
-            <Label Content="CH2:" Style="{StaticResource MyLabelHeaderStyle}" Width="41" Margin="75,11,51,14"  Visibility="Hidden"/>
-            <TextBox x:Name="CH2"
+                        Text="{Binding Path=AmbientTemperatureCH1, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}" Width="39"/>
+                <!--<Label Content="CH2:" Style="{StaticResource MyLabelHeaderStyle}" Width="41" Margin="75,11,51,14"  Visibility="Hidden"/>
+                <TextBox x:Name="CH2"
                         Visibility="Hidden"
                         Height="25"
                         FontSize="14"
                         FontWeight="SemiBold"
                         VerticalContentAlignment="Center"
                         BorderBrush="{x:Null}" BorderThickness="0"
-                        Text="{Binding Path=AmbientTemperatureCH2,  Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"  Margin="112,14,0,15" HorizontalAlignment="Left" Width="49"/>
+                        Text="{Binding Path=AmbientTemperatureCH2,  Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"  Margin="112,14,0,15" HorizontalAlignment="Left" Width="49"/>-->
+            </StackPanel>
+
+
         </Grid>
-        <Grid Grid.Column="1" Visibility="{Binding LEDVesionVisFlag}" Margin="0,0,1,0">
+        <Grid Grid.Column="2" Visibility="{Binding LEDVesionVisFlag}" Margin="0,0,1,0">
             <Button  x:Name="_OtherSettingsButton"
             Style="{DynamicResource BlueButton}"
             Content="Replace Optical Module"
@@ -56,7 +95,7 @@
             FontSize="14"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Command="{Binding Path=DisconnectDeviceCommand}"   IsEnabled="{Binding Path=DisconnectDeviceEnable}" Margin="4,12,5,12"/>
+            Command="{Binding Path=DisconnectDeviceCommand}"   IsEnabled="{Binding Path=DisconnectDeviceEnable}" Margin="3,12"/>
         </Grid>
     </Grid>
 </UserControl>
